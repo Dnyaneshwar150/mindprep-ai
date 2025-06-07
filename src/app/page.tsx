@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       <Grid container sx={{gap:""}}>
-              <Button variant="contained">this is mui button</Button>
+              <Button variant="contained">this is mui buttonsd</Button>
         <Grid sx={{border:"1px solid black"}}>this is mui grid</Grid>
       </Grid>
   
