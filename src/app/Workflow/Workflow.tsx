@@ -1,17 +1,28 @@
 'use client'
-import GenericComponent from '@/Components/GenericComponent';
 import Wire from '@/Components/Wire';
 import { initialEdges, initialNodes } from '@/constants';
 import "@xyflow/react/dist/style.css";
 import Grid from '@mui/material/Grid'
-import { Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType } from '@xyflow/react'
+import { Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType, NodeTypes } from '@xyflow/react'
 import React, { useCallback } from 'react'
 import { v4 as uuid } from "uuid";
+import QuestionNode from '@/Components/nodes/QuestionNode';
+import AnswerNode from '@/Components/nodes/AnswerNode';
+import MainPointHeadingNode from '@/Components/nodes/MainPointHeadingNode';
+import MainPointNode from '@/Components/nodes/MainPointNode';
+import SubPointNode from '@/Components/nodes/SubPointNode';
+import ExplanationNode from '@/Components/nodes/ExplanationNode';
 
 
-const nodeTypes = {
-  genericNodeComponent:GenericComponent
+const nodeTypes: NodeTypes = {
+  questionNode: QuestionNode,
+  answerNode: AnswerNode,
+  mainPointHeadingNode: MainPointHeadingNode, // Register new node types
+  mainPointNode: MainPointNode,
+  subPointNode: SubPointNode,
+  explanationNode: ExplanationNode,
 };
+
 const edgeTypes = {
   wire:Wire,
 }
