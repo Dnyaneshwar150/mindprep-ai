@@ -26,9 +26,15 @@ export type AnswerNodeData = BaseNodeData & {
   score?: number; // Example: for grading an answer
 };
 
-export type MainPointHeadingNodeData = BaseNodeData & {
-  type: ComponentType.MainPointHeading;
-};
+export interface MainPointHeadingNodeData {
+  type: ComponentType;
+ nodeId: string;
+  label: string;
+  isExpanded: boolean;
+  areChildrenVisible: boolean;
+  onToggleContentExpand?: (nodeId: string) => void;
+  onToggleChildrenVisibility?: (nodeId: string) => void;
+}
 
 export type MainPointNodeData = BaseNodeData & {
   type: ComponentType.MainPoint;

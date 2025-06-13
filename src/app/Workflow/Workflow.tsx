@@ -4,7 +4,7 @@ import { initialEdges, initialNodes } from '@/constants';
 import "@xyflow/react/dist/style.css";
 import Grid from '@mui/material/Grid'
 import { Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType, NodeTypes } from '@xyflow/react'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { v4 as uuid } from "uuid";
 import QuestionNode from '@/Components/nodes/QuestionNode';
 import AnswerNode from '@/Components/nodes/AnswerNode';
@@ -31,35 +31,99 @@ const edgeTypes = {
 }
 
 function Workflow() {
-    const { nodes:parsedNodes, edges:parsedEdges } = parseJsonToNodesEdges(jsonData);
+     const { nodes: parsedNodes, edges: parsedEdges } = parseJsonToNodesEdges(jsonData);
+  const layouted = getLayoutedElements(parsedNodes, parsedEdges);
 
-    console.log("intialNodes",initialNodes)
+  const [nodes, setNodes, onNodesChange] = useNodesState(layouted.nodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(layouted.edges);
 
-const layouted = getLayoutedElements(parsedNodes, parsedEdges);
-console.log("layoutedNodes",layouted.nodes)
-const [nodes, setNodes, onNodesChange] = useNodesState(layouted.nodes);
-const [edges, setEdges, onEdgesChange] = useEdgesState(layouted.edges);
+  const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({});
+  const [visibleChildrenMap, setVisibleChildrenMap] = useState<Record<string, boolean>>({});
 
-    const onConnect = useCallback((connection:Connection) => {
-        const edge = {
-          ...connection,
-          type:'wire',
-          markerEnd:{
-            type:MarkerType.ArrowClosed,
-            height:20,
-            width:20,
-            color:"#A9A9A9"
-          },
-          id:uuid(),
-        }
-        setEdges((eds) => eds.concat(edge))
-    },[])
+  const onConnect = useCallback((connection: Connection) => {
+    const edge = {
+      ...connection,
+      type: 'wire',
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        height: 20,
+        width: 20,
+        color: "#A9A9A9"
+      },
+      id: uuid(),
+    };
+    setEdges((eds) => eds.concat(edge));
+  }, []);
+
+  // Toggle node content
+  const handleToggleContentExpand = useCallback((nodeId: string) => {
+    setExpandedNodes(prev => ({
+      ...prev,
+      [nodeId]: !prev[nodeId]
+    }));
+  }, []);
+
+  // Toggle children visibility
+  const handleToggleChildrenVisibility = useCallback((nodeId: string) => {
+    setVisibleChildrenMap(prev => ({
+      ...prev,
+      [nodeId]: !prev[nodeId]
+    }));
+  }, []);
+
+  // Enhance node data with handlers + isExpanded state
+  const enhancedNodes = useMemo(() => {
+    return nodes.map((node) => ({
+      ...node,
+      data: {
+        ...node.data,
+        nodeId: node.id,
+        isExpanded: expandedNodes[node.id] ?? true,
+        areChildrenVisible: visibleChildrenMap[node.id] ?? true,
+        onToggleContentExpand: handleToggleContentExpand,
+        onToggleChildrenVisibility: handleToggleChildrenVisibility,
+      },
+    }));
+  }, [nodes, expandedNodes, visibleChildrenMap]);
+
+  // Filter edges and hidden children
+  const filteredEdges = useMemo(() => {
+    return edges.filter(edge => {
+      const parentHiddenChildren = visibleChildrenMap[edge.source] === false;
+      return !parentHiddenChildren;
+    });
+  }, [edges, visibleChildrenMap]);
+
+  // const visibleNodeIds = new Set(filteredEdges.flatMap(edge => [edge.source, edge.target]));
+ const filteredNodes = useMemo(() => {
+  // Step 1: Build parent map
+  const parentMap = new Map<string, string>();
+  edges.forEach(edge => {
+    parentMap.set(edge.target, edge.source);
+  });
+
+  // Step 2: Check ancestors recursively
+  const isVisible = (nodeId: string): boolean => {
+    let currentId = nodeId;
+    while (parentMap.has(currentId)) {
+      const parentId = parentMap.get(currentId)!;
+      if (visibleChildrenMap[parentId] === false) return false;
+      currentId = parentId;
+    }
+    return true;
+  };
+
+  // Step 3: Filter only visible nodes
+  return enhancedNodes.filter(node => isVisible(node.id));
+}, [enhancedNodes, visibleChildrenMap, edges]);
+
+  console.log(filteredNodes)
 
     return (
         <Grid container sx={{ border: "1px solid black", height: "100vh", width: "200vh", position: "relative", bgcolor: "white" ,display:"flex",justifyContent:'center',alignItems:"center" }} >
             <ReactFlow
-                nodes={nodes}
-                edges={edges}
+                nodes={filteredNodes}
+                edges={filteredEdges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
