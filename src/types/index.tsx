@@ -1,12 +1,12 @@
 // src/types.ts
 
 export enum ComponentType {
-  Question = 'question',
-  Answer = 'answer',
-  MainPointHeading = 'mainPointHeading', // New
-  MainPoint = 'mainPoint',             // New
-  SubPoint = 'subPoint',               // Existing, but now clearly linked
-  Explanation = 'explanation'          // Existing, but now clearly linked
+  Question = '"questionNode"',
+  Answer = '"answerNode"',
+  MainPointHeading = 'mainPointHeadingNode', // New
+  MainPoint = '"mainPointNode"',             // New
+  SubPoint = '"subPointNode"',               // Existing, but now clearly linked
+  Explanation = '"explanationNode"'          // Existing, but now clearly linked
 }
 
 // Base data type for all nodes

@@ -29,7 +29,7 @@ export default function ExplanationNode({ data }: NodeProps<Node<ExplanationNode
       )}
 
       {/* Handles: Only target handle (from SubPoint) */}
-      <Handle type="target" position={Position.Top} id="explanation-from-sub-point" />
+      <Handle type="target" position={Position.Left} id="explanation-from-sub-point" />
     </NodeWrapper>
   );
 }

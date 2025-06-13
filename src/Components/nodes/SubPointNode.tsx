@@ -24,8 +24,8 @@ export default function SubPointNode({ data }: NodeProps<Node<SubPointNodeData>>
       </Typography>
 
       {/* Handles: From Main Point (top), To Explanations (bottom) */}
-      <Handle type="target" position={Position.Top} id="sub-point-from-main-point" />
-      <Handle type="source" position={Position.Bottom} id="sub-point-to-explanation" />
+      <Handle type="target" position={Position.Left} id="sub-point-from-main-point" />
+      <Handle type="source" position={Position.Right} id="sub-point-to-explanation" />
     </NodeWrapper>
   );
 }

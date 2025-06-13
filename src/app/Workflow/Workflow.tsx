@@ -12,6 +12,9 @@ import MainPointHeadingNode from '@/Components/nodes/MainPointHeadingNode';
 import MainPointNode from '@/Components/nodes/MainPointNode';
 import SubPointNode from '@/Components/nodes/SubPointNode';
 import ExplanationNode from '@/Components/nodes/ExplanationNode';
+import { getLayoutedElements } from '@/utils/getLayoutedElements';
+import jsonData from  '../Workflow/mockData.json'
+import { parseJsonToNodesEdges } from './jsonFLow';
 
 
 const nodeTypes: NodeTypes = {
@@ -28,10 +31,14 @@ const edgeTypes = {
 }
 
 function Workflow() {
+    const { nodes:parsedNodes, edges:parsedEdges } = parseJsonToNodesEdges(jsonData);
 
+    console.log("intialNodes",initialNodes)
 
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+const layouted = getLayoutedElements(parsedNodes, parsedEdges);
+console.log("layoutedNodes",layouted.nodes)
+const [nodes, setNodes, onNodesChange] = useNodesState(layouted.nodes);
+const [edges, setEdges, onEdgesChange] = useEdgesState(layouted.edges);
 
     const onConnect = useCallback((connection:Connection) => {
         const edge = {

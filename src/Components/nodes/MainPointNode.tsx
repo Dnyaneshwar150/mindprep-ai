@@ -24,8 +24,8 @@ export default function MainPointNode({ data }: NodeProps<Node<MainPointNodeData
       </Typography>
 
       {/* Handles: From Heading (top), To SubPoints (bottom) */}
-      <Handle type="target" position={Position.Top} id="main-point-from-heading" />
-      <Handle type="source" position={Position.Bottom} id="main-point-to-sub-point" />
+      <Handle type="target" position={Position.Left} id="main-point-from-heading" />
+      <Handle type="source" position={Position.Right} id="main-point-to-sub-point" />
     </NodeWrapper>
   );
 }

@@ -24,8 +24,8 @@ export default function AnswerNode({ data }: NodeProps<Node<AnswerNodeData>>) {
       </Typography>
 
       {/* Handles: Answer connects FROM question (top) and TO main point headings (bottom) */}
-      <Handle type="target" position={Position.Top} id="answer-from-question" />
-      <Handle type="source" position={Position.Bottom} id="answer-to-main-point-heading" />
+      <Handle type="target" position={Position.Left} id="answer-from-question" />
+      <Handle type="source" position={Position.Right} id="answer-to-main-point-heading" />
     </NodeWrapper>
   );
 }

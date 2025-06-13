@@ -1,0 +1,112 @@
+{
+  "question": {
+    "id": "q1",
+    "label": "What are the key principles of effective time management?",
+    "answer": {
+      "id": "a1",
+      "label": "Effective time management involves prioritizing tasks, setting clear goals, and avoiding distractions.",
+      "mainPointHeadings": [
+        {
+          "id": "mph1_1",
+          "label": "I. Prioritization Techniques",
+          "mainPoints": [
+            {
+              "id": "mp1_1_1",
+              "label": "Use the Eisenhower Matrix",
+              "subPoints": [
+                {
+                  "id": "sp1_1_1_1",
+                  "label": "Categorize tasks by urgency and importance",
+                  "explanation": {
+                    "id": "exp1_1_1_1",
+                    "label": "Focuses on high-impact activities first.",
+                    "source": "https://example.com/eisenhower"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "mp1_1_2",
+              "label": "Apply the Pareto Principle (80/20 Rule)"
+            }
+          ]
+        },
+        {
+          "id": "mph1_2",
+          "label": "II. Goal Setting & Planning",
+          "mainPoints": [
+            {
+              "id": "mp1_2_1",
+              "label": "Set SMART Goals",
+              "subPoints": [
+                {
+                  "id": "sp1_2_1_1",
+                  "label": "Specific, Measurable, Achievable, Relevant, Time-bound",
+                  "explanation": {
+                    "id": "exp1_2_1_1",
+                    "label": "Clarity and focus, increasing success rates.",
+                    "source": "https://example.com/smart-goals"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "mp1_2_2",
+              "label": "Create a Daily Schedule"
+            }
+          ]
+        },
+        {
+          "id": "mph1_3",
+          "label": "III. Minimizing Distractions",
+          "mainPoints": [
+            {
+              "id": "mp1_3_1",
+              "label": "Implement the Pomodoro Technique",
+              "subPoints": [
+                {
+                  "id": "sp1_3_1_1",
+                  "label": "Work in focused 25-minute intervals",
+                  "explanation": {
+                    "id": "exp1_3_1_1",
+                    "label": "Improves concentration and prevents burnout.",
+                    "source": "https://example.com/pomodoro"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "mp1_3_2",
+              "label": "Batch Similar Tasks"
+            }
+          ]
+        },
+        {
+          "id": "mph1_4",
+          "label": "IV. Tools & Strategies",
+          "mainPoints": [
+            {
+              "id": "mp1_4_1",
+              "label": "Utilize Task Management Apps",
+              "subPoints": [
+                {
+                  "id": "sp1_4_1_1",
+                  "label": "Trello, Asana, Notion, Todoist",
+                  "explanation": {
+                    "id": "exp1_4_1_1",
+                    "label": "Digital tools help organize, track progress, and collaborate.",
+                    "source": "https://example.com/apps"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "mp1_4_2",
+              "label": "Review and Adapt Regularly"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

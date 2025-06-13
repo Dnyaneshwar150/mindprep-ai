@@ -23,7 +23,7 @@ export default function QuestionNode({ data }: NodeProps<Node<QuestionNodeData>>
       <Typography variant='h6' sx={{ fontWeight: 'medium' }}>
         {data.label}
       </Typography>
-      <Handle type="source" position={Position.Bottom} id="question-answer-handle" />
+      <Handle type="source" position={Position.Right} id="question-answer-handle" />
     </NodeWrapper>
   );
 }

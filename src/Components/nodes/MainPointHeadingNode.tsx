@@ -8,6 +8,7 @@ import NodeWrapper from '../NodeWrapper';
 export default function MainPointHeadingNode({ data }: NodeProps<Node<MainPointHeadingNodeData>>) {
   if (!data.label) return null;
 
+
   return (
     <NodeWrapper
       sx={{
@@ -24,8 +25,8 @@ export default function MainPointHeadingNode({ data }: NodeProps<Node<MainPointH
       </Typography>
 
       {/* Handles: From Answer (top), To Main Points (bottom) */}
-      <Handle type="target" position={Position.Top} id="heading-from-answer" />
-      <Handle type="source" position={Position.Bottom} id="heading-to-main-point" />
+      <Handle type="target" position={Position.Left} id="heading-from-answer" />
+      <Handle type="source" position={Position.Right} id="heading-to-main-point" />
     </NodeWrapper>
   );
 }
