@@ -1,6 +1,6 @@
 'use client'
 import Wire from '@/Components/Wire';
-import { initialEdges, initialNodes } from '@/constants';
+// import { initialEdges, initialNodes } from '@/constants';
 import "@xyflow/react/dist/style.css";
 import Grid from '@mui/material/Grid'
 import { Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType, NodeTypes } from '@xyflow/react'
@@ -37,7 +37,6 @@ function Workflow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(layouted.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layouted.edges);
 
-  const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({});
   const [visibleChildrenMap, setVisibleChildrenMap] = useState<Record<string, boolean>>({});
 
   const onConnect = useCallback((connection: Connection) => {
@@ -55,13 +54,6 @@ function Workflow() {
     setEdges((eds) => eds.concat(edge));
   }, []);
 
-  // Toggle node content
-  const handleToggleContentExpand = useCallback((nodeId: string) => {
-    setExpandedNodes(prev => ({
-      ...prev,
-      [nodeId]: !prev[nodeId]
-    }));
-  }, []);
 
   // Toggle children visibility
   const handleToggleChildrenVisibility = useCallback((nodeId: string) => {
@@ -78,13 +70,11 @@ function Workflow() {
       data: {
         ...node.data,
         nodeId: node.id,
-        isExpanded: expandedNodes[node.id] ?? true,
         areChildrenVisible: visibleChildrenMap[node.id] ?? true,
-        onToggleContentExpand: handleToggleContentExpand,
         onToggleChildrenVisibility: handleToggleChildrenVisibility,
       },
     }));
-  }, [nodes, expandedNodes, visibleChildrenMap]);
+  }, [nodes, visibleChildrenMap]);
 
   // Filter edges and hidden children
   const filteredEdges = useMemo(() => {

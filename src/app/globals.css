@@ -1,0 +1,23 @@
+:root {
+  --font-poppins: 'Poppins', sans-serif;
+
+  /* Color Variables */
+  --primary-black: #1a1a1a;
+  --light-black:#3f3f3f;
+  --primary-grey: #777777;
+  --white: #ffffff;
+  --light-grey: #f5f5f5;
+  --background-red:#FFC1C3;
+  --border-red:#FF5B61;
+  --background-green:#e8f5e9;
+  --border-green:#4caf50;
+  --background-orange:#fff3e0;
+  --border-orange:#ff9800;
+  
+}
+
+body {
+  font-family: var(--font-poppins), sans-serif;
+  background-color: var(--color-white);
+  color: var(--color-black);
+}

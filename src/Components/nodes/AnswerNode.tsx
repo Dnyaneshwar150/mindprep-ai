@@ -1,29 +1,54 @@
-// src/components/nodes/AnswerNode.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
-import { Typography } from '@mui/material';
-import { AnswerNodeData, ComponentType } from '@/types';
+import { Typography, IconButton, Box } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { AnswerNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
+import CustomTooltip from '../Common/CustomTooltip';
 
 export default function AnswerNode({ data }: NodeProps<Node<AnswerNodeData>>) {
+  const [expanded, setExpanded] = useState(false);
+
   if (!data.label) return null;
 
   return (
     <NodeWrapper
       sx={{
-        borderColor: '#4caf50',
-        backgroundColor: '#e8f5e9',
-        width: '280px', // Consistent width
+        borderColor: 'var(--border-green)',
+        backgroundColor: 'var(--background-green)',
+        width: '280px',
       }}
     >
-      <Typography variant="caption" sx={{ color: '#4caf50', fontWeight: 'bold', mb: 0.5 }}>
-        {data.type === ComponentType.Answer ? `ANSWER ${data.score !== undefined ? `(Score: ${data.score})` : ''}` : ''}
-      </Typography>
-      <Typography variant='body1'>
-        {data.label}
-      </Typography>
+  
+      <Box sx={{ display: 'flex', alignItems: 'flex-start' ,padding:"8px" }}>
+  <Typography
+    sx={{
+      fontSize:"18px",
+      flex: 1,
+      overflow: expanded ? 'visible' : 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitLineClamp: expanded ? 'unset' : 1,
+      WebkitBoxOrient: 'vertical',
+      whiteSpace: expanded ? 'normal' : 'nowrap',
+      wordBreak: 'break-word',
+    }}
+  >
+    {data.label}
+  </Typography>
+   <CustomTooltip title={expanded ? 'Collapse' : 'Expand'}>
+  <IconButton
+    size="small"
+    onClick={() => setExpanded(!expanded)}
+    sx={{ ml: 1, alignSelf: 'center', padding: '2px' }}
+  >
+    {expanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+  </IconButton>
+   </CustomTooltip>
 
-      {/* Handles: Answer connects FROM question (top) and TO main point headings (bottom) */}
+</Box>
+
       <Handle type="target" position={Position.Left} id="answer-from-question" />
       <Handle type="source" position={Position.Right} id="answer-to-main-point-heading" />
     </NodeWrapper>

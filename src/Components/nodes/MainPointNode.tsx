@@ -7,6 +7,7 @@ import NodeWrapper from '../NodeWrapper';
 
 export default function MainPointNode({ data }: NodeProps<Node<MainPointNodeData>>) {
   if (!data.label) return null;
+  console.log(data)
 
   return (
     <NodeWrapper

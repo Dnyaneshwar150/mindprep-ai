@@ -1,57 +1,62 @@
 // src/components/nodes/MainPointHeadingNode.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
-import { Typography, IconButton, Box, Tooltip } from '@mui/material';
+import { Typography, IconButton, Box } from '@mui/material';
 import { ExpandMore, ExpandLess, Visibility, VisibilityOff } from '@mui/icons-material';
-import { MainPointHeadingNodeData, ComponentType } from '@/types';
+import { MainPointHeadingNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
+import CustomTooltip from '../Common/CustomTooltip';
 
 export default function MainPointHeadingNode({ data }: NodeProps<Node<MainPointHeadingNodeData>>) {
+   const [expanded, setExpanded] = useState(false);
   if (!data.label) return null;
-
-  const handleToggleContent = () => {
-    data.onToggleContentExpand?.(data.nodeId);
-  };
-
   const handleToggleChildren = () => {
     data.onToggleChildrenVisibility?.(data.nodeId);
   };
+   const handleToggleExpand = () => {
+    setExpanded(prev => !prev);
+  };
+
 
   return (
-    <NodeWrapper
+      <NodeWrapper
       sx={{
-        borderColor: '#ff9800',
-        backgroundColor: '#fff3e0',
-        width: '260px',
+        borderColor: 'var(--border-orange)',
+        backgroundColor: 'var(--background-orange)',
+        width: '300px',
       }}
     >
-      {/* Header with buttons */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
-        <Typography variant="caption" sx={{ color: '#ff9800', fontWeight: 'bold' }}>
-          {data.type === ComponentType.MainPointHeading ? 'MAIN POINT HEADING' : ''}
-        </Typography>
-
-        <Box display="flex" gap={1}>
-          <Tooltip title="Toggle content">
-            <IconButton size="small" onClick={handleToggleContent}>
-              {data.isExpanded ? <ExpandLess /> : <ExpandMore />}
+      <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" padding={"4px"}>
+<Typography
+        sx={{
+          fontSize: '18px',
+          fontWeight:"bold",
+          mt: 1,
+          overflow: expanded ? 'visible' : 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: expanded ? 'unset' : 1,
+          WebkitBoxOrient: 'vertical',
+          whiteSpace: expanded ? 'normal' : 'nowrap',
+          wordBreak: 'break-word',
+        }}
+      >
+        {data.label}
+      </Typography>
+        <Box display="flex" alignItems="center" gap={0.5}>
+          <CustomTooltip title={expanded ? 'Collapse' : 'Expand'}>
+            <IconButton size="large" onClick={handleToggleExpand}>
+              {expanded ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
             </IconButton>
-          </Tooltip>
+          </CustomTooltip>
 
-          <Tooltip title="Show/Hide Children">
-            <IconButton size="small" onClick={handleToggleChildren}>
-              {data.areChildrenVisible ? <VisibilityOff /> : <Visibility />}
+          <CustomTooltip title="Show/Hide Children">
+            <IconButton size="large" onClick={handleToggleChildren}>
+              {data.areChildrenVisible ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
             </IconButton>
-          </Tooltip>
+          </CustomTooltip>
         </Box>
-      </Box>
-
-      {/* Label content - shown only if expanded */}
-      {data.isExpanded && (
-        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mt: 1 }}>
-          {data.label}
-        </Typography>
-      )}
+      </Box>      
 
       <Handle type="target" position={Position.Left} id="heading-from-answer" />
       <Handle type="source" position={Position.Right} id="heading-to-main-point" />

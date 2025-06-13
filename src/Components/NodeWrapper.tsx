@@ -13,17 +13,13 @@ const NodeWrapper: React.FC<NodeWrapperProps> = ({ children, sx, ...rest }) => {
       sx={{
         position: 'relative',
         border: '1px solid #ccc',
-        width: '280px', // Slightly wider for more content
         backgroundColor: '#fff',
-        borderRadius: '8px',
-        padding: '15px',
+        borderRadius: '18px',
+        padding: '8px',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
         textAlign: 'left',
         minHeight: '50px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
+        minWidth:'300px',
         ...sx,
       }}
       {...rest}

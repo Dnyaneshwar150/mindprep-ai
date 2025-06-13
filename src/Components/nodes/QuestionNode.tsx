@@ -1,9 +1,10 @@
 // src/components/nodes/QuestionNode.tsx
 import React from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
-import { Typography } from '@mui/material';
-import { QuestionNodeData, ComponentType } from '@/types';
+import { Grid, Typography } from '@mui/material';
+import { QuestionNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
+import CustomTooltip from '../Common/CustomTooltip';
 
 export default function QuestionNode({ data }: NodeProps<Node<QuestionNodeData>>) {
   if (!data.label) return null;
@@ -11,19 +12,44 @@ export default function QuestionNode({ data }: NodeProps<Node<QuestionNodeData>>
   return (
     <NodeWrapper
       sx={{
-        borderColor: '#1976d2',
-        backgroundColor: '#e3f2fd',
+       borderColor: 'var(--border-red)',
+        backgroundColor: 'var(--background-red)',
         textAlign: 'center',
-        width: '300px', // Wider for questions
+        overflow: 'hidden',
       }}
     >
-      <Typography variant="caption" sx={{ color: '#1976d2', fontWeight: 'bold', mb: 0.5 }}>
-        {data.type === ComponentType.Question ? 'QUESTION' : ''}
-      </Typography>
-      <Typography variant='h6' sx={{ fontWeight: 'medium' }}>
-        {data.label}
-      </Typography>
-      <Handle type="source" position={Position.Right} id="question-answer-handle" />
+      {data.label.length > 25 ? (
+        <CustomTooltip title={data.label} arrow placement="top" sx={{backgroundColor:"var(--black)",color:"#ffffff", borderRadius:"16px"}}>
+        <Grid
+          sx={{
+            padding: "10px",
+            maxWidth: '300px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 'medium', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {data.label}
+          </Typography>
+          <Handle type="source" position={Position.Right} id="question-answer-handle" />
+        </Grid>
+      </CustomTooltip>) : 
+      (<Grid
+          sx={{
+            padding: "10px",
+            maxWidth: '300px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 'medium', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {data.label}
+          </Typography>
+          <Handle type="source" position={Position.Right} id="question-answer-handle" />
+        </Grid>)  }
+   
     </NodeWrapper>
   );
 }

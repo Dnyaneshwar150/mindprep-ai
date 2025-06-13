@@ -1,20 +1,21 @@
  import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import { Roboto } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../theme';
 import { PropsWithChildren } from 'react';
+import './globals.css'; 
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
+const poppins = Poppins({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
   display: 'swap',
-  variable: '--font-roboto',
 });
 
  export default function RootLayout(props:PropsWithChildren) {
    const { children } = props;
    return (
-   <html lang="en" className={roboto.variable}>
+   <html lang="en" className={poppins.variable}>
        <body>
 <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>

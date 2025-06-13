@@ -1,7 +1,7 @@
 {
   "question": {
     "id": "q1",
-    "label": "What are the key principles of effective time management?",
+    "label": "What are the key nkansasya",
     "answer": {
       "id": "a1",
       "label": "Effective time management involves prioritizing tasks, setting clear goals, and avoiding distractions.",
@@ -18,44 +18,55 @@
                   "id": "sp1_1_1_1",
                   "label": "Categorize tasks by urgency and importance",
                   "explanation": {
+                    "id": "exp1_1_1_2",
+                    "label": "Focuses on high-impact activities first.",
+                    "source": "https://example.com/eisenhower"
+                  }
+                },
+                 {
+                  "id": "sp1_1_1_2",
+                  "label": "Categorize tasks by urgency and importance",
+                  "explanation": {
                     "id": "exp1_1_1_1",
                     "label": "Focuses on high-impact activities first.",
                     "source": "https://example.com/eisenhower"
                   }
                 }
               ]
-            },
-            {
-              "id": "mp1_1_2",
-              "label": "Apply the Pareto Principle (80/20 Rule)"
             }
+            
           ]
+        },
+       {
+  "id": "mph1_2",
+  "label": "II. Task Management Strategies",
+  "mainPoints": [
+    {
+      "id": "mp1_2_1",
+      "label": "Apply the Pomodoro Technique",
+      "subPoints": [
+        {
+          "id": "sp1_2_1_1",
+          "label": "Work in 25-minute focused intervals",
+          "explanation": {
+            "id": "exp1_2_1_1",
+            "label": "Boosts productivity by reducing mental fatigue.",
+            "source": "https://example.com/pomodoro"
+          }
         },
         {
-          "id": "mph1_2",
-          "label": "II. Goal Setting & Planning",
-          "mainPoints": [
-            {
-              "id": "mp1_2_1",
-              "label": "Set SMART Goals",
-              "subPoints": [
-                {
-                  "id": "sp1_2_1_1",
-                  "label": "Specific, Measurable, Achievable, Relevant, Time-bound",
-                  "explanation": {
-                    "id": "exp1_2_1_1",
-                    "label": "Clarity and focus, increasing success rates.",
-                    "source": "https://example.com/smart-goals"
-                  }
-                }
-              ]
-            },
-            {
-              "id": "mp1_2_2",
-              "label": "Create a Daily Schedule"
-            }
-          ]
-        },
+          "id": "sp1_2_1_2",
+          "label": "Take 5-minute breaks after each session",
+          "explanation": {
+            "id": "exp1_2_1_2",
+            "label": "Allows mental recovery to maintain focus.",
+            "source": "https://example.com/pomodoro-breaks"
+          }
+        }
+      ]
+    }
+  ]
+},
         {
           "id": "mph1_3",
           "label": "III. Minimizing Distractions",

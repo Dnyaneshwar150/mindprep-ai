@@ -1,12 +1,12 @@
 // src/types.ts
 
 export enum ComponentType {
-  Question = '"questionNode"',
-  Answer = '"answerNode"',
+  Question = 'questionNode',
+  Answer = 'answerNode',
   MainPointHeading = 'mainPointHeadingNode', // New
-  MainPoint = '"mainPointNode"',             // New
-  SubPoint = '"subPointNode"',               // Existing, but now clearly linked
-  Explanation = '"explanationNode"'          // Existing, but now clearly linked
+  MainPoint = 'mainPointNode',             // New
+  SubPoint = 'subPointNode',               // Existing, but now clearly linked
+  Explanation = 'explanationNode'          // Existing, but now clearly linked
 }
 
 // Base data type for all nodes
@@ -23,16 +23,13 @@ export type QuestionNodeData = BaseNodeData & {
 
 export type AnswerNodeData = BaseNodeData & {
   type: ComponentType.Answer;
-  score?: number; // Example: for grading an answer
 };
 
 export interface MainPointHeadingNodeData {
   type: ComponentType;
  nodeId: string;
   label: string;
-  isExpanded: boolean;
   areChildrenVisible: boolean;
-  onToggleContentExpand?: (nodeId: string) => void;
   onToggleChildrenVisibility?: (nodeId: string) => void;
 }
 
