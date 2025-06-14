@@ -1,28 +1,54 @@
 // src/components/nodes/MainPointNode.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
-import { Typography } from '@mui/material';
-import { MainPointNodeData, ComponentType } from '@/types';
+import { Box, IconButton, Typography } from '@mui/material';
+import { MainPointNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
+import CustomTooltip from '../Common/CustomTooltip';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 export default function MainPointNode({ data }: NodeProps<Node<MainPointNodeData>>) {
+    const [expanded, setExpanded] = useState(false);
+  
   if (!data.label) return null;
-  console.log(data)
 
   return (
     <NodeWrapper
       sx={{
-        borderColor: '#2196f3', // Material-UI blue
-        backgroundColor: '#e3f2fd', // Light blue
-        width: '240px', // Smaller
+        borderColor: 'var(--border-blue)', // Material-UI blue
+        backgroundColor: 'var(--background-blue)',
+        width:"300px", // Smaller
       }}
     >
-      <Typography variant="caption" sx={{ color: '#2196f3', fontWeight: 'bold', mb: 0.5 }}>
-        {data.type === ComponentType.MainPoint ? 'MAIN POINT EXPLANATION' : ''}
-      </Typography>
-      <Typography variant='body2'>
-        {data.label}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'flex-start' ,padding:"8px" }}>
+  <Typography
+    sx={{
+      fontSize:"18px",
+      flex: 1,
+      overflow: expanded ? 'visible' : 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitLineClamp: expanded ? 'unset' : 1,
+      WebkitBoxOrient: 'vertical',
+      whiteSpace: expanded ? 'normal' : 'nowrap',
+      wordBreak: 'break-word',
+    }}
+  >
+    {data.label}
+  </Typography>
+   <CustomTooltip title={expanded ? 'Collapse' : 'Expand'}>
+  <IconButton
+    size="small"
+    onClick={() => setExpanded(!expanded)}
+    sx={{ ml: 1, alignSelf: 'center', padding: '2px' }}
+  >
+    {expanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+  </IconButton>
+   </CustomTooltip>
+
+</Box>
+
 
       {/* Handles: From Heading (top), To SubPoints (bottom) */}
       <Handle type="target" position={Position.Left} id="main-point-from-heading" />

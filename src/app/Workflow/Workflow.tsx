@@ -107,7 +107,6 @@ function Workflow() {
   return enhancedNodes.filter(node => isVisible(node.id));
 }, [enhancedNodes, visibleChildrenMap, edges]);
 
-  console.log(filteredNodes)
 
     return (
         <Grid container sx={{ border: "1px solid black", height: "100vh", width: "200vh", position: "relative", bgcolor: "white" ,display:"flex",justifyContent:'center',alignItems:"center" }} >

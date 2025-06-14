@@ -24,10 +24,9 @@ export type QuestionNodeData = BaseNodeData & {
 export type AnswerNodeData = BaseNodeData & {
   type: ComponentType.Answer;
 };
-
-export interface MainPointHeadingNodeData {
+export interface MainPointHeadingNodeData extends Record<string, unknown> {
   type: ComponentType;
- nodeId: string;
+  nodeId: string;
   label: string;
   areChildrenVisible: boolean;
   onToggleChildrenVisibility?: (nodeId: string) => void;
@@ -37,9 +36,17 @@ export type MainPointNodeData = BaseNodeData & {
   type: ComponentType.MainPoint;
 };
 
-export type SubPointNodeData = BaseNodeData & {
+// export type SubPointNodeData = BaseNodeData & {
+//   type: ComponentType.SubPoint;
+// };
+
+export interface SubPointNodeData extends Record<string, unknown> {
   type: ComponentType.SubPoint;
-};
+  nodeId: string;
+  label: string;
+  areChildrenVisible: boolean;
+  onToggleChildrenVisibility?: (nodeId: string) => void;
+}
 
 export type ExplanationNodeData = BaseNodeData & {
   type: ComponentType.Explanation;
