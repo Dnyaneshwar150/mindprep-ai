@@ -1,119 +1,100 @@
 {
   "question": {
-    "id": "q1",
-    "label": "What are the key nkansasya",
+    "id": "q2",
+    "label": "How can you improve focus and concentration?",
     "answer": {
-      "id": "a1",
-      "label": "Effective time management involves prioritizing tasks, setting clear goals, and avoiding distractions.",
+      "id": "a2",
+      "label": "Improving focus involves eliminating distractions, training the mind, and creating an optimal work environment.",
       "mainPointHeadings": [
         {
-          "id": "mph1_1",
-          "label": "I. Prioritization Techniques",
+          "id": "mph2_1",
+          "label": "I. Create a Distraction-Free Environment",
           "mainPoints": [
             {
-              "id": "mp1_1_1",
-              "label": "Use the Eisenhower Matrix",
+              "id": "mp2_1_1",
+              "label": "Turn off notifications",
               "subPoints": [
                 {
-                  "id": "sp1_1_1_1",
-                  "label": "Categorize tasks by urgency and importance",
+                  "id": "sp2_1_1_1",
+                  "label": "Silence mobile and desktop alerts",
                   "explanation": {
-                    "id": "exp1_1_1_2",
-                    "label": "Focuses on high-impact activities first.",
-                    "source": "https://example.com/eisenhower"
-                  }
-                },
-                 {
-                  "id": "sp1_1_1_2",
-                  "label": "Categorize tasks by urgency and importance",
-                  "explanation": {
-                    "id": "exp1_1_1_1",
-                    "label": "Focuses on high-impact activities first.",
-                    "source": "https://example.com/eisenhower"
+                    "id": "exp2_1_1_1",
+                    "label": "Reduces unnecessary interruptions that break concentration.",
+                    "source": "https://example.com/focus-distractions"
                   }
                 }
               ]
             }
-            
           ]
         },
-       {
-  "id": "mph1_2",
-  "label": "II. Task Management Strategies",
-  "mainPoints": [
-    {
-      "id": "mp1_2_1",
-      "label": "Apply the Pomodoro Technique",
-      "subPoints": [
         {
-          "id": "sp1_2_1_1",
-          "label": "Work in 25-minute focused intervals",
-          "explanation": {
-            "id": "exp1_2_1_1",
-            "label": "Boosts productivity by reducing mental fatigue.",
-            "source": "https://example.com/pomodoro"
-          }
-        },
-        {
-          "id": "sp1_2_1_2",
-          "label": "Take 5-minute breaks after each session",
-          "explanation": {
-            "id": "exp1_2_1_2",
-            "label": "Allows mental recovery to maintain focus.",
-            "source": "https://example.com/pomodoro-breaks"
-          }
-        }
-      ]
-    }
-  ]
-},
-        {
-          "id": "mph1_3",
-          "label": "III. Minimizing Distractions",
+          "id": "mph2_2",
+          "label": "II. Practice Mindfulness and Meditation",
           "mainPoints": [
             {
-              "id": "mp1_3_1",
-              "label": "Implement the Pomodoro Technique",
+              "id": "mp2_2_1",
+              "label": "Engage in daily meditation",
               "subPoints": [
                 {
-                  "id": "sp1_3_1_1",
-                  "label": "Work in focused 25-minute intervals",
+                  "id": "sp2_2_1_1",
+                  "label": "Practice 10 minutes of breathing meditation",
                   "explanation": {
-                    "id": "exp1_3_1_1",
-                    "label": "Improves concentration and prevents burnout.",
-                    "source": "https://example.com/pomodoro"
+                    "id": "exp2_2_1_1",
+                    "label": "Trains the brain to resist distractions and improve attention span.",
+                    "source": "https://example.com/meditation-benefits"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mph2_3",
+          "label": "III. Use Focus Techniques",
+          "mainPoints": [
+            {
+              "id": "mp2_3_1",
+              "label": "Try the 5-Second Rule",
+              "subPoints": [
+                {
+                  "id": "sp2_3_1_1",
+                  "label": "Count backward from 5 before starting a task",
+                  "explanation": {
+                    "id": "exp2_3_1_1",
+                    "label": "Builds momentum and overcomes procrastination.",
+                    "source": "https://example.com/5-second-rule"
                   }
                 }
               ]
             },
             {
-              "id": "mp1_3_2",
-              "label": "Batch Similar Tasks"
+              "id": "mp2_3_2",
+              "label": "Use Noise-Cancelling Headphones"
             }
           ]
         },
         {
-          "id": "mph1_4",
-          "label": "IV. Tools & Strategies",
+          "id": "mph2_4",
+          "label": "IV. Optimize Nutrition and Sleep",
           "mainPoints": [
             {
-              "id": "mp1_4_1",
-              "label": "Utilize Task Management Apps",
+              "id": "mp2_4_1",
+              "label": "Eat brain-boosting foods",
               "subPoints": [
                 {
-                  "id": "sp1_4_1_1",
-                  "label": "Trello, Asana, Notion, Todoist",
+                  "id": "sp2_4_1_1",
+                  "label": "Include foods like blueberries, nuts, and fish",
                   "explanation": {
-                    "id": "exp1_4_1_1",
-                    "label": "Digital tools help organize, track progress, and collaborate.",
-                    "source": "https://example.com/apps"
+                    "id": "exp2_4_1_1",
+                    "label": "Supports memory and mental clarity.",
+                    "source": "https://example.com/brain-foods"
                   }
                 }
               ]
             },
             {
-              "id": "mp1_4_2",
-              "label": "Review and Adapt Regularly"
+              "id": "mp2_4_2",
+              "label": "Get 7-9 hours of quality sleep"
             }
           ]
         }

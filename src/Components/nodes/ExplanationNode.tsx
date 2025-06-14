@@ -19,9 +19,9 @@ export default function ExplanationNode({ data }: NodeProps<Node<ExplanationNode
   return (
     <NodeWrapper
       sx={{
-        borderColor: '#795548', // Material-UI brown
-        backgroundColor: '#efebe9', // Light brown
-        width: '200px', // Smallest
+        borderColor: 'var(--explantion-borderColor)', 
+        backgroundColor: 'var(--explantion-background)', 
+        width: '250px', // Smallest
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'flex-start' ,padding:"8px" }}>
