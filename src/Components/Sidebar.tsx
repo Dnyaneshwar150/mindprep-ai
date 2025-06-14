@@ -8,6 +8,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  Grid,
 } from "@mui/material";
 
 const Sidebar: React.FC = () => {
@@ -90,6 +91,12 @@ const Sidebar: React.FC = () => {
       >
         Generate
       </Button>
+      <Grid sx={{
+          fontSize: 12,
+          color: 'var(--primary-grey)',
+        }}>
+          Version 0.1.0
+        </Grid>
     </Box>
   );
 };

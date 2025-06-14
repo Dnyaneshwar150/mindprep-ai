@@ -110,9 +110,6 @@ function Workflow() {
     return enhancedNodes.filter(node => isVisible(node.id));
   }, [enhancedNodes, visibleChildrenMap, edges]);
 
-
-
-
   return (
     <Grid container >
       <Grid sx={{ border: "1px solid black", height: "100vh", width: "75%", position: "relative", bgcolor: "white", display: "flex", justifyContent: 'center', alignItems: "center" }} >
@@ -126,6 +123,7 @@ function Workflow() {
           nodeTypes={nodeTypes}
           fitView
           edgeTypes={edgeTypes}
+          proOptions={{ hideAttribution: true }}
         >
           <Panel
             position="bottom-left"
@@ -147,8 +145,9 @@ function Workflow() {
           <Controls position='bottom-right' />
         </ReactFlow>
       </Grid>
-            <Grid sx={{ border: "1px solid black" , width:"25%" }}>
-              <Sidebar /></Grid>
+      <Grid sx={{ border: "1px solid black", width: "25%" }}>
+        <Sidebar />
+        </Grid>
     </Grid>
 
 
