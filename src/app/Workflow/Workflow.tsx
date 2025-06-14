@@ -36,6 +36,7 @@ function Workflow() {
   const { nodes: parsedNodes, edges: parsedEdges } = parseJsonToNodesEdges(jsonData);
   const layouted = getLayoutedElements(parsedNodes, parsedEdges);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [nodes, setNodes, onNodesChange] = useNodesState(layouted.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layouted.edges);
 
