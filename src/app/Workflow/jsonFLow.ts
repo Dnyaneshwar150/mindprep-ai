@@ -81,7 +81,6 @@ export function parseJsonToNodesEdges(data: Data): { nodes: Node[]; edges: Edge[
 addNode(mph.id, mph.label, 'mainPointHeadingNode', answer.id);
 
     for (const mp of mph.mainPoints) {
-      const mpY = y;
       x += xGap;
       addNode(mp.id, mp.label, 'mainPointNode', mph.id);
 
