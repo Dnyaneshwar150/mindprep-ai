@@ -1,26 +1,35 @@
 {
   "question": {
-    "id": "q2",
-    "label": "How can you improve focus and concentration?",
+    "id": "q1",
+    "label": "What is time management and why is it important?",
     "answer": {
-      "id": "a2",
-      "label": "Improving focus involves eliminating distractions, training the mind, and creating an optimal work environment.",
+      "id": "a1",
+      "label": "Time management involves planning and controlling time spent on activities to boost efficiency. It's crucial for productivity, reducing stress, and achieving goals effectively.",
       "mainPointHeadings": [
         {
-          "id": "mph2_1",
-          "label": "I. Create a Distraction-Free Environment",
+          "id": "mph1",
+          "label": "Definition and Core Elements",
           "mainPoints": [
             {
-              "id": "mp2_1_1",
-              "label": "Turn off notifications",
+              "id": "mp1",
+              "label": "Fundamentals of Time Management",
               "subPoints": [
                 {
-                  "id": "sp2_1_1_1",
-                  "label": "Silence mobile and desktop alerts",
+                  "id": "sp1",
+                  "label": "Strategic organization of tasks",
                   "explanation": {
-                    "id": "exp2_1_1_1",
-                    "label": "Reduces unnecessary interruptions that break concentration.",
-                    "source": "https://example.com/focus-distractions"
+                    "id": "exp1",
+                    "label": "Time management means intentionally allocating time to tasks based on priorities, deadlines, and goals to optimize daily efficiency.",
+                    "source": "University of Georgia: Time Management Strategies"
+                  }
+                },
+                {
+                  "id": "sp2",
+                  "label": "Tools and techniques used",
+                  "explanation": {
+                    "id": "exp2",
+                    "label": "Includes methods like prioritization matrices, digital calendars, and task batching to structure workflows and minimize wasted time.",
+                    "source": "Harvard Business Review: Time Management Is About More Than Life Hacks"
                   }
                 }
               ]
@@ -28,73 +37,32 @@
           ]
         },
         {
-          "id": "mph2_2",
-          "label": "II. Practice Mindfulness and Meditation",
+          "id": "mph2",
+          "label": "Significance and Impact",
           "mainPoints": [
             {
-              "id": "mp2_2_1",
-              "label": "Engage in daily meditation",
+              "id": "mp2",
+              "label": "Benefits of Effective Implementation",
               "subPoints": [
                 {
-                  "id": "sp2_2_1_1",
-                  "label": "Practice 10 minutes of breathing meditation",
+                  "id": "sp3",
+                  "label": "Boosts productivity and goal attainment",
                   "explanation": {
-                    "id": "exp2_2_1_1",
-                    "label": "Trains the brain to resist distractions and improve attention span.",
-                    "source": "https://example.com/meditation-benefits"
+                    "id": "exp3",
+                    "label": "Focused time allocation reduces distractions, accelerates task completion, and enables measurable progress toward personal/professional objectives.",
+                    "source": "American Psychological Association: Why Time Management Matters"
+                  }
+                },
+                {
+                  "id": "sp4",
+                  "label": "Reduces stress and prevents burnout",
+                  "explanation": {
+                    "id": "exp4",
+                    "label": "Prevents overload by creating realistic schedules, ensuring adequate rest, and mitigating anxiety from missed deadlines or rushed work.",
+                    "source": "Mayo Clinic: Work-Life Balance Strategies"
                   }
                 }
               ]
-            }
-          ]
-        },
-        {
-          "id": "mph2_3",
-          "label": "III. Use Focus Techniques",
-          "mainPoints": [
-            {
-              "id": "mp2_3_1",
-              "label": "Try the 5-Second Rule",
-              "subPoints": [
-                {
-                  "id": "sp2_3_1_1",
-                  "label": "Count backward from 5 before starting a task",
-                  "explanation": {
-                    "id": "exp2_3_1_1",
-                    "label": "Builds momentum and overcomes procrastination.",
-                    "source": "https://example.com/5-second-rule"
-                  }
-                }
-              ]
-            },
-            {
-              "id": "mp2_3_2",
-              "label": "Use Noise-Cancelling Headphones"
-            }
-          ]
-        },
-        {
-          "id": "mph2_4",
-          "label": "IV. Optimize Nutrition and Sleep",
-          "mainPoints": [
-            {
-              "id": "mp2_4_1",
-              "label": "Eat brain-boosting foods",
-              "subPoints": [
-                {
-                  "id": "sp2_4_1_1",
-                  "label": "Include foods like blueberries, nuts, and fish",
-                  "explanation": {
-                    "id": "exp2_4_1_1",
-                    "label": "Supports memory and mental clarity.",
-                    "source": "https://example.com/brain-foods"
-                  }
-                }
-              ]
-            },
-            {
-              "id": "mp2_4_2",
-              "label": "Get 7-9 hours of quality sleep"
             }
           ]
         }
