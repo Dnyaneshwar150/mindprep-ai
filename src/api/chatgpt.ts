@@ -1,7 +1,44 @@
-export async function fetchStructuredAnswer(prompt: string) {
-  console.log("function called");
+export async function fetchStructuredAnswer(question: string ,mainPointCount:number,subPointCount:number) {
        const API_KEY = process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY
-  console.log(API_KEY);
+
+         const Updatedprompt = `You are an assistant that returns structured JSON answers.
+
+Format:
+{
+  "question": {
+    "id": "q1",
+    "label": "QUESTION_TEXT",
+    "answer": {
+      "id": "a1",
+      "label": "Short answer in 25 words",
+      "mainPointHeadings": [
+        {
+          "id": "mph1",
+          "label": "Main point heading",
+          "mainPoints": [
+            {
+              "id": "mp1",
+              "label": "Main point",
+              "subPoints": [
+                {
+                  "id": "sp1",
+                  "label": "Subpoint",
+                  "explanation": {
+                    "id": "exp1",
+                    "label": "Explanation",
+                    "source": "URL or source text"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+Generate ${mainPointCount} mainPointHeadings. Each should have 1 mainPoint with ${subPointCount} subPoints. Use this question: "${question}"`;
 
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
@@ -16,7 +53,7 @@ export async function fetchStructuredAnswer(prompt: string) {
       messages: [
         {
           role: "user",
-          content: prompt,
+          content: Updatedprompt,
         },
       ],
       temperature: 0.7,

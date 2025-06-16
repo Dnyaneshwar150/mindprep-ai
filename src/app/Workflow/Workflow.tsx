@@ -4,25 +4,28 @@ import "@xyflow/react/dist/style.css";
 import { Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType, Panel, Controls } from '@xyflow/react'
 import React, { useCallback} from 'react'
 import { v4 as uuid } from "uuid";
-import jsonData from '../Workflow/mockData.json'
 import { Grid } from '@mui/material';
 import PannelComponent from '@/Components/mindmap/PannelComponent';
 import Sidebar from '@/Components/Sidebar';
-import { getLayoutedElements } from '@/utils/mindmapUtils/layoutDagre';
-import { parseJsonToNodesEdges } from '@/utils/mindmapUtils/transformJsonToFlow';
 import { edgeTypes, nodeTypes } from "@/constants/flowTypes";
 import { useMindmapVisibility } from "@/hooks/useMindmapVisibility";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { selectMindmapEdges, selectMindmapLoading, selectMindmapNodes } from "@/redux/mindmapSelectors";
 
 
 
 
 function Workflow() {
-  const { nodes: parsedNodes, edges: parsedEdges } = parseJsonToNodesEdges(jsonData);
-  const layouted = getLayoutedElements(parsedNodes, parsedEdges);
+
+  
+    const intialnodes = useAppSelector(selectMindmapNodes);
+  const intialedges = useAppSelector(selectMindmapEdges);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [nodes, setNodes, onNodesChange] = useNodesState(layouted.nodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(layouted.edges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(intialnodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(intialedges);
+
+  // const loading = useAppSelector(selectMindmapLoading);
 
 
   const onConnect = useCallback((connection: Connection) => {
