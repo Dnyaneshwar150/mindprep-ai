@@ -22,6 +22,7 @@ export function useMindmapVisibility(nodes: Node[], edges: Edge[]) {
         onToggleChildrenVisibility: handleToggleChildrenVisibility,
       },
     }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, visibleChildrenMap]);
 
   const filteredEdges = useMemo(() => {

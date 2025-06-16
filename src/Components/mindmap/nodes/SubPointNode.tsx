@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
 import { Box, IconButton, Typography } from '@mui/material';
-import { SubPointNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
 import CustomTooltip from '../../ui/CustomTooltip';
 import { ExpandLess, ExpandMore, Visibility, VisibilityOff } from '@mui/icons-material';
+import { SubPointNodeData } from '@/types/mindmap.types';
 
 export default function SubPointNode({ data }: NodeProps<Node<SubPointNodeData>>) {
      const [expanded, setExpanded] = useState(false);

@@ -38,6 +38,7 @@ function Workflow() {
       id: uuid(),
     };
     setEdges((eds) => eds.concat(edge));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 

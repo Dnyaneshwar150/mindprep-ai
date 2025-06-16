@@ -3,9 +3,9 @@ import { Handle, NodeProps, Position, Node } from '@xyflow/react';
 import { Typography, IconButton, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { AnswerNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
 import CustomTooltip from '../../ui/CustomTooltip';
+import { AnswerNodeData } from '@/types/mindmap.types';
 
 export default function AnswerNode({ data }: NodeProps<Node<AnswerNodeData>>) {
   const [expanded, setExpanded] = useState(false);

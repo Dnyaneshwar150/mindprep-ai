@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
 import { Box, IconButton, Typography } from '@mui/material';
-import { MainPointNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
 import CustomTooltip from '../../ui/CustomTooltip';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { MainPointNodeData } from '@/types/mindmap.types';
 
 export default function MainPointNode({ data }: NodeProps<Node<MainPointNodeData>>) {
     const [expanded, setExpanded] = useState(false);

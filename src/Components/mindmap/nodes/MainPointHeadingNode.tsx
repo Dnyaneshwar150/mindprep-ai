@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
 import { Typography, IconButton, Box } from '@mui/material';
 import { ExpandMore, ExpandLess, Visibility, VisibilityOff } from '@mui/icons-material';
-import { MainPointHeadingNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
 import CustomTooltip from '../../ui/CustomTooltip';
+import { MainPointHeadingNodeData } from '@/types/mindmap.types';
 
 export default function MainPointHeadingNode({ data }: NodeProps<Node<MainPointHeadingNodeData>>) {
    const [expanded, setExpanded] = useState(false);

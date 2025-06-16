@@ -2,9 +2,9 @@
 import React from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
 import { Grid, Typography } from '@mui/material';
-import { QuestionNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
 import CustomTooltip from '../../ui/CustomTooltip';
+import { QuestionNodeData } from '@/types/mindmap.types';
 
 export default function QuestionNode({ data }: NodeProps<Node<QuestionNodeData>>) {
   if (!data.label) return null;

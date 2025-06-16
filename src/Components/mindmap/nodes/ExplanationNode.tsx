@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
 import { Typography, Box } from '@mui/material'; // Import Link for source
-import { ExplanationNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
 import CustomTooltip from '../../ui/CustomTooltip';
 import { IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { ExplanationNodeData } from '@/types/mindmap.types';
   
 
 
