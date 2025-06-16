@@ -12,7 +12,7 @@ import {
   Grid,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { selectMindmapLoading, selectMindmapNodes } from '@/redux/mindmapSelectors';
+import { selectMindmapLoading } from '@/redux/mindmapSelectors';
 import { fetchMindmapFromGPT } from '@/redux/slices/mindmapSlice';
 
 const Sidebar = () => {

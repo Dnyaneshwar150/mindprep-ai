@@ -1,8 +1,11 @@
 'use client'
 // import { initialEdges, initialNodes } from '@/constants';
 import "@xyflow/react/dist/style.css";
-import { Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType, Panel, Controls } from '@xyflow/react'
-import React, { useCallback} from 'react'
+import {
+  Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType, Panel, Controls, Node,
+  Edge,
+} from '@xyflow/react'
+import React, { useCallback, useEffect, } from 'react'
 import { v4 as uuid } from "uuid";
 import { Grid } from '@mui/material';
 import PannelComponent from '@/Components/mindmap/PannelComponent';
@@ -17,16 +20,24 @@ import { selectMindmapEdges, selectMindmapLoading, selectMindmapNodes } from "@/
 
 function Workflow() {
 
-  
-    const intialnodes = useAppSelector(selectMindmapNodes);
-  const intialedges = useAppSelector(selectMindmapEdges);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [nodes, setNodes, onNodesChange] = useNodesState(intialnodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(intialedges);
+  const reduxNodes = useAppSelector(selectMindmapNodes);
+  const reduxEdges = useAppSelector(selectMindmapEdges);
+
+  // ✅ Correct usage — DO NOT write Node[] or Edge[] here
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+
+  useEffect(() => {
+    setNodes(reduxNodes);
+  }, [reduxNodes]);
+
+  useEffect(() => {
+    setEdges(reduxEdges);
+  }, [reduxEdges]);
+
 
   // const loading = useAppSelector(selectMindmapLoading);
-
 
   const onConnect = useCallback((connection: Connection) => {
     const edge = {
@@ -41,18 +52,21 @@ function Workflow() {
       id: uuid(),
     };
     setEdges((eds) => eds.concat(edge));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
 
 
   // Toggle children visibility
   const {
-  filteredEdges,
-  filteredNodes,
-} = useMindmapVisibility(nodes, edges);
+    filteredEdges,
+    filteredNodes,
+  } = useMindmapVisibility(nodes, edges);
 
   return (
     <Grid container >
+
       <Grid sx={{ border: "1px solid black", height: "100vh", width: "75%", position: "relative", bgcolor: "white", display: "flex", justifyContent: 'center', alignItems: "center" }} >
         <ReactFlow
           nodes={filteredNodes}
@@ -88,7 +102,7 @@ function Workflow() {
       </Grid>
       <Grid sx={{ border: "1px solid black", width: "25%" }}>
         <Sidebar />
-        </Grid>
+      </Grid>
     </Grid>
 
 

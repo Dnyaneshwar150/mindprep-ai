@@ -3,6 +3,7 @@ import { parseJsonToNodesEdges } from '@/utils/mindmapUtils/transformJsonToFlow'
 import { Node, Edge } from '@xyflow/react';
 import { fetchStructuredAnswer } from '@/api/chatgpt';
 import { Data } from '@/types/mindmapData.types';
+import { getLayoutedElements } from '@/utils/mindmapUtils/layoutDagre';
 
 interface MindmapState {
     question: string;
@@ -41,7 +42,8 @@ const mindmapSlice = createSlice({
                 state.error = undefined;
             })
             .addCase(fetchMindmapFromGPT.fulfilled, (state, action) => {
-                const { nodes, edges } = parseJsonToNodesEdges(action.payload.data);
+                const { nodes:rawnodes, edges:rawedges } = parseJsonToNodesEdges(action.payload.data);
+                  const { nodes, edges } = getLayoutedElements(rawnodes, rawedges);
                 return {
                     ...state,
                     loading: false,

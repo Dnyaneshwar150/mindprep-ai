@@ -1,9 +1,12 @@
+import { cleanChatGptJson } from "@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils";
+
 export async function fetchStructuredAnswer(question: string ,mainPointCount:number,subPointCount:number) {
        const API_KEY = process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY
 
-         const Updatedprompt = `You are an assistant that returns structured JSON answers.
+         const Updatedprompt = `
+You are an assistant that returns a **raw JSON object only**. Do not wrap it in \`\`\`json or \`\`\`, do not include any explanation or extra text — return only valid, parsable JSON.
 
-Format:
+Return it in the following format:
 {
   "question": {
     "id": "q1",
@@ -38,7 +41,7 @@ Format:
   }
 }
 
-Generate ${mainPointCount} mainPointHeadings. Each should have 1 mainPoint with ${subPointCount} subPoints. Use this question: "${question}"`;
+Generate ${mainPointCount} mainPointHeadings, each with 1 mainPoint and ${subPointCount} subPoints. Use this question: "${question}"`;
 
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
@@ -66,14 +69,17 @@ Generate ${mainPointCount} mainPointHeadings. Each should have 1 mainPoint with 
 
   const data = await response.json();
 
-  if (data?.choices?.[0]?.message?.content) {
-    try {
-      return JSON.parse(data.choices[0].message.content);
-    } catch {
-      console.warn("Response was not valid JSON. Returning as string.");
-      return data.choices[0].message.content;
-    }
-  } else {
-    throw new Error("Invalid response from OpenRouter API");
+ if (data?.choices?.[0]?.message?.content) {
+  const raw = data.choices[0].message.content;
+
+  const cleaned = cleanChatGptJson(raw);
+
+  if (!cleaned) {
+    console.warn("GPT response was not valid JSON even after cleaning.");
+    return raw; // fallback to raw if needed
   }
+
+  return cleaned; // this is a parsed object of type `Data`
+}
+
 }

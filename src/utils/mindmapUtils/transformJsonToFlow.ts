@@ -9,7 +9,6 @@ const yGap = 150;
 export function parseJsonToNodesEdges(data: Data): { nodes: Node[]; edges: Edge[] } {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
-  console.log("cleanedDarta",data);
 
 
   function addNode(id: string, label: string, nodeType: string, parentId?: string) {
@@ -29,7 +28,7 @@ export function parseJsonToNodesEdges(data: Data): { nodes: Node[]; edges: Edge[
   }
 
   const question = data.question;
-  console.log(question,"question")
+  
   x = 50;
   y = 350;
   addNode(question.id, question.label, 'questionNode');
