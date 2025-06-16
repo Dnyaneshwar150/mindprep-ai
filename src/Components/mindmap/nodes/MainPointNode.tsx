@@ -4,7 +4,7 @@ import { Handle, NodeProps, Position, Node } from '@xyflow/react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { MainPointNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
-import CustomTooltip from '../Common/CustomTooltip';
+import CustomTooltip from '../../ui/CustomTooltip';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 

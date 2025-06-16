@@ -1,44 +1,5 @@
+import { Data } from "@/types/mindmapData.types";
 import { Edge ,Node } from "@xyflow/react";
-
-interface Explanation {
-  id: string;
-  label: string;
-  source: string;
-}
-
-interface SubPoint {
-  id: string;
-  label: string;
-  explanation?: Explanation;
-}
-
-interface MainPoint {
-  id: string;
-  label: string;
-  subPoints?: SubPoint[];
-}
-
-interface MainPointHeading {
-  id: string;
-  label: string;
-  mainPoints: MainPoint[];
-}
-
-interface Answer {
-  id: string;
-  label: string;
-  mainPointHeadings: MainPointHeading[];
-}
-
-interface Question {
-  id: string;
-  label: string;
-  answer: Answer;
-}
-
-interface Data {
-  question: Question;
-}
 
 let x = 50;
 let y = 350;

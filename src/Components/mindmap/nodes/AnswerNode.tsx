@@ -1,29 +1,26 @@
-// src/components/nodes/ExplanationNode.tsx
 import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
-import { Typography, Box } from '@mui/material'; // Import Link for source
-import { ExplanationNodeData } from '@/types';
-import NodeWrapper from '../NodeWrapper';
-import CustomTooltip from '../Common/CustomTooltip';
-import { IconButton } from '@mui/material';
+import { Typography, IconButton, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-  
+import { AnswerNodeData } from '@/types';
+import NodeWrapper from '../NodeWrapper';
+import CustomTooltip from '../../ui/CustomTooltip';
 
+export default function AnswerNode({ data }: NodeProps<Node<AnswerNodeData>>) {
+  const [expanded, setExpanded] = useState(false);
 
-export default function ExplanationNode({ data }: NodeProps<Node<ExplanationNodeData>>) {
-      const [expanded, setExpanded] = useState(false);
-  
   if (!data.label) return null;
 
   return (
     <NodeWrapper
       sx={{
-        borderColor: 'var(--explantion-borderColor)', 
-        backgroundColor: 'var(--explantion-background)', 
-        width: '250px', // Smallest
+        borderColor: 'var(--border-green)',
+        backgroundColor: 'var(--background-green)',
+        width: '280px',
       }}
     >
+  
       <Box sx={{ display: 'flex', alignItems: 'flex-start' ,padding:"8px" }}>
   <Typography
     sx={{
@@ -52,8 +49,8 @@ export default function ExplanationNode({ data }: NodeProps<Node<ExplanationNode
 
 </Box>
 
-      {/* Handles: Only target handle (from SubPoint) */}
-      <Handle type="target" position={Position.Left} id="explanation-from-sub-point" />
+      <Handle type="target" position={Position.Left} id="answer-from-question" />
+      <Handle type="source" position={Position.Right} id="answer-to-main-point-heading" />
     </NodeWrapper>
   );
 }

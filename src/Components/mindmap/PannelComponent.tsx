@@ -1,7 +1,7 @@
-import { ComponentType } from '@/types';
 import { Grid } from '@mui/material'
 import React from 'react'
 import { ExpandMore, ExpandLess, Visibility, VisibilityOff } from '@mui/icons-material';
+import { ComponentType } from '@/types/mindmap.types';
 
 
 function PannelComponent() {

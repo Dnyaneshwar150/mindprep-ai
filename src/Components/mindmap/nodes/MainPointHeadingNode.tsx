@@ -1,30 +1,32 @@
-// src/components/nodes/SubPointNode.tsx
+// src/components/nodes/MainPointHeadingNode.tsx
 import React, { useState } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
-import { Box, IconButton, Typography } from '@mui/material';
-import { SubPointNodeData } from '@/types';
+import { Typography, IconButton, Box } from '@mui/material';
+import { ExpandMore, ExpandLess, Visibility, VisibilityOff } from '@mui/icons-material';
+import { MainPointHeadingNodeData } from '@/types';
 import NodeWrapper from '../NodeWrapper';
-import CustomTooltip from '../Common/CustomTooltip';
-import { ExpandLess, ExpandMore, Visibility, VisibilityOff } from '@mui/icons-material';
+import CustomTooltip from '../../ui/CustomTooltip';
 
-export default function SubPointNode({ data }: NodeProps<Node<SubPointNodeData>>) {
-     const [expanded, setExpanded] = useState(false);
-  
+export default function MainPointHeadingNode({ data }: NodeProps<Node<MainPointHeadingNodeData>>) {
+   const [expanded, setExpanded] = useState(false);
   if (!data.label) return null;
-
   const handleToggleChildren = () => {
     data.onToggleChildrenVisibility?.(data.nodeId);
   };
+   const handleToggleExpand = () => {
+    setExpanded(prev => !prev);
+  };
+
 
   return (
-    <NodeWrapper
+      <NodeWrapper
       sx={{
-       borderColor: 'var(--border-grey)',
-        backgroundColor: 'var(--background-grey)',
-        width: '220px', // Even smaller
+        borderColor: 'var(--border-orange)',
+        backgroundColor: 'var(--background-orange)',
+        width: '300px',
       }}
     >
-     <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" padding={"4px"}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" padding={"4px"}>
 <Typography
         sx={{
           fontSize: '18px',
@@ -43,7 +45,7 @@ export default function SubPointNode({ data }: NodeProps<Node<SubPointNodeData>>
       </Typography>
         <Box display="flex" alignItems="center" gap={0.5}>
           <CustomTooltip title={expanded ? 'Collapse' : 'Expand'}>
-            <IconButton size="large"onClick={() => setExpanded(!expanded)}>
+            <IconButton size="large" onClick={handleToggleExpand}>
               {expanded ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
             </IconButton>
           </CustomTooltip>
@@ -54,11 +56,10 @@ export default function SubPointNode({ data }: NodeProps<Node<SubPointNodeData>>
             </IconButton>
           </CustomTooltip>
         </Box>
-      </Box>     
+      </Box>      
 
-      {/* Handles: From Main Point (top), To Explanations (bottom) */}
-      <Handle type="target" position={Position.Left} id="sub-point-from-main-point" />
-      <Handle type="source" position={Position.Right} id="sub-point-to-explanation" />
+      <Handle type="target" position={Position.Left} id="heading-from-answer" />
+      <Handle type="source" position={Position.Right} id="heading-to-main-point" />
     </NodeWrapper>
   );
 }

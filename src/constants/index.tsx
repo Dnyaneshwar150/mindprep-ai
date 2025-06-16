@@ -1,5 +1,5 @@
 // src/initial-elements.ts
-import { ComponentType } from "@/types";
+import { ComponentType } from "@/types/mindmap.types";
 import { Edge, Node } from "@xyflow/react";
 
 export const initialNodes: Node[] = [

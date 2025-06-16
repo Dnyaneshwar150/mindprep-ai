@@ -1,36 +1,20 @@
 'use client'
-import Wire from '@/Components/Wire';
 // import { initialEdges, initialNodes } from '@/constants';
 import "@xyflow/react/dist/style.css";
-import { Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType, NodeTypes, Panel, Controls } from '@xyflow/react'
-import React, { useCallback, useMemo, useState } from 'react'
+import { Background, BackgroundVariant, ReactFlow, useNodesState, useEdgesState, ConnectionMode, Connection, MarkerType, Panel, Controls } from '@xyflow/react'
+import React, { useCallback} from 'react'
 import { v4 as uuid } from "uuid";
-import QuestionNode from '@/Components/nodes/QuestionNode';
-import AnswerNode from '@/Components/nodes/AnswerNode';
-import MainPointHeadingNode from '@/Components/nodes/MainPointHeadingNode';
-import MainPointNode from '@/Components/nodes/MainPointNode';
-import SubPointNode from '@/Components/nodes/SubPointNode';
-import ExplanationNode from '@/Components/nodes/ExplanationNode';
-import { getLayoutedElements } from '@/utils/getLayoutedElements';
 import jsonData from '../Workflow/mockData.json'
-import { parseJsonToNodesEdges } from './jsonFLow';
 import { Grid } from '@mui/material';
-import PannelComponent from '@/Components/PannelComponent';
+import PannelComponent from '@/Components/mindmap/PannelComponent';
 import Sidebar from '@/Components/Sidebar';
+import { getLayoutedElements } from '@/utils/mindmapUtils/layoutDagre';
+import { parseJsonToNodesEdges } from '@/utils/mindmapUtils/transformJsonToFlow';
+import { edgeTypes, nodeTypes } from "@/constants/flowTypes";
+import { useMindmapVisibility } from "@/hooks/useMindmapVisibility";
 
 
-const nodeTypes: NodeTypes = {
-  questionNode: QuestionNode,
-  answerNode: AnswerNode,
-  mainPointHeadingNode: MainPointHeadingNode, // Register new node types
-  mainPointNode: MainPointNode,
-  subPointNode: SubPointNode,
-  explanationNode: ExplanationNode,
-};
 
-const edgeTypes = {
-  wire: Wire,
-}
 
 function Workflow() {
   const { nodes: parsedNodes, edges: parsedEdges } = parseJsonToNodesEdges(jsonData);
@@ -40,7 +24,6 @@ function Workflow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(layouted.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layouted.edges);
 
-  const [visibleChildrenMap, setVisibleChildrenMap] = useState<Record<string, boolean>>({});
 
   const onConnect = useCallback((connection: Connection) => {
     const edge = {
@@ -59,56 +42,10 @@ function Workflow() {
 
 
   // Toggle children visibility
-  const handleToggleChildrenVisibility = useCallback((nodeId: string) => {
-    setVisibleChildrenMap(prev => ({
-      ...prev,
-      [nodeId]: !prev[nodeId]
-    }));
-  }, []);
-
-  // Enhance node data with handlers + isExpanded state
-  const enhancedNodes = useMemo(() => {
-    return nodes.map((node) => ({
-      ...node,
-      data: {
-        ...node.data,
-        nodeId: node.id,
-        areChildrenVisible: visibleChildrenMap[node.id] ?? true,
-        onToggleChildrenVisibility: handleToggleChildrenVisibility,
-      },
-    }));
-  }, [nodes, visibleChildrenMap]);
-
-  // Filter edges and hidden children
-  const filteredEdges = useMemo(() => {
-    return edges.filter(edge => {
-      const parentHiddenChildren = visibleChildrenMap[edge.source] === false;
-      return !parentHiddenChildren;
-    });
-  }, [edges, visibleChildrenMap]);
-
-  // const visibleNodeIds = new Set(filteredEdges.flatMap(edge => [edge.source, edge.target]));
-  const filteredNodes = useMemo(() => {
-    // Step 1: Build parent map
-    const parentMap = new Map<string, string>();
-    edges.forEach(edge => {
-      parentMap.set(edge.target, edge.source);
-    });
-
-    // Step 2: Check ancestors recursively
-    const isVisible = (nodeId: string): boolean => {
-      let currentId = nodeId;
-      while (parentMap.has(currentId)) {
-        const parentId = parentMap.get(currentId)!;
-        if (visibleChildrenMap[parentId] === false) return false;
-        currentId = parentId;
-      }
-      return true;
-    };
-
-    // Step 3: Filter only visible nodes
-    return enhancedNodes.filter(node => isVisible(node.id));
-  }, [enhancedNodes, visibleChildrenMap, edges]);
+  const {
+  filteredEdges,
+  filteredNodes,
+} = useMindmapVisibility(nodes, edges);
 
   return (
     <Grid container >
