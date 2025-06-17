@@ -13,7 +13,8 @@ import Sidebar from '@/Components/Sidebar';
 import { edgeTypes, nodeTypes } from "@/constants/flowTypes";
 import { useMindmapVisibility } from "@/hooks/useMindmapVisibility";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { selectMindmapEdges, selectMindmapLoading, selectMindmapNodes } from "@/redux/mindmapSelectors";
+//Todo: selectMindmapLoadingm add later in loading state
+import { selectMindmapEdges,  selectMindmapNodes } from "@/redux/mindmapSelectors";
 
 function Workflow() {
 
@@ -25,10 +26,12 @@ function Workflow() {
 
   useEffect(() => {
     setNodes(reduxNodes);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduxNodes]);
 
   useEffect(() => {
     setEdges(reduxEdges);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduxEdges]);
 
 
