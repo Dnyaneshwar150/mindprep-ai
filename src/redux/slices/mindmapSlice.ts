@@ -44,7 +44,25 @@ export const fetchMindmapFromGPT = createAsyncThunk(
 const mindmapSlice = createSlice({
     name: 'mindmap',
     initialState,
-    reducers: {},
+   reducers: {
+ updateNodeLabel: (
+  state,
+  action: {
+    payload: { nodeId: string; newLabel: string };
+    type: string;
+  }
+) => {
+  const { nodeId, newLabel } = action.payload;
+  const node = state.nodes.find((n) => n.id === nodeId);
+  if (node) {
+    node.data = {
+      ...node.data,
+      label: newLabel,
+    };
+  }
+}
+},
+
     extraReducers: builder => {
         builder
             .addCase(fetchMindmapFromGPT.pending, state => {
@@ -71,3 +89,4 @@ const mindmapSlice = createSlice({
 });
 
 export default mindmapSlice.reducer;
+export const { updateNodeLabel } = mindmapSlice.actions;

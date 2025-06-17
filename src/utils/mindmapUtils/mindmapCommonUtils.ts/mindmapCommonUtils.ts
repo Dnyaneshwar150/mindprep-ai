@@ -1,4 +1,6 @@
 import { Data } from "@/types/mindmapData.types";
+import { Node } from '@xyflow/react';
+
 
 export function cleanChatGptJson(input: string): Data | null {
 
@@ -15,4 +17,22 @@ export function cleanChatGptJson(input: string): Data | null {
     console.error("Failed to parse cleaned JSON:", error);
     return null;
   }
+}
+
+export function updateLabelInNodeArray(
+  nodes: Node[],
+  nodeId: string,
+  newLabel: string
+): Node[] {
+  return nodes.map((node) =>
+    node.id === nodeId
+      ? {
+          ...node,
+          data: {
+            ...node.data,
+            label: newLabel,
+          },
+        }
+      : node
+  );
 }

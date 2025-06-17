@@ -15,11 +15,7 @@ import { useMindmapVisibility } from "@/hooks/useMindmapVisibility";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { selectMindmapEdges, selectMindmapLoading, selectMindmapNodes } from "@/redux/mindmapSelectors";
 
-
-
-
 function Workflow() {
-
 
   const reduxNodes = useAppSelector(selectMindmapNodes);
   const reduxEdges = useAppSelector(selectMindmapEdges);
