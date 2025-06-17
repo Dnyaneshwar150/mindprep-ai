@@ -7,6 +7,7 @@ import { PropsWithChildren } from 'react';
 import './globals.css'; 
 
 import { ReduxProvider } from './providers/ReduxProvider';
+import Navbar from '@/Components/Navbar';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -22,7 +23,8 @@ const poppins = Poppins({
        <body>
       <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
-             <ReduxProvider>
+             <ReduxProvider>  
+               <Navbar />  
               {children}
             </ReduxProvider>
         </ThemeProvider>

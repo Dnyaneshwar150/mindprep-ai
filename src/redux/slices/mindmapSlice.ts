@@ -4,6 +4,7 @@ import { Node, Edge } from '@xyflow/react';
 import { fetchStructuredAnswer } from '@/api/chatgpt';
 import { Data } from '@/types/mindmapData.types';
 import { getLayoutedElements } from '@/utils/mindmapUtils/layoutDagre';
+import mockData from '../../app/Workflow/mockData.json'
 
 interface MindmapState {
     question: string;
@@ -23,9 +24,18 @@ const initialState: MindmapState = {
     error: undefined,
 };
 
+const USE_MOCK_DATA = true;
+
+
 export const fetchMindmapFromGPT = createAsyncThunk(
   'mindmap/fetchFromGPT',
   async ({ question, mainPointCount, subPointCount }: { question: string; mainPointCount: number; subPointCount: number }) => {
+  if (USE_MOCK_DATA) {
+  return {
+    question: mockData.question.label, // extract plain question
+    data: mockData,                    // raw JSON object
+  };
+}
     const data = await fetchStructuredAnswer(question, mainPointCount, subPointCount);
     return { question, data };
   }

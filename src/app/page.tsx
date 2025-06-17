@@ -1,9 +1,6 @@
 'use client'
 import { ReactFlowProvider } from "@xyflow/react";
 import Workflow from "./Workflow/Workflow";
-import { Box} from "@mui/material";
-
-
 
 export default function Home() {
   
@@ -12,9 +9,7 @@ export default function Home() {
  <ReactFlowProvider>
           <Workflow />
         </ReactFlowProvider>
-          <Box sx={{ padding: 2 }}>
-      
-    </Box>
+        
        
         {/* <Grid container gap={"10px"}>
            <Grid sx={{backgroundColor:"#A0C4FF",borderRadius:"16px" , border:"1px solid black",fontSize:"10px" , padding:"5px"}}>
