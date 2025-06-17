@@ -24,7 +24,6 @@ function Workflow() {
   const reduxNodes = useAppSelector(selectMindmapNodes);
   const reduxEdges = useAppSelector(selectMindmapEdges);
 
-  // ✅ Correct usage — DO NOT write Node[] or Edge[] here
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
@@ -67,7 +66,7 @@ function Workflow() {
   return (
     <Grid container >
 
-      <Grid sx={{ border: "1px solid black", height: "100vh", width: "75%", position: "relative", bgcolor: "white", display: "flex", justifyContent: 'center', alignItems: "center" }} >
+      <Grid sx={{  height: "100vh", width: "75%", position: "relative", bgcolor: "var(--light-grey)", display: "flex", justifyContent: 'center', alignItems: "center" }} >
         <ReactFlow
           nodes={filteredNodes}
           edges={filteredEdges}
@@ -100,7 +99,7 @@ function Workflow() {
           <Controls position='bottom-right' />
         </ReactFlow>
       </Grid>
-      <Grid sx={{ border: "1px solid black", width: "25%" }}>
+      <Grid sx={{  width: "25%" }}>
         <Sidebar />
       </Grid>
     </Grid>
