@@ -1,10 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { parseJsonToNodesEdges } from '@/utils/mindmapUtils/transformJsonToFlow';
 import { Node, Edge } from '@xyflow/react';
 import { fetchStructuredAnswer } from '@/api/chatgpt';
 import { Data } from '@/types/mindmapData.types';
 import { getLayoutedElements } from '@/utils/mindmapUtils/layoutDagre';
-// import mockData from '../../app/Workflow/mockData.json'
+import mockData from '../../app/Workflow/mockData.json'
 
 interface MindmapState {
     question: string;
@@ -13,6 +13,8 @@ interface MindmapState {
     edges: Edge[];
     loading: boolean;
     error?: string;
+      selectedNodeIds: string[]; // 👈 new
+
 }
 
 const initialState: MindmapState = {
@@ -22,20 +24,22 @@ const initialState: MindmapState = {
     edges: [],
     loading: false,
     error: undefined,
+      selectedNodeIds: [],
+
 };
 
-// const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = true;
 
 
 export const fetchMindmapFromGPT = createAsyncThunk(
   'mindmap/fetchFromGPT',
   async ({ question, mainPointCount, subPointCount }: { question: string; mainPointCount: number; subPointCount: number }) => {
-//   if (USE_MOCK_DATA) {
-//   return {
-//     question: mockData.question.label, // extract plain question
-//     data: mockData,                    // raw JSON object
-//   };
-// }
+  if (USE_MOCK_DATA) {
+  return {
+    question: mockData.question.label, // extract plain question
+    data: mockData,                    // raw JSON object
+  };
+}
     const data = await fetchStructuredAnswer(question, mainPointCount, subPointCount);
     return { question, data };
   }
@@ -45,6 +49,25 @@ const mindmapSlice = createSlice({
     name: 'mindmap',
     initialState,
    reducers: {
+    
+    setSelectedNodeIds(state, action: PayloadAction<string[]>) {
+      state.selectedNodeIds = action.payload;
+    },
+    toggleNodeSelection(state, action: PayloadAction<string>) {
+      const id = action.payload;
+      const index = state.selectedNodeIds.indexOf(id);
+      if (index >= 0) state.selectedNodeIds.splice(index, 1);
+      else state.selectedNodeIds.push(id);
+    },
+    clearSelectedNodeIds(state) {
+      state.selectedNodeIds = [];
+    },
+    deleteSelectedNodes(state) {
+      state.nodes = state.nodes.filter(
+        (n) => !state.selectedNodeIds.includes(n.id)
+      );
+      state.selectedNodeIds = [];
+    },
  updateNodeLabel: (
   state,
   action: {
@@ -60,7 +83,7 @@ const mindmapSlice = createSlice({
       label: newLabel,
     };
   }
-}
+} ,
 },
 
     extraReducers: builder => {
@@ -89,4 +112,10 @@ const mindmapSlice = createSlice({
 });
 
 export default mindmapSlice.reducer;
-export const { updateNodeLabel } = mindmapSlice.actions;
+export const {
+  setSelectedNodeIds,
+  toggleNodeSelection,
+  clearSelectedNodeIds,
+  deleteSelectedNodes,
+  updateNodeLabel,
+} = mindmapSlice.actions;

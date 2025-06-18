@@ -12,14 +12,10 @@ import {
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { selectMindmapLoading } from '@/redux/mindmapSelectors';
-import { fetchMindmapFromGPT } from '@/redux/slices/mindmapSlice';
+import { deleteSelectedNodes, fetchMindmapFromGPT } from '@/redux/slices/mindmapSlice';
 import CommonButton from './ui/CummonButton';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 import DownloadIcon from '@mui/icons-material/Download';
-
-
-
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const Sidebar = () => {
   const [question, setQuestion] = useState('');
@@ -28,7 +24,12 @@ const Sidebar = () => {
 
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectMindmapLoading);
+  const selectedNodeIds = useAppSelector(state => state.mindmap.selectedNodeIds);
 
+
+const handleDelete = () => {
+  dispatch(deleteSelectedNodes()); // ← you can create this logic in slice/thunk or pass callback
+};
   const handleGenerate = () => {
     dispatch(fetchMindmapFromGPT({ question, mainPointCount, subPointCount }));
   };
@@ -105,7 +106,7 @@ const Sidebar = () => {
       </CommonButton>
 
       {/* Section: Edit Nodes */}
-      <Typography fontWeight={600} mb={1}>
+      {/* <Typography fontWeight={600} mb={1}>
         📝 Edit Nodes
       </Typography>
 
@@ -147,7 +148,7 @@ const Sidebar = () => {
 >
   Update
 </CommonButton>
-      </Box>
+      </Box> */}
 
       {/* Section: Appearance */}
       {/* <Typography fontWeight={600} mb={1}>
@@ -196,6 +197,15 @@ const Sidebar = () => {
   startIcon={<DownloadIcon style={{fontSize:"16px"}} />}
 >
   Export Mind Map
+</CommonButton>
+
+ <CommonButton
+    sx={{width:"100%" , my: "10px"}}
+  startIcon={<DeleteOutlineIcon style={{fontSize:"16px"}} />}
+  disabled={selectedNodeIds.length === 0}
+  onClick={handleDelete}
+>
+  Delete {selectedNodeIds.length} Selected nodes
 </CommonButton>
 
       <Divider sx={{ my: 2 }} />

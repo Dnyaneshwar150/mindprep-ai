@@ -12,9 +12,10 @@ import PannelComponent from '@/Components/mindmap/PannelComponent';
 import Sidebar from '@/Components/Sidebar';
 import { edgeTypes, nodeTypes } from "@/constants/flowTypes";
 import { useMindmapVisibility } from "@/hooks/useMindmapVisibility";
-import { useAppSelector } from "@/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 //Todo: selectMindmapLoadingm add later in loading state
 import { selectMindmapEdges,  selectMindmapNodes } from "@/redux/mindmapSelectors";
+import { setSelectedNodeIds } from "@/redux/slices/mindmapSlice";
 
 function Workflow() {
 
@@ -33,6 +34,8 @@ function Workflow() {
     setEdges(reduxEdges);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduxEdges]);
+  
+ const dispatch = useAppDispatch();
 
 
   // const loading = useAppSelector(selectMindmapLoading);
@@ -77,6 +80,10 @@ function Workflow() {
           fitView
           edgeTypes={edgeTypes}
           proOptions={{ hideAttribution: true }}
+       onSelectionChange={({ nodes }) => {
+    const selectedIds = nodes.map((n) => n.id);
+    dispatch(setSelectedNodeIds(selectedIds)); // ← send to Redux
+  }}    
         >
           <Panel
             position="bottom-left"

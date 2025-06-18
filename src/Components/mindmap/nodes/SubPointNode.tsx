@@ -31,6 +31,12 @@ export default function SubPointNode({ data, id }: NodeProps<Node<SubPointNodeDa
     setIsEditing(false);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+  if (e.key === 'Enter') {
+    handleBlur();
+  }
+};
+
   return (
     <NodeWrapper
       sx={{
@@ -45,10 +51,10 @@ export default function SubPointNode({ data, id }: NodeProps<Node<SubPointNodeDa
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onBlur={handleBlur}
+              onKeyDown={handleKeyDown}
             autoFocus
             variant="standard"
             fullWidth
-            inputProps={{ style: { fontSize: '18px', fontWeight: 'bold' } }}
           />
         ) : (
           <Typography

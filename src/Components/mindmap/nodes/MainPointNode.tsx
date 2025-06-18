@@ -45,7 +45,6 @@ export default function MainPointNode({ data, id }: NodeProps<Node<MainPointNode
             autoFocus
             variant="standard"
             fullWidth
-            inputProps={{ style: { fontSize: '18px' } }}
           />
         ) : (
           <Typography

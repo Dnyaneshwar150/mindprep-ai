@@ -12,7 +12,6 @@ const NodeWrapper: React.FC<NodeWrapperProps> = ({ children, sx, ...rest }) => {
       elevation={3}
       sx={{
         position: 'relative',
-        border: '1px solid #ccc',
         backgroundColor: '#fff',
         borderRadius: '18px',
         padding: '8px',

@@ -7,7 +7,8 @@ import NodeWrapper from '../NodeWrapper';
 import CustomTooltip from '../../ui/CustomTooltip';
 import { ExplanationNodeData } from '@/types/mindmap.types';
 import { updateNodeLabel } from '@/redux/slices/mindmapSlice'; // <-- your reducer action
-import { useAppDispatch } from '@/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
 
 export default function ExplanationNode({ data, id }: NodeProps<Node<ExplanationNodeData>>) {
   const [expanded, setExpanded] = useState(false);
@@ -15,6 +16,12 @@ export default function ExplanationNode({ data, id }: NodeProps<Node<Explanation
   const [inputValue, setInputValue] = useState(data.label);
   const dispatch = useAppDispatch();
 
+
+
+  const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
+  const isSelected = selectedNodeIds.includes(id); 
+  console.log(isSelected)
+  
   if (!data.label) return null;
 
   const handleDoubleClick = () => {
@@ -31,8 +38,8 @@ export default function ExplanationNode({ data, id }: NodeProps<Node<Explanation
   return (
     <NodeWrapper
       sx={{
-        borderColor: 'var(--explantion-borderColor)', 
-        backgroundColor: 'var(--explantion-background)', 
+        borderColor: isSelected ? 'var(--primary-black)' : 'var(--border-blue)', // ← red border if selected
+        backgroundColor: isSelected ? 'var(--border-red)' : 'var(--explantion-background)', 
         width: '250px',
       }}
     >
