@@ -38,13 +38,13 @@ export interface Question {
   question: Question;
 }
 
- export const NODE_TYPES = [
-  { label: 'Question', type: 'questionNode' },
-  { label: 'Answer', type: 'answerNode' },
-  { label: 'Main Point Heading', type: 'mainPointHeadingNode' },
-  { label: 'Main Point', type: 'mainPointNode' },
-  { label: 'Sub Point', type: 'subPointNode' },
-  { label: 'Explanation', type: 'explanationNode' },
+export const NODE_TYPES = [
+  { label: 'Question', value: 'questionNode' },
+  { label: 'Answer', value: 'answerNode' },
+  { label: 'Main Point Heading', value: 'mainPointHeadingNode' },
+  { label: 'Main Point', value: 'mainPointNode' },
+  { label: 'Sub Point', value: 'subPointNode' },
+  { label: 'Explanation', value: 'explanationNode' },
 ];
 
 export const typePrefixMap: Record<string, string> = {

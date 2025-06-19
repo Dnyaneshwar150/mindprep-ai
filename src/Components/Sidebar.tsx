@@ -20,16 +20,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { generateTypeBasedId } from '@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils';
 import { useSelector } from 'react-redux';
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
-// import { NODE_TYPES } from '@/types/mindmapData.types';
-
-const NODE_TYPES = [
-  { label: 'Question', value: 'questionNode' },
-  { label: 'Answer', value: 'answerNode' },
-  { label: 'Main Point Heading', value: 'mainPointHeadingNode' },
-  { label: 'Main Point', value: 'mainPointNode' },
-  { label: 'Sub Point', value: 'subPointNode' },
-  { label: 'Explanation', value: 'explanationNode' },
-];
+import { NODE_TYPES } from '@/types/mindmapData.types';
 
 const Sidebar = () => {
   const [question, setQuestion] = useState('');
