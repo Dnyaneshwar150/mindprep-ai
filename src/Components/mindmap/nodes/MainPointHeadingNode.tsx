@@ -6,13 +6,17 @@ import NodeWrapper from '../NodeWrapper';
 import CustomTooltip from '../../ui/CustomTooltip';
 import { MainPointHeadingNodeData } from '@/types/mindmap.types';
 import { updateNodeLabel } from '@/redux/slices/mindmapSlice';
-import { useAppDispatch } from '@/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
 
 export default function MainPointHeadingNode({ data, id }: NodeProps<Node<MainPointHeadingNodeData>>) {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(data.label);
   const dispatch = useAppDispatch();
+  
+  const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
+  const isSelected = selectedNodeIds.includes(id); 
 
   if (!data.label) return null;
 
@@ -35,11 +39,12 @@ export default function MainPointHeadingNode({ data, id }: NodeProps<Node<MainPo
     setIsEditing(false);
   };
 
+
   return (
     <NodeWrapper
       sx={{
-        borderColor: 'var(--border-orange)',
-        backgroundColor: 'var(--background-orange)',
+        borderColor: isSelected ? 'var(--primary-black)':  'var(--border-orange)',
+        backgroundColor: isSelected ? 'var(--border-red)' : 'var(--background-orange)',
         width: '300px',
       }}
     >

@@ -21,7 +21,7 @@ export function parseJsonToNodesEdges(data: Data): { nodes: Node[]; edges: Edge[
     nodes.push(node);
 
     if (parentId) {
-      edges.push({ id: `${parentId}-${id}`, source: parentId, target: id });
+      edges.push({ id: `${parentId}-${id}`, source: parentId, target: id ,  type: 'wire', });
     }
 
     y += yGap;

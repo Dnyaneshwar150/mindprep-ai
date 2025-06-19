@@ -49,16 +49,28 @@ const mindmapSlice = createSlice({
     name: 'mindmap',
     initialState,
    reducers: {
-    
+    setNodes(state, action: PayloadAction<Node[]>) {
+  state.nodes = JSON.parse(JSON.stringify(action.payload));
+},
+    setEdges(state, action: PayloadAction<Edge[]>) {
+      state.edges = action.payload;
+    },
+  addNode(state, action: PayloadAction<Node>) {
+  const clonedNode = JSON.parse(JSON.stringify(action.payload));
+  state.nodes.push(clonedNode);
+},  
     setSelectedNodeIds(state, action: PayloadAction<string[]>) {
       state.selectedNodeIds = action.payload;
     },
-    toggleNodeSelection(state, action: PayloadAction<string>) {
-      const id = action.payload;
-      const index = state.selectedNodeIds.indexOf(id);
-      if (index >= 0) state.selectedNodeIds.splice(index, 1);
-      else state.selectedNodeIds.push(id);
-    },
+  toggleNodeSelection(state, action: PayloadAction<string>) {
+    const id = action.payload;
+    const index = state.selectedNodeIds.indexOf(id);
+    if (index >= 0) {
+      state.selectedNodeIds.splice(index, 1); // Deselect
+    } else {
+      state.selectedNodeIds.push(id); // Select
+    }
+  },
     clearSelectedNodeIds(state) {
       state.selectedNodeIds = [];
     },
@@ -113,6 +125,7 @@ const mindmapSlice = createSlice({
 
 export default mindmapSlice.reducer;
 export const {
+  addNode,setEdges,setNodes,
   setSelectedNodeIds,
   toggleNodeSelection,
   clearSelectedNodeIds,

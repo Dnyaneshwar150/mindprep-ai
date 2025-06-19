@@ -1,4 +1,4 @@
-import { Data } from "@/types/mindmapData.types";
+import { Data, typePrefixMap } from "@/types/mindmapData.types";
 import { Node } from '@xyflow/react';
 
 
@@ -35,4 +35,16 @@ export function updateLabelInNodeArray(
         }
       : node
   );
+}
+
+export function generateTypeBasedId(nodes: Node[], type: string): string {
+  const prefix = typePrefixMap[type] || typePrefixMap.default;
+
+  const maxNumber = nodes
+    .filter((node) => node.type === type && node.id.startsWith(prefix))
+    .map((node) => parseInt(node.id.replace(prefix, ''), 10))
+    .filter((n) => !isNaN(n))
+    .reduce((max, n) => Math.max(max, n), 0);
+
+  return `${prefix}${maxNumber + 1}`;
 }

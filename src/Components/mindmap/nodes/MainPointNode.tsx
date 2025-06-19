@@ -7,13 +7,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { MainPointNodeData } from '@/types/mindmap.types';
 import { updateNodeLabel } from '@/redux/slices/mindmapSlice';
-import { useAppDispatch } from '@/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
 
 export default function MainPointNode({ data, id }: NodeProps<Node<MainPointNodeData>>) {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(data.label);
   const dispatch = useAppDispatch();
+
+  
+  const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
+  const isSelected = selectedNodeIds.includes(id); 
 
   if (!data.label) return null;
 
@@ -27,12 +32,13 @@ export default function MainPointNode({ data, id }: NodeProps<Node<MainPointNode
     }
     setIsEditing(false);
   };
-
+  
+   
   return (
     <NodeWrapper
       sx={{
-        borderColor: 'var(--border-blue)',
-        backgroundColor: 'var(--background-blue)',
+        borderColor:     isSelected ? 'var(--primary-black)' : 'var(--border-blue)',
+        backgroundColor:    isSelected ? 'var(--border-red)' : 'var(--background-blue)',
         width: '300px',
       }}
     >

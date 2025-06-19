@@ -6,13 +6,18 @@ import CustomTooltip from '../../ui/CustomTooltip';
 import { ExpandLess, ExpandMore, Visibility, VisibilityOff } from '@mui/icons-material';
 import { SubPointNodeData } from '@/types/mindmap.types';
 import { updateNodeLabel } from '@/redux/slices/mindmapSlice';
-import { useAppDispatch } from '@/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
 
 export default function SubPointNode({ data, id }: NodeProps<Node<SubPointNodeData>>) {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(data.label);
   const dispatch = useAppDispatch();
+  
+  const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
+  const isSelected = selectedNodeIds.includes(id); 
+  
 
   if (!data.label) return null;
 
@@ -37,11 +42,15 @@ export default function SubPointNode({ data, id }: NodeProps<Node<SubPointNodeDa
   }
 };
 
+    
+
+
+
   return (
     <NodeWrapper
       sx={{
-        borderColor: 'var(--border-grey)',
-        backgroundColor: 'var(--background-grey)',
+        borderColor:      isSelected ? 'var(--primary-black)' :'var(--border-grey)',
+        backgroundColor:          isSelected ? 'var(--border-red)' :'var(--background-grey)',
         width: '220px',
       }}
     >

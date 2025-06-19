@@ -15,7 +15,7 @@ import { useMindmapVisibility } from "@/hooks/useMindmapVisibility";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 //Todo: selectMindmapLoadingm add later in loading state
 import { selectMindmapEdges,  selectMindmapNodes } from "@/redux/mindmapSelectors";
-import { setSelectedNodeIds } from "@/redux/slices/mindmapSlice";
+import { toggleNodeSelection } from "@/redux/slices/mindmapSlice";
 
 function Workflow() {
 
@@ -80,10 +80,13 @@ function Workflow() {
           fitView
           edgeTypes={edgeTypes}
           proOptions={{ hideAttribution: true }}
-       onSelectionChange={({ nodes }) => {
-    const selectedIds = nodes.map((n) => n.id);
-    dispatch(setSelectedNodeIds(selectedIds)); // ← send to Redux
-  }}    
+        selectNodesOnDrag={false}      // <-- Prevent selection on drag
+  elementsSelectable={false}     // <-- Disable default selection
+     onNodeClick={(event, node) => {
+       if (event.ctrlKey || event.metaKey ) {
+      dispatch(toggleNodeSelection(node.id)); // <-- Custom logic to select/deselect
+    }
+  }}
         >
           <Panel
             position="bottom-left"

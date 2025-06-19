@@ -37,3 +37,22 @@ export interface Question {
  export interface Data {
   question: Question;
 }
+
+ export const NODE_TYPES = [
+  { label: 'Question', type: 'questionNode' },
+  { label: 'Answer', type: 'answerNode' },
+  { label: 'Main Point Heading', type: 'mainPointHeadingNode' },
+  { label: 'Main Point', type: 'mainPointNode' },
+  { label: 'Sub Point', type: 'subPointNode' },
+  { label: 'Explanation', type: 'explanationNode' },
+];
+
+export const typePrefixMap: Record<string, string> = {
+  questionNode: 'q',
+  answerNode: 'a',
+  mainPointHeadingNode: 'mph',
+  mainPointNode: 'mp',
+  subPointNode: 'sp',
+  explanationNode: 'exp',
+  default: 'nn',
+};

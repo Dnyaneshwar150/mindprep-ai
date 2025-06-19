@@ -1,8 +1,8 @@
-import { BaseEdge, EdgeProps, getSmoothStepPath } from '@xyflow/react'
+import { BaseEdge, EdgeProps, getBezierPath, } from '@xyflow/react'
 import React from 'react'
 
 function Wire({ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition ,markerEnd }: EdgeProps) {
-     const [d] = getSmoothStepPath({
+     const [d] = getBezierPath({
          sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition 
      })
     return (

@@ -11,20 +11,36 @@ import {
   Divider,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { selectMindmapLoading } from '@/redux/mindmapSelectors';
-import { deleteSelectedNodes, fetchMindmapFromGPT } from '@/redux/slices/mindmapSlice';
+import { selectMindmapLoading, selectMindmapNodes } from '@/redux/mindmapSelectors';
+import { addNode, deleteSelectedNodes, fetchMindmapFromGPT } from '@/redux/slices/mindmapSlice';
 import CommonButton from './ui/CummonButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import AddIcon from '@mui/icons-material/Add';
+import { generateTypeBasedId } from '@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils';
+// import { NODE_TYPES } from '@/types/mindmapData.types';
+
+const NODE_TYPES = [
+  { label: 'Question', value: 'questionNode' },
+  { label: 'Answer', value: 'answerNode' },
+  { label: 'Main Point Heading', value: 'mainPointHeadingNode' },
+  { label: 'Main Point', value: 'mainPointNode' },
+  { label: 'Sub Point', value: 'subPointNode' },
+  { label: 'Explanation', value: 'explanationNode' },
+];
 
 const Sidebar = () => {
   const [question, setQuestion] = useState('');
   const [mainPointCount, setMainPointCount] = useState(1);
   const [subPointCount, setSubPointCount] = useState(1);
+    const [newNodeType, setNewNodeType] = useState('mainPointNode');
+
 
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectMindmapLoading);
   const selectedNodeIds = useAppSelector(state => state.mindmap.selectedNodeIds);
+    const nodes = useAppSelector(selectMindmapNodes);
+
 
 
 const handleDelete = () => {
@@ -33,6 +49,17 @@ const handleDelete = () => {
   const handleGenerate = () => {
     dispatch(fetchMindmapFromGPT({ question, mainPointCount, subPointCount }));
   };
+
+  const handleCreateNode = () => {
+  const id = generateTypeBasedId(nodes, newNodeType);
+  const newNode = {
+    id,
+    type: newNodeType,
+    data: { label: 'New Node', type: newNodeType },
+    position: { x: 500, y: 50 },
+  };
+  dispatch(addNode(newNode));
+};
 
   return (
     <Box
@@ -206,6 +233,33 @@ const handleDelete = () => {
   onClick={handleDelete}
 >
   Delete {selectedNodeIds.length} Selected nodes
+</CommonButton>
+
+<Typography fontWeight={600} mb={1.5}>
+  ➕ Create Node
+</Typography>
+
+<FormControl fullWidth size="small" sx={{ mb: 2 }}>
+  <InputLabel>Node Type</InputLabel>
+  <Select
+    value={newNodeType}
+    label="Node Type"
+    onChange={(e) => setNewNodeType(e.target.value)}
+  >
+    {NODE_TYPES.map((type) => (
+      <MenuItem key={type.value} value={type.value}>
+        {type.label}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
+
+<CommonButton
+  onClick={handleCreateNode}
+  sx={{ mb: 3, width: '100%' }}
+  startIcon={<AddIcon />}
+>
+  Add New Node
 </CommonButton>
 
       <Divider sx={{ my: 2 }} />
