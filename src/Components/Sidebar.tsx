@@ -11,13 +11,15 @@ import {
   Divider,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { selectMindmapLoading, selectMindmapNodes } from '@/redux/mindmapSelectors';
+import { selectMindmapLoading, selectMindmapNodes, selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
 import { addNode, deleteSelectedNodes, fetchMindmapFromGPT } from '@/redux/slices/mindmapSlice';
 import CommonButton from './ui/CummonButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import { generateTypeBasedId } from '@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils';
+import { useSelector } from 'react-redux';
+import { ActionCreators as UndoActionCreators } from 'redux-undo';
 // import { NODE_TYPES } from '@/types/mindmapData.types';
 
 const NODE_TYPES = [
@@ -38,7 +40,16 @@ const Sidebar = () => {
 
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectMindmapLoading);
-  const selectedNodeIds = useAppSelector(state => state.mindmap.selectedNodeIds);
+  const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
+
+
+
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   const canUndo = useSelector((state: any) => state.mindmap.past.length > 0);
+   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const canRedo = useSelector((state: any) => state.mindmap.future.length > 0);
+  
     const nodes = useAppSelector(selectMindmapNodes);
 
 
@@ -261,6 +272,15 @@ const handleDelete = () => {
 >
   Add New Node
 </CommonButton>
+
+ <Box display="flex" gap={1} my={2}>
+      <CommonButton disabled={!canUndo} onClick={() => dispatch(UndoActionCreators.undo())}>
+        Undo
+      </CommonButton>
+      <CommonButton disabled={!canRedo} onClick={() => dispatch(UndoActionCreators.redo())}>
+        Redo
+      </CommonButton>
+    </Box>
 
       <Divider sx={{ my: 2 }} />
 

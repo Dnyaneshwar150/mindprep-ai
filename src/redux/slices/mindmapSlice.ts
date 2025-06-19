@@ -5,6 +5,8 @@ import { fetchStructuredAnswer } from '@/api/chatgpt';
 import { Data } from '@/types/mindmapData.types';
 import { getLayoutedElements } from '@/utils/mindmapUtils/layoutDagre';
 import mockData from '../../app/Workflow/mockData.json'
+import undoable from 'redux-undo';
+
 
 interface MindmapState {
     question: string;
@@ -123,7 +125,7 @@ const mindmapSlice = createSlice({
     },
 });
 
-export default mindmapSlice.reducer;
+export default undoable(mindmapSlice.reducer);
 export const {
   addNode,setEdges,setNodes,
   setSelectedNodeIds,
