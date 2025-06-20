@@ -31,9 +31,6 @@ function Navbar() {
           <CommonButton startIcon={<ShareIcon style={{fontSize:"16px"}} />} >
             Share
           </CommonButton>
-          <CommonButton>
-            Generate
-          </CommonButton>
         </Box>
       </Toolbar>
     </AppBar>
