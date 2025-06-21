@@ -1,11 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {  createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { parseJsonToNodesEdges } from '@/utils/mindmapUtils/transformJsonToFlow';
 import { Node, Edge } from '@xyflow/react';
-import { fetchStructuredAnswer } from '@/api/chatgpt';
 import { Data } from '@/types/mindmapData.types';
 import { getLayoutedElements } from '@/utils/mindmapUtils/layoutDagre';
-import mockData from '../../app/Workflow/mockData.json'
 import undoable from 'redux-undo';
+import { fetchMindmapFromGPT } from '@/api/prompts/buildMindmapPrompts';
 
 
 interface MindmapState {
@@ -15,7 +14,7 @@ interface MindmapState {
     edges: Edge[];
     loading: boolean;
     error?: string;
-      selectedNodeIds: string[]; // 👈 new
+      selectedNodeIds: string[]; 
 
 }
 
@@ -26,26 +25,9 @@ const initialState: MindmapState = {
     edges: [],
     loading: false,
     error: undefined,
-      selectedNodeIds: [],
-
+    selectedNodeIds: [],
 };
 
-const USE_MOCK_DATA = true;
-
-
-export const fetchMindmapFromGPT = createAsyncThunk(
-  'mindmap/fetchFromGPT',
-  async ({ question, mainPointCount, subPointCount }: { question: string; mainPointCount: number; subPointCount: number }) => {
-  if (USE_MOCK_DATA) {
-  return {
-    question: mockData.question.label, // extract plain question
-    data: mockData,                    // raw JSON object
-  };
-}
-    const data = await fetchStructuredAnswer(question, mainPointCount, subPointCount);
-    return { question, data };
-  }
-);
 
 const mindmapSlice = createSlice({
     name: 'mindmap',
