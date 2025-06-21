@@ -11,7 +11,7 @@ import {
   Divider,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { selectMindmapLoading, selectMindmapNodes, selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
+import { selectMindmapLoading, selectMindmapNodes, selectMindmapRawJson, selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
 import { addNode, deleteSelectedNodes, } from '@/redux/slices/mindmapSlice';
 import CommonButton from './ui/CummonButton';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -22,6 +22,8 @@ import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import { NODE_TYPES } from '@/types/mindmapData.types';
 import { fetchMindmapFromGPT } from '@/api/prompts/buildMindmapPrompts';
 import { fetchExplanationFromGPT } from '@/api/prompts/buildExplanationPrompt';
+import { downloadCheatSheet } from '@/utils/pdfUtils/downloadCheatSheet';
+import { extractCheatSheetDataFromRaw } from '@/utils/pdfUtils/extractCheatSheetData';
 
 const Sidebar = () => {
   const [question, setQuestion] = useState('');
@@ -45,6 +47,8 @@ const [explaining, setExplaining] = useState(false);
   const canRedo = useSelector((state: any) => state.mindmap.future.length > 0);
   
     const nodes = useAppSelector(selectMindmapNodes);
+
+const rawJson = useAppSelector(selectMindmapRawJson);
 
 
 const handleExplainSelectedNode = async () => {
@@ -78,6 +82,11 @@ const handleDelete = () => {
     position: { x: 500, y: 50 },
   };
   dispatch(addNode(newNode));
+};
+
+const handleDownloadCheatSheet = () => {
+  const { question, answer, explanations } = extractCheatSheetDataFromRaw(rawJson);
+  downloadCheatSheet({ question, answer, explanations });
 };
 
   return (
@@ -222,6 +231,15 @@ const handleDelete = () => {
     {explanation}
   </Box>
 )}
+
+
+<CommonButton
+  sx={{ width: "100%", mb: 2 }}
+  disabled={!nodes.length}
+  onClick={handleDownloadCheatSheet}
+>
+  📥 Download Cheatsheet
+</CommonButton>
 
       <Divider sx={{ my: 2 }} />
 
