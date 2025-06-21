@@ -68,7 +68,7 @@ function Workflow() {
   return (
     <Grid container >
 
-      <Grid sx={{  height: "100vh", width: "75%", position: "relative", bgcolor: "var(--light-grey)", display: "flex", justifyContent: 'center', alignItems: "center" }} >
+      <Grid sx={{  height: "94vh", width: "75%", position: "relative", bgcolor: "var(--light-grey)", display: "flex", justifyContent: 'center', alignItems: "center" }} >
         <ReactFlow
           nodes={filteredNodes}
           edges={filteredEdges}
