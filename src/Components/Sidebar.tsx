@@ -11,22 +11,27 @@ import {
   Divider,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { selectMindmapLoading, selectMindmapNodes, selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
-import { addNode, deleteSelectedNodes, fetchMindmapFromGPT } from '@/redux/slices/mindmapSlice';
+import { selectMindmapLoading, selectMindmapNodes, selectMindmapRawJson, selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
+import { addNode, deleteSelectedNodes, } from '@/redux/slices/mindmapSlice';
 import CommonButton from './ui/CummonButton';
-import DownloadIcon from '@mui/icons-material/Download';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import { generateTypeBasedId } from '@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils';
 import { useSelector } from 'react-redux';
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import { NODE_TYPES } from '@/types/mindmapData.types';
+import { fetchMindmapFromGPT } from '@/api/prompts/buildMindmapPrompts';
+import { fetchExplanationFromGPT } from '@/api/prompts/buildExplanationPrompt';
+import { downloadCheatSheet } from '@/utils/pdfUtils/downloadCheatSheet';
+import { extractCheatSheetDataFromRaw } from '@/utils/pdfUtils/extractCheatSheetData';
 
 const Sidebar = () => {
   const [question, setQuestion] = useState('');
   const [mainPointCount, setMainPointCount] = useState(1);
   const [subPointCount, setSubPointCount] = useState(1);
     const [newNodeType, setNewNodeType] = useState('mainPointNode');
+    const [explanation, setExplanation] = useState('');
+const [explaining, setExplaining] = useState(false);
 
 
   const dispatch = useAppDispatch();
@@ -42,6 +47,22 @@ const Sidebar = () => {
   const canRedo = useSelector((state: any) => state.mindmap.future.length > 0);
   
     const nodes = useAppSelector(selectMindmapNodes);
+
+const rawJson = useAppSelector(selectMindmapRawJson);
+
+
+const handleExplainSelectedNode = async () => {
+  if (selectedNodeIds.length !== 1) return;
+
+  const selectedId = selectedNodeIds[0];
+  const node = nodes.find((n) => n.id === selectedId);
+  if (!node) return;
+
+  setExplaining(true);
+  const explanation = await fetchExplanationFromGPT(node.data.label);
+  setExplanation(explanation);
+  setExplaining(false);
+};
 
 
 
@@ -61,6 +82,11 @@ const handleDelete = () => {
     position: { x: 500, y: 50 },
   };
   dispatch(addNode(newNode));
+};
+
+const handleDownloadCheatSheet = () => {
+  const { question, answer, explanations } = extractCheatSheetDataFromRaw(rawJson);
+  downloadCheatSheet({ question, answer, explanations });
 };
 
   return (
@@ -134,100 +160,6 @@ const handleDelete = () => {
         {loading ? 'Generating...' : '🧠 Generate Mind Map'}
       </CommonButton>
 
-      {/* Section: Edit Nodes */}
-      {/* <Typography fontWeight={600} mb={1}>
-        📝 Edit Nodes
-      </Typography>
-
-      <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-        <InputLabel>Select Node</InputLabel>
-        <Select value={1} label="Select Node">
-          <MenuItem value={1}>Main Exam Question</MenuItem>
-        </Select>
-      </FormControl>
-
-      <TextField
-        fullWidth
-        label="Heading"
-        size="small"
-        placeholder="Node heading..."
-        sx={{ mb: 2 }}
-      />
-
-      <TextField
-        fullWidth
-        label="Explanation"
-        size="small"
-        placeholder="Node explanation..."
-        multiline
-        minRows={2}
-        sx={{ mb: 2 }}
-      />
-
-      <Box display="flex" gap={1} mb={3}>
-        <CommonButton
-          sx={{ width: "50%" }}
-          startIcon={<AddIcon />}
-        >
-          Add Child
-        </CommonButton>
-       <CommonButton 
-  sx={{ width: "50%" }}
-  startIcon={<EditIcon style={{fontSize:"16px"}} />}
->
-  Update
-</CommonButton>
-      </Box> */}
-
-      {/* Section: Appearance */}
-      {/* <Typography fontWeight={600} mb={1}>
-        🎨 Appearance
-      </Typography>
-
-      <Typography fontSize={13} mb={1}>
-        Layout Style
-      </Typography>
-
-      <Box display="flex" gap={1} mb={2}>
-        <Button variant="outlined" sx={{ textTransform: 'none', flex: 1 }}>
-          Hierarchy
-        </Button>
-        <Button variant="outlined" sx={{ textTransform: 'none', flex: 1 }}>
-          Radial
-        </Button>
-        <Button variant="outlined" sx={{ textTransform: 'none', flex: 1 }}>
-          Timeline
-        </Button>
-      </Box>
-
-      <Typography fontSize={13} mb={1}>
-        Color Theme
-      </Typography> */}
-
-      {/* <Box display="flex" gap={1} mb={3}>
-        {['#4285F4', '#DB4437', '#F4B400', '#0F9D58', '#FF6D01', '#AB47BC'].map(
-          (color, i) => (
-            <Box
-              key={i}
-              sx={{
-                width: 20,
-                height: 20,
-                borderRadius: '50%',
-                backgroundColor: color,
-                cursor: 'pointer',
-              }}
-            />
-          )
-        )}
-      </Box> */}
-
-    <CommonButton
-    sx={{width:"100%"}}
-  startIcon={<DownloadIcon style={{fontSize:"16px"}} />}
->
-  Export Mind Map
-</CommonButton>
-
  <CommonButton
     sx={{width:"100%" , my: "10px"}}
   startIcon={<DeleteOutlineIcon style={{fontSize:"16px"}} />}
@@ -272,6 +204,42 @@ const handleDelete = () => {
         Redo
       </CommonButton>
     </Box>
+
+    {/* this is  */}
+
+  <CommonButton
+  sx={{ width: "100%", mb: 2 }}
+  disabled={selectedNodeIds.length !== 1}
+  onClick={handleExplainSelectedNode}
+>
+  {explaining ? 'Explaining...' : '💬 Explain Selected Node'}
+</CommonButton>
+
+{explanation && (
+  <Box
+    sx={{
+      bgcolor: '#f1f1f1',
+      p: 2,
+      borderRadius: 1,
+      fontSize: 13,
+      whiteSpace: 'pre-line',
+      mb: 2,
+      maxHeight: 150,
+      overflowY: 'auto',
+    }}
+  >
+    {explanation}
+  </Box>
+)}
+
+
+<CommonButton
+  sx={{ width: "100%", mb: 2 }}
+  disabled={!nodes.length}
+  onClick={handleDownloadCheatSheet}
+>
+  📥 Download Cheatsheet
+</CommonButton>
 
       <Divider sx={{ my: 2 }} />
 

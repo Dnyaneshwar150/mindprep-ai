@@ -17,5 +17,7 @@ export const selectMindmapQuestion = (state: RootState) =>
 export const selectMindmapSelectedNodeIds = (state: RootState) =>
   state.mindmap.present.selectedNodeIds;
 
+export const selectMindmapRawJson = (state: RootState) =>
+  state.mindmap.present.rawJson;
 
 
