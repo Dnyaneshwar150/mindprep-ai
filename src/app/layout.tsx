@@ -8,6 +8,7 @@ import './globals.css';
 
 import { ReduxProvider } from './providers/ReduxProvider';
 import Navbar from '@/Components/Navbar';
+import DocsBanner from '@/Components/DocsBanner';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -24,7 +25,8 @@ const poppins = Poppins({
       <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
              <ReduxProvider>  
-               <Navbar />  
+               <Navbar /> 
+               <DocsBanner />
               {children}
             </ReduxProvider>
         </ThemeProvider>
