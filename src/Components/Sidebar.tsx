@@ -11,8 +11,8 @@ import {
   Divider,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { selectMindmapLoading, selectMindmapNodes, selectMindmapRawJson, selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
-import { addNode, deleteSelectedNodes, } from '@/redux/slices/mindmapSlice';
+import { selectMindmapEdges, selectMindmapLoading, selectMindmapNodes, selectMindmapRawJson, selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
+import { addNode, deleteSelectedNodes, setEdges, setNodes, } from '@/redux/slices/mindmapSlice';
 import CommonButton from './ui/CummonButton';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
@@ -24,6 +24,7 @@ import { fetchMindmapFromGPT } from '@/api/prompts/buildMindmapPrompts';
 import { fetchExplanationFromGPT } from '@/api/prompts/buildExplanationPrompt';
 import { downloadCheatSheet } from '@/utils/pdfUtils/downloadCheatSheet';
 import { extractCheatSheetDataFromRaw } from '@/utils/pdfUtils/extractCheatSheetData';
+import { getLayoutedElements } from '@/utils/mindmapUtils/layoutDagre';
 
 const Sidebar = () => {
   const [question, setQuestion] = useState('');
@@ -37,6 +38,10 @@ const [explaining, setExplaining] = useState(false);
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectMindmapLoading);
   const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
+      const nodes = useAppSelector(selectMindmapNodes);
+const edges = useAppSelector(selectMindmapEdges);
+const rawJson = useAppSelector(selectMindmapRawJson);
+
 
 
 
@@ -46,11 +51,6 @@ const [explaining, setExplaining] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const canRedo = useSelector((state: any) => state.mindmap.future.length > 0);
   
-    const nodes = useAppSelector(selectMindmapNodes);
-
-const rawJson = useAppSelector(selectMindmapRawJson);
-
-
 const handleExplainSelectedNode = async () => {
   if (selectedNodeIds.length !== 1) return;
 
@@ -87,6 +87,16 @@ const handleDelete = () => {
 const handleDownloadCheatSheet = () => {
   const { question, answer, explanations } = extractCheatSheetDataFromRaw(rawJson);
   downloadCheatSheet({ question, answer, explanations });
+};
+
+
+const handleRelayout = () => {
+  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+    nodes,
+    edges,
+  );
+  dispatch(setNodes(layoutedNodes));
+  dispatch(setEdges(layoutedEdges));
 };
 
   return (
@@ -204,6 +214,16 @@ const handleDownloadCheatSheet = () => {
         Redo
       </CommonButton>
     </Box>
+       <CommonButton
+  disabled={loading}
+  onClick={handleRelayout}
+  sx={{
+    mb: 2,
+    width: "100%"
+  }}
+>
+ Re-Layout Mind Map
+</CommonButton>
 
     {/* this is  */}
 

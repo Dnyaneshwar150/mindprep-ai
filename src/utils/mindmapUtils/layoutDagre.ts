@@ -25,14 +25,16 @@ export function getLayoutedElements(
 
   dagre.layout(dagreGraph);
 
-  const layoutedNodes = nodes.map((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    node.position = {
+ const layoutedNodes = nodes.map((node) => {
+  const nodeWithPosition = dagreGraph.node(node.id);
+  return {
+    ...node,
+    position: {
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
-    };
-    return node;
-  });
+    }
+  };
+});
 
   return { nodes: layoutedNodes, edges };
 }

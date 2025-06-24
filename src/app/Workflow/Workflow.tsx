@@ -7,14 +7,13 @@ import {
 } from '@xyflow/react'
 import React, { useCallback, useEffect, } from 'react'
 import { v4 as uuid } from "uuid";
-import { Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import PannelComponent from '@/Components/mindmap/PannelComponent';
 import Sidebar from '@/Components/Sidebar';
 import { edgeTypes, nodeTypes } from "@/constants/flowTypes";
 import { useMindmapVisibility } from "@/hooks/useMindmapVisibility";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-//Todo: selectMindmapLoadingm add later in loading state
-import { selectMindmapEdges,  selectMindmapNodes } from "@/redux/mindmapSelectors";
+import { selectMindmapEdges,  selectMindmapLoading,  selectMindmapNodes } from "@/redux/mindmapSelectors";
 import { toggleNodeSelection } from "@/redux/slices/mindmapSlice";
 
 function Workflow() {
@@ -38,7 +37,7 @@ function Workflow() {
  const dispatch = useAppDispatch();
 
 
-  // const loading = useAppSelector(selectMindmapLoading);
+  const isLoading = useAppSelector(selectMindmapLoading);
 
   const onConnect = useCallback((connection: Connection) => {
     const edge = {
@@ -69,7 +68,8 @@ function Workflow() {
     <Grid container >
 
       <Grid sx={{  height: "94vh", width: "75%", position: "relative", bgcolor: "var(--light-grey)", display: "flex", justifyContent: 'center', alignItems: "center" }} >
-        <ReactFlow
+        {isLoading ? (<CircularProgress style={{color:"var(--primary-black)"}}/>)  : (
+<ReactFlow
           nodes={filteredNodes}
           edges={filteredEdges}
           onNodesChange={onNodesChange}
@@ -107,6 +107,8 @@ function Workflow() {
           />
           <Controls position='bottom-right' />
         </ReactFlow>
+        )}
+        
       </Grid>
       <Grid sx={{  width: "25%" }}>
         <Sidebar />
