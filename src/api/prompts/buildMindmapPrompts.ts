@@ -40,7 +40,6 @@ Return it in the following format:
                   "explanation": {
                     "id": "exp1",
                     "label": "Explanation",
-                    "source": "URL or source text"
                   }
                 }
               ]
