@@ -20,7 +20,6 @@ export default function ExplanationNode({ data, id }: NodeProps<Node<Explanation
 
   const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
   const isSelected = selectedNodeIds.includes(id); 
-  console.log(isSelected)
   
   if (!data.label) return null;
 
