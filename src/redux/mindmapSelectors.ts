@@ -20,4 +20,11 @@ export const selectMindmapSelectedNodeIds = (state: RootState) =>
 export const selectMindmapRawJson = (state: RootState) =>
   state.mindmap.present.rawJson;
 
+export const selectMindmapIsPresent = (state: RootState) =>
+  state.mindmap.present.mindMapPresent;
 
+export const selectCanUndo = (state: RootState) =>
+  state.mindmap.past.length > 0;
+
+export const selectCanRedo = (state: RootState) =>
+  state.mindmap.future.length > 0;
