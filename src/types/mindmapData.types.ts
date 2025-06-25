@@ -4,25 +4,25 @@ export interface Explanation {
   source: string;
 }
 
- export interface SubPoint {
+export interface SubPoint {
   id: string;
   label: string;
   explanation?: Explanation;
 }
 
- export interface MainPoint {
+export interface MainPoint {
   id: string;
   label: string;
   subPoints?: SubPoint[];
 }
 
- export interface MainPointHeading { 
+export interface MainPointHeading {
   id: string;
   label: string;
   mainPoints: MainPoint[];
 }
- 
- export interface Answer {
+
+export interface Answer {
   id: string;
   label: string;
   mainPointHeadings: MainPointHeading[];
@@ -34,25 +34,23 @@ export interface Question {
   answer: Answer;
 }
 
- export interface Data {
+export interface Data {
   question: Question;
 }
 
 export const NODE_TYPES = [
-  { label: 'Question', value: 'questionNode' },
-  { label: 'Answer', value: 'answerNode' },
-  { label: 'Main Point Heading', value: 'mainPointHeadingNode' },
-  { label: 'Main Point', value: 'mainPointNode' },
-  { label: 'Sub Point', value: 'subPointNode' },
-  { label: 'Explanation', value: 'explanationNode' },
+  { label: "Main Point Heading", value: "mainPointHeadingNode" },
+  { label: "Main Point", value: "mainPointNode" },
+  { label: "Sub Point", value: "subPointNode" },
+  { label: "Explanation", value: "explanationNode" },
 ];
 
 export const typePrefixMap: Record<string, string> = {
-  questionNode: 'q',
-  answerNode: 'a',
-  mainPointHeadingNode: 'mph',
-  mainPointNode: 'mp',
-  subPointNode: 'sp',
-  explanationNode: 'exp',
-  default: 'nn',
+  questionNode: "q",
+  answerNode: "a",
+  mainPointHeadingNode: "mph",
+  mainPointNode: "mp",
+  subPointNode: "sp",
+  explanationNode: "exp",
+  default: "nn",
 };
