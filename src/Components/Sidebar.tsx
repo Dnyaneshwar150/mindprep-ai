@@ -69,7 +69,6 @@ const Sidebar = () => {
     }
 
     setExplaining(true);
-    console.log(node.data.label);
     const explanation = await fetchExplanationFromGPT(label);
     setExplanation(explanation);
     setExplaining(false);

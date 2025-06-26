@@ -3,7 +3,6 @@ import { parseJsonToNodesEdges } from "@/utils/mindmapUtils/transformJsonToFlow"
 import { Node, Edge } from "@xyflow/react";
 import { Data } from "@/types/mindmapData.types";
 import { getLayoutedElements } from "@/utils/mindmapUtils/layoutDagre";
-import undoable from "redux-undo";
 import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
 
 interface MindmapState {
@@ -42,6 +41,9 @@ const mindmapSlice = createSlice({
       const clonedNode = JSON.parse(JSON.stringify(action.payload));
       state.nodes.push(clonedNode);
     },
+    addEdge(state, action: PayloadAction<Edge>) {
+      state.edges.push(action.payload);
+    },
     setSelectedNodeIds(state, action: PayloadAction<string[]>) {
       state.selectedNodeIds = action.payload;
     },
@@ -57,6 +59,7 @@ const mindmapSlice = createSlice({
     clearSelectedNodeIds(state) {
       state.selectedNodeIds = [];
     },
+
     deleteSelectedNodes(state) {
       const nodeIdsToDelete = new Set(state.selectedNodeIds);
 
@@ -144,7 +147,7 @@ const mindmapSlice = createSlice({
   },
 });
 
-export default undoable(mindmapSlice.reducer);
+export const mindmapReducer = mindmapSlice.reducer;
 export const {
   addNode,
   setEdges,
@@ -155,4 +158,5 @@ export const {
   deleteSelectedNodes,
   updateNodeLabel,
   resetMindmap,
+  addEdge,
 } = mindmapSlice.actions;
