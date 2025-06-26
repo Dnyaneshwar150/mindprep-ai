@@ -1,8 +1,10 @@
 // store/index.ts
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import mindmapReducer from "../slices/mindmapSlice";
+import { mindmapReducer, resetMindmap } from "../slices/mindmapSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import undoable, { excludeAction } from "redux-undo";
+import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
 
 // SSR-safe storage
 const createNoopStorage = () => ({
@@ -16,6 +18,15 @@ const storage =
     ? createWebStorage("local")
     : createNoopStorage();
 
+const mindmapUndoable = undoable(mindmapReducer, {
+  filter: excludeAction([
+    fetchMindmapFromGPT.pending.type,
+    fetchMindmapFromGPT.fulfilled.type,
+    fetchMindmapFromGPT.rejected.type,
+    resetMindmap.type,
+  ]),
+});
+
 // persist config for mindmap
 const mindmapPersistConfig = {
   key: "mindmap",
@@ -25,7 +36,7 @@ const mindmapPersistConfig = {
 
 // combine reducers
 const rootReducer = combineReducers({
-  mindmap: persistReducer(mindmapPersistConfig, mindmapReducer),
+  mindmap: persistReducer(mindmapPersistConfig, mindmapUndoable),
 });
 
 // configure store

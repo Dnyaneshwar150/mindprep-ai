@@ -14,6 +14,10 @@ import {
   Controls,
   Node,
   Edge,
+  OnNodesChange,
+  OnEdgesChange,
+  applyEdgeChanges,
+  applyNodeChanges,
 } from "@xyflow/react";
 import React, { useCallback, useEffect } from "react";
 import { v4 as uuid } from "uuid";
@@ -29,7 +33,10 @@ import {
   selectMindmapNodes,
 } from "@/redux/mindmapSelectors";
 import {
+  addEdge,
   clearSelectedNodeIds,
+  setEdges,
+  setNodes,
   toggleNodeSelection,
 } from "@/redux/slices/mindmapSlice";
 
@@ -40,36 +47,49 @@ function Workflow() {
   const reduxEdges = useAppSelector(selectMindmapEdges);
   const isLoading = useAppSelector(selectMindmapLoading);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const [nodes, setLocalNodes] = useNodesState<Node>([]);
+  const [edges, setLocalEdges] = useEdgesState<Edge>([]);
 
   useEffect(() => {
-    setNodes(reduxNodes);
+    setLocalNodes(reduxNodes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduxNodes]);
 
   useEffect(() => {
-    setEdges(reduxEdges);
+    setLocalEdges(reduxEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduxEdges]);
 
   const { filteredEdges, filteredNodes } = useMindmapVisibility(nodes, edges);
 
-  const onConnect = useCallback((connection: Connection) => {
-    const edge = {
-      ...connection,
-      type: "wire",
-      markerEnd: {
-        type: MarkerType.ArrowClosed,
-        height: 20,
-        width: 20,
-        color: "#A9A9A9",
-      },
-      id: uuid(),
-    };
-    setEdges((eds) => eds.concat(edge));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleNodesChange: OnNodesChange = (changes) => {
+    const clonedNodes = JSON.parse(JSON.stringify(nodes)); // deep clone first
+    const updatedNodes = applyNodeChanges(changes, clonedNodes);
+    dispatch(setNodes(updatedNodes));
+  };
+
+  const handleEdgesChange: OnEdgesChange = (changes) => {
+    const updatedEdges = applyEdgeChanges(changes, edges);
+    dispatch(setEdges(updatedEdges));
+  };
+
+  const onConnect = useCallback(
+    (connection: Connection) => {
+      const edge = {
+        ...connection,
+        type: "wire",
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          height: 20,
+          width: 20,
+          color: "#A9A9A9",
+        },
+        id: uuid(),
+      };
+      dispatch(addEdge(edge));
+    },
+    [dispatch],
+  );
 
   return (
     <Grid container>
@@ -90,8 +110,8 @@ function Workflow() {
           <ReactFlow
             nodes={filteredNodes}
             edges={filteredEdges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
+            onNodesChange={handleNodesChange}
+            onEdgesChange={handleEdgesChange}
             onConnect={onConnect}
             connectionMode={ConnectionMode.Loose}
             nodeTypes={nodeTypes}
