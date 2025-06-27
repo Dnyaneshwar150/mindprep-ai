@@ -14,6 +14,7 @@ interface MindmapState {
   error?: string;
   selectedNodeIds: string[];
   mindMapPresent: boolean;
+  docsBannerDismissed: boolean;
 }
 
 const initialState: MindmapState = {
@@ -25,6 +26,7 @@ const initialState: MindmapState = {
   error: undefined,
   selectedNodeIds: [],
   mindMapPresent: false,
+  docsBannerDismissed: false,
 };
 
 const mindmapSlice = createSlice({
@@ -117,6 +119,9 @@ const mindmapSlice = createSlice({
         mindMapPresent: false,
       };
     },
+    setDocsBannerDismissed(state, action: PayloadAction<boolean>) {
+      state.docsBannerDismissed = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -159,4 +164,5 @@ export const {
   updateNodeLabel,
   resetMindmap,
   addEdge,
+  setDocsBannerDismissed,
 } = mindmapSlice.actions;

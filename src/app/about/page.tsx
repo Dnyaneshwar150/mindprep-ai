@@ -9,14 +9,22 @@ import {
 } from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useRouter } from "next/navigation";
+import { setDocsBannerDismissed } from "@/redux/slices/mindmapSlice";
+import { useDispatch } from "react-redux";
 
 export default function DocsPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const handleBackClick = () => {
+    router.back();
+    dispatch(setDocsBannerDismissed(true));
+  };
 
   return (
     <Box sx={{ maxWidth: 800, mx: "auto", px: 2, py: 3 }}>
       <IconButton
-        onClick={() => router.back()}
+        onClick={handleBackClick}
         aria-label='Go back'
       >
         <KeyboardBackspaceIcon fontSize='medium' />
