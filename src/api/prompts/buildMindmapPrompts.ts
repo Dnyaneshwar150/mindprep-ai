@@ -9,10 +9,14 @@ export const fetchMindmapFromGPT = createAsyncThunk(
     question,
     mainPointCount,
     subPointCount,
+    subject,
+    instructions,
   }: {
     question: string;
     mainPointCount: number;
     subPointCount: number;
+    subject: string;
+    instructions: string;
   }) => {
     // if (USE_MOCK_DATA) {
     //   return {
@@ -59,6 +63,8 @@ Return it in the following format:
 }
 
 Generate ${mainPointCount} mainPointHeadings, each with 1 mainPoint and ${subPointCount} subPoints.
+Use this subject: "${subject}"
+Additional instructions (if any): "${instructions}"
 Use this question: "${question}"
 `;
 
