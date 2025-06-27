@@ -45,6 +45,9 @@ const Sidebar = () => {
   const [explanation, setExplanation] = useState("");
   const [explaining, setExplaining] = useState(false);
   const [open, setOpen] = useState(false);
+  const [instructions, setInstructions] = useState("");
+  const [subject, setSubject] = useState("");
+  const [explanationInstruction, setExplanationInstruction] = useState("");
 
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectMindmapLoading);
@@ -69,7 +72,10 @@ const Sidebar = () => {
     }
 
     setExplaining(true);
-    const explanation = await fetchExplanationFromGPT(label);
+    const explanation = await fetchExplanationFromGPT(
+      label,
+      explanationInstruction,
+    );
     setExplanation(explanation);
     setExplaining(false);
   };
@@ -88,7 +94,15 @@ const Sidebar = () => {
   };
 
   const handleGenerate = () => {
-    dispatch(fetchMindmapFromGPT({ question, mainPointCount, subPointCount }));
+    dispatch(
+      fetchMindmapFromGPT({
+        question,
+        mainPointCount,
+        subPointCount,
+        subject,
+        instructions,
+      }),
+    );
   };
 
   const handleCreateNode = () => {
@@ -172,7 +186,7 @@ const Sidebar = () => {
       <FormControl
         fullWidth
         size='small'
-        sx={{ mb: 3 }}
+        sx={{ mb: 2 }}
       >
         <InputLabel>Subpoints</InputLabel>
         <Select
@@ -190,6 +204,29 @@ const Sidebar = () => {
           ))}
         </Select>
       </FormControl>
+
+      <TextField
+        fullWidth
+        label='Subject'
+        placeholder='Enter Subject'
+        value={subject}
+        onChange={(e) => setSubject(e.target.value)}
+        size='small'
+        multiline
+        minRows={1}
+        sx={{ mb: 1 }}
+      />
+      <TextField
+        fullWidth
+        label='Any additional instructions'
+        placeholder='e.g. Explain like I am 10'
+        value={instructions}
+        onChange={(e) => setInstructions(e.target.value)}
+        size='small'
+        multiline
+        minRows={1}
+        sx={{ mb: 1 }}
+      />
 
       <CommonButton
         disabled={loading || !question || isPresent}
@@ -286,52 +323,64 @@ const Sidebar = () => {
       </CommonButton> */}
 
       {/* this is  */}
-      <CustomTooltip
-        title={
-          selectedNodeIds.length > 1
-            ? "❗ Only one node can be explained at a time."
-            : ""
-        }
-        disableHoverListener={selectedNodeIds.length <= 1}
-      >
-        <span>
-          {" "}
-          {/* span is needed because Tooltip requires a DOM element even when button is disabled */}
-          <CommonButton
-            sx={{ width: "100%", mb: 2 }}
-            disabled={selectedNodeIds.length !== 1 || loading}
-            onClick={handleExplainSelectedNode}
-          >
-            {explaining ? "Explaining..." : "💬 Explain Selected Node"}
-          </CommonButton>
-        </span>
-      </CustomTooltip>
+      <Box sx={{ mb: 2 }}>
+        <TextField
+          fullWidth
+          label='Would you like to give extra instructions?'
+          placeholder='e.g. Explain with examples, be concise, use simple language'
+          value={explanationInstruction}
+          onChange={(e) => setExplanationInstruction(e.target.value)}
+          size='small'
+          multiline
+          minRows={2}
+          sx={{ mb: 2 }}
+        />
 
-      {explanation && (
-        <Box
-          sx={{
-            bgcolor: "#f1f1f1",
-            p: 2,
-            borderRadius: 1,
-            fontSize: 13,
-            whiteSpace: "pre-line",
-            mb: 2,
-            maxHeight: 150,
-            overflowY: "auto",
-            position: "relative",
-          }}
+        <CustomTooltip
+          title={
+            selectedNodeIds.length > 1
+              ? "❗ Only one node can be explained at a time."
+              : ""
+          }
+          disableHoverListener={selectedNodeIds.length <= 1}
         >
-          <IconButton
-            size='small'
-            onClick={() => setExplanation("")}
-            sx={{ position: "absolute", top: 4, right: 4 }}
-          >
-            <CloseIcon fontSize='small' />
-          </IconButton>
+          <span>
+            <CommonButton
+              sx={{ width: "100%", mb: 2 }}
+              disabled={selectedNodeIds.length !== 1 || loading}
+              onClick={handleExplainSelectedNode}
+            >
+              {explaining ? "Explaining..." : "💬 Explain Selected Node"}
+            </CommonButton>
+          </span>
+        </CustomTooltip>
 
-          {explanation}
-        </Box>
-      )}
+        {explanation && (
+          <Box
+            sx={{
+              bgcolor: "#f1f1f1",
+              p: 2,
+              borderRadius: 1,
+              fontSize: 13,
+              whiteSpace: "pre-line",
+              mb: 2,
+              maxHeight: 150,
+              overflowY: "auto",
+              position: "relative",
+            }}
+          >
+            <IconButton
+              size='small'
+              onClick={() => setExplanation("")}
+              sx={{ position: "absolute", top: 4, right: 4 }}
+            >
+              <CloseIcon fontSize='small' />
+            </IconButton>
+
+            {explanation}
+          </Box>
+        )}
+      </Box>
       <CommonButton
         sx={{ width: "100%", mb: 2 }}
         disabled={!nodes.length}
