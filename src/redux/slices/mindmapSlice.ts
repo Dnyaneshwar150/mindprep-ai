@@ -33,6 +33,9 @@ const mindmapSlice = createSlice({
   name: "mindmap",
   initialState,
   reducers: {
+    setMindmapQuestion(state, action: PayloadAction<string>) {
+      state.question = action.payload;
+    },
     setNodes(state, action: PayloadAction<Node[]>) {
       state.nodes = JSON.parse(JSON.stringify(action.payload));
     },
@@ -122,6 +125,9 @@ const mindmapSlice = createSlice({
     setDocsBannerDismissed(state, action: PayloadAction<boolean>) {
       state.docsBannerDismissed = action.payload;
     },
+    setMindmapPresent(state, action: PayloadAction<boolean>) {
+      state.mindMapPresent = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -165,4 +171,6 @@ export const {
   resetMindmap,
   addEdge,
   setDocsBannerDismissed,
+  setMindmapQuestion,
+  setMindmapPresent,
 } = mindmapSlice.actions;

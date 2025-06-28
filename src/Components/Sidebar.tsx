@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -12,17 +12,28 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import DownloadIcon from "@mui/icons-material/Download"; // or any icon you prefer
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import {
   selectCanRedo,
   selectCanUndo,
+  selectMindmapEdges,
   selectMindmapIsPresent,
   selectMindmapLoading,
   selectMindmapNodes,
+  selectMindmapQuestion,
   selectMindmapRawJson,
   selectMindmapSelectedNodeIds,
 } from "@/redux/mindmapSelectors";
-import { addNode, deleteSelectedNodes } from "@/redux/slices/mindmapSlice";
+import {
+  addNode,
+  deleteSelectedNodes,
+  setEdges,
+  setNodes,
+  setMindmapQuestion,
+  setMindmapPresent,
+} from "@/redux/slices/mindmapSlice";
 import CommonButton from "./ui/CummonButton";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
@@ -32,7 +43,11 @@ import { ActionCreators as UndoActionCreators } from "redux-undo";
 import { NODE_TYPES } from "@/types/mindmapData.types";
 import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
 import { fetchExplanationFromGPT } from "@/api/prompts/buildExplanationPrompt";
-import { downloadCheatSheet } from "@/utils/pdfUtils/downloadCheatSheet";
+import {
+  downloadCheatSheet,
+  downloadMindmapToJson,
+  uploadMindmapFromFile,
+} from "@/utils/pdfUtils/downloadUtils";
 import { extractCheatSheetDataFromRaw } from "@/utils/pdfUtils/extractCheatSheetData";
 import CustomDialog from "./ui/CustomDialog";
 import CustomTooltip from "./ui/CustomTooltip";
@@ -53,6 +68,8 @@ const Sidebar = () => {
   const loading = useAppSelector(selectMindmapLoading);
   const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
   const nodes = useAppSelector(selectMindmapNodes);
+  const edges = useAppSelector(selectMindmapEdges);
+  const mindmapQuestion = useAppSelector(selectMindmapQuestion);
   const rawJson = useAppSelector(selectMindmapRawJson);
   const canUndo = useSelector(selectCanUndo);
   const canRedo = useSelector(selectCanRedo);
@@ -130,6 +147,40 @@ const Sidebar = () => {
   //   dispatch(setNodes(layoutedNodes));
   //   dispatch(setEdges(layoutedEdges));
   // };
+
+  const handleDownload = () => {
+    downloadMindmapToJson({ question: mindmapQuestion, nodes, edges });
+  };
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleUploadClick = () => {
+    inputRef.current?.click(); // open file selector
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const {
+        question: extractedquestion,
+        nodes,
+        edges,
+      } = await uploadMindmapFromFile(file);
+
+      dispatch(setNodes(nodes));
+      dispatch(setEdges(edges));
+      dispatch(setMindmapQuestion(extractedquestion));
+      dispatch(setMindmapPresent(true));
+
+      alert("Mindmap uploaded successfully ✅");
+    } catch (err) {
+      alert("❌ Upload failed: " + (err as Error).message);
+    } finally {
+      e.target.value = ""; // reset input so re-uploading same file works
+    }
+  };
 
   return (
     <Box
@@ -381,6 +432,30 @@ const Sidebar = () => {
           </Box>
         )}
       </Box>
+      <CommonButton
+        sx={{ width: "100%", my: "10px" }}
+        startIcon={<UploadFileIcon style={{ fontSize: "16px" }} />}
+        onClick={handleUploadClick}
+      >
+        Upload Mindmap
+      </CommonButton>
+
+      <input
+        ref={inputRef}
+        type='file'
+        accept='.json'
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+      />
+
+      <CommonButton
+        sx={{ width: "100%", my: "10px" }}
+        startIcon={<DownloadIcon style={{ fontSize: "16px" }} />}
+        disabled={nodes.length === 0}
+        onClick={handleDownload}
+      >
+        Download Mindmap
+      </CommonButton>
       <CommonButton
         sx={{ width: "100%", mb: 2 }}
         disabled={!nodes.length}
