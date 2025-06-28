@@ -1,5 +1,6 @@
 // src/utils/pdfUtils/downloadCheatSheet.ts
 
+import { Edge, Node } from "@xyflow/react";
 import jsPDF from "jspdf";
 
 interface ExplanationBlock {
@@ -14,7 +15,11 @@ interface CheatSheetData {
   explanations: ExplanationBlock[];
 }
 
-export function downloadCheatSheet({ question, answer, explanations }: CheatSheetData) {
+export function downloadCheatSheet({
+  question,
+  answer,
+  explanations,
+}: CheatSheetData) {
   const doc = new jsPDF();
 
   doc.setFontSize(16);
@@ -60,4 +65,60 @@ export function downloadCheatSheet({ question, answer, explanations }: CheatShee
   });
 
   doc.save("mindmap_cheatsheet.pdf");
+}
+
+export function downloadMindmapToJson({
+  question,
+  nodes,
+  edges,
+}: {
+  question: string;
+  nodes: Node[];
+  edges: Edge[];
+}) {
+  const blob = new Blob([JSON.stringify({ question, nodes, edges }, null, 2)], {
+    type: "application/json",
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "mindmap.json";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+export async function uploadMindmapFromFile(file: File): Promise<{
+  question: string;
+  nodes: Node[];
+  edges: Edge[];
+}> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        if (!json.question || !json.nodes || !json.edges) {
+          return reject(new Error("Invalid mindmap structure"));
+        }
+
+        resolve({
+          question: json.question,
+          nodes: json.nodes,
+          edges: json.edges,
+        });
+      } catch {
+        reject(new Error("Failed to parse JSON file"));
+      }
+    };
+
+    reader.onerror = () => {
+      reject(new Error("Failed to read file"));
+    };
+
+    reader.readAsText(file);
+  });
 }
