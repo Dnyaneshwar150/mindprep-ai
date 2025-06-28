@@ -30,7 +30,12 @@ function Navbar() {
       position='static'
       color='transparent'
       elevation={0}
-      sx={{ height: 40, justifyContent: "center" }}
+      sx={{
+        height: 30,
+        justifyContent: "center",
+        borderBottom: "1px solid var(--light-black)",
+        paddingBottom: "4px",
+      }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Box

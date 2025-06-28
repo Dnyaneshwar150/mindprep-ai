@@ -54,3 +54,30 @@ export const typePrefixMap: Record<string, string> = {
   explanationNode: "exp",
   default: "nn",
 };
+
+export const NODE_TYPES_LIST = [
+  {
+    title: "Main Point Heading",
+    type: "mainPointHeadingNode",
+    backgroundColor: "var(--background-orange)",
+    borderColor: "var(--border-orange)",
+  },
+  {
+    title: "Main Point Explanation",
+    type: "mainPointNode",
+    backgroundColor: "var(--background-blue)",
+    borderColor: "var(--border-blue)",
+  },
+  {
+    title: "SubPoint Heading",
+    type: "subPointNode",
+    backgroundColor: "var(--background-grey)",
+    borderColor: "var(--border-grey)",
+  },
+  {
+    title: "SubPoint Explanation",
+    type: "explanationNode",
+    backgroundColor: "var(--explantion-background)",
+    borderColor: "#ccc",
+  },
+];
