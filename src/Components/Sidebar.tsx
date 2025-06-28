@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -12,68 +12,37 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import DownloadIcon from "@mui/icons-material/Download"; // or any icon you prefer
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import {
-  selectCanRedo,
-  selectCanUndo,
-  selectMindmapEdges,
   selectMindmapIsPresent,
   selectMindmapLoading,
   selectMindmapNodes,
-  selectMindmapQuestion,
-  selectMindmapRawJson,
   selectMindmapSelectedNodeIds,
 } from "@/redux/mindmapSelectors";
-import {
-  addNode,
-  deleteSelectedNodes,
-  setEdges,
-  setNodes,
-  setMindmapQuestion,
-  setMindmapPresent,
-} from "@/redux/slices/mindmapSlice";
 import CommonButton from "./ui/CummonButton";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import AddIcon from "@mui/icons-material/Add";
-import { generateTypeBasedId } from "@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils";
-import { useSelector } from "react-redux";
-import { ActionCreators as UndoActionCreators } from "redux-undo";
-import { NODE_TYPES } from "@/types/mindmapData.types";
 import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
 import { fetchExplanationFromGPT } from "@/api/prompts/buildExplanationPrompt";
-import {
-  downloadCheatSheet,
-  downloadMindmapToJson,
-  uploadMindmapFromFile,
-} from "@/utils/pdfUtils/downloadUtils";
-import { extractCheatSheetDataFromRaw } from "@/utils/pdfUtils/extractCheatSheetData";
-import CustomDialog from "./ui/CustomDialog";
+
 import CustomTooltip from "./ui/CustomTooltip";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
-  const [question, setQuestion] = useState("");
-  const [mainPointCount, setMainPointCount] = useState(1);
-  const [subPointCount, setSubPointCount] = useState(1);
-  const [newNodeType, setNewNodeType] = useState("mainPointNode");
-  const [explanation, setExplanation] = useState("");
-  const [explaining, setExplaining] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [instructions, setInstructions] = useState("");
-  const [subject, setSubject] = useState("");
-  const [explanationInstruction, setExplanationInstruction] = useState("");
-
   const dispatch = useAppDispatch();
+
+  const isPresent = useSelector(selectMindmapIsPresent);
   const loading = useAppSelector(selectMindmapLoading);
   const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
   const nodes = useAppSelector(selectMindmapNodes);
-  const edges = useAppSelector(selectMindmapEdges);
-  const mindmapQuestion = useAppSelector(selectMindmapQuestion);
-  const rawJson = useAppSelector(selectMindmapRawJson);
-  const canUndo = useSelector(selectCanUndo);
-  const canRedo = useSelector(selectCanRedo);
-  const isPresent = useSelector(selectMindmapIsPresent);
+
+  const [question, setQuestion] = useState("");
+  const [mainPointCount, setMainPointCount] = useState(1);
+  const [subPointCount, setSubPointCount] = useState(1);
+  const [explanation, setExplanation] = useState("");
+  const [explaining, setExplaining] = useState(false);
+  const [instructions, setInstructions] = useState("");
+  const [subject, setSubject] = useState("");
+  const [explanationInstruction, setExplanationInstruction] = useState("");
 
   const handleExplainSelectedNode = async () => {
     if (selectedNodeIds.length !== 1) return;
@@ -97,19 +66,6 @@ const Sidebar = () => {
     setExplaining(false);
   };
 
-  const handleOpenDialog = () => {
-    setOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpen(false);
-  };
-
-  const handleConfirm = () => {
-    dispatch(deleteSelectedNodes());
-    setOpen(false);
-  };
-
   const handleGenerate = () => {
     dispatch(
       fetchMindmapFromGPT({
@@ -122,72 +78,13 @@ const Sidebar = () => {
     );
   };
 
-  const handleCreateNode = () => {
-    const id = generateTypeBasedId(nodes, newNodeType);
-    const newNode = {
-      id,
-      type: newNodeType,
-      data: { label: "New Node", type: newNodeType },
-      position: { x: 500, y: 50 },
-    };
-    dispatch(addNode(newNode));
-  };
-
-  const handleDownloadCheatSheet = () => {
-    const { question, answer, explanations } =
-      extractCheatSheetDataFromRaw(rawJson);
-    downloadCheatSheet({ question, answer, explanations });
-  };
-
-  // const handleRelayout = () => {
-  //   const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-  //     nodes,
-  //     edges,
-  //   );
-  //   dispatch(setNodes(layoutedNodes));
-  //   dispatch(setEdges(layoutedEdges));
-  // };
-
-  const handleDownload = () => {
-    downloadMindmapToJson({ question: mindmapQuestion, nodes, edges });
-  };
-
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleUploadClick = () => {
-    inputRef.current?.click(); // open file selector
-  };
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      const {
-        question: extractedquestion,
-        nodes,
-        edges,
-      } = await uploadMindmapFromFile(file);
-
-      dispatch(setNodes(nodes));
-      dispatch(setEdges(edges));
-      dispatch(setMindmapQuestion(extractedquestion));
-      dispatch(setMindmapPresent(true));
-
-      alert("Mindmap uploaded successfully ✅");
-    } catch (err) {
-      alert("❌ Upload failed: " + (err as Error).message);
-    } finally {
-      e.target.value = ""; // reset input so re-uploading same file works
-    }
-  };
-
   return (
     <Box
       sx={{
         height: "100vh",
         bgcolor: "#fff",
-        p: 2,
+        px: 2,
+        py: 1,
         overflowY: "auto",
         fontFamily: "Poppins, sans-serif",
       }}
@@ -290,90 +187,12 @@ const Sidebar = () => {
         {loading ? "Generating..." : "🧠 Generate Mind Map"}
       </CommonButton>
 
-      <CommonButton
-        sx={{ width: "100%", my: "10px" }}
-        startIcon={<DeleteOutlineIcon style={{ fontSize: "16px" }} />}
-        disabled={selectedNodeIds.length === 0}
-        onClick={handleOpenDialog}
-      >
-        Delete Selected nodes
-      </CommonButton>
-
-      <CustomDialog
-        open={open}
-        onClose={handleCloseDialog}
-        onConfirm={handleConfirm}
-        title='Are you sure? Deleting a parent node will also remove all of its child nodes.'
-      ></CustomDialog>
-
       <Typography
         fontWeight={600}
         mb={1.5}
       >
-        ➕ Create Node
+        Explanation of Nodes
       </Typography>
-
-      <FormControl
-        fullWidth
-        size='small'
-        sx={{ mb: 1 }}
-      >
-        <InputLabel>Node Type</InputLabel>
-        <Select
-          value={newNodeType}
-          label='Node Type'
-          onChange={(e) => setNewNodeType(e.target.value)}
-        >
-          {NODE_TYPES.map((type) => (
-            <MenuItem
-              key={type.value}
-              value={type.value}
-            >
-              {type.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <CommonButton
-        onClick={handleCreateNode}
-        sx={{ mb: 1, width: "100%" }}
-        startIcon={<AddIcon />}
-        disabled={loading || !isPresent}
-      >
-        Add New Node
-      </CommonButton>
-
-      <Box
-        display='flex'
-        gap={1}
-        my={2}
-      >
-        <CommonButton
-          disabled={!canUndo || loading}
-          onClick={() => dispatch(UndoActionCreators.undo())}
-        >
-          Undo
-        </CommonButton>
-        <CommonButton
-          disabled={!canRedo || loading}
-          onClick={() => dispatch(UndoActionCreators.redo())}
-        >
-          Redo
-        </CommonButton>
-      </Box>
-      {/* <CommonButton
-        disabled={loading || !isPresent}
-        onClick={handleRelayout}
-        sx={{
-          mb: 2,
-          width: "100%",
-        }}
-      >
-        Re-Layout Mind Map
-      </CommonButton> */}
-
-      {/* this is  */}
       <Box sx={{ mb: 2 }}>
         <TextField
           fullWidth
@@ -432,37 +251,6 @@ const Sidebar = () => {
           </Box>
         )}
       </Box>
-      <CommonButton
-        sx={{ width: "100%", my: "10px" }}
-        startIcon={<UploadFileIcon style={{ fontSize: "16px" }} />}
-        onClick={handleUploadClick}
-      >
-        Upload Mindmap
-      </CommonButton>
-
-      <input
-        ref={inputRef}
-        type='file'
-        accept='.json'
-        style={{ display: "none" }}
-        onChange={handleFileChange}
-      />
-
-      <CommonButton
-        sx={{ width: "100%", my: "10px" }}
-        startIcon={<DownloadIcon style={{ fontSize: "16px" }} />}
-        disabled={nodes.length === 0}
-        onClick={handleDownload}
-      >
-        Download Mindmap
-      </CommonButton>
-      <CommonButton
-        sx={{ width: "100%", mb: 2 }}
-        disabled={!nodes.length}
-        onClick={handleDownloadCheatSheet}
-      >
-        📥 Download Cheatsheet
-      </CommonButton>
 
       <Divider sx={{ my: 2 }} />
 

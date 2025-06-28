@@ -39,6 +39,7 @@ import {
   setNodes,
   toggleNodeSelection,
 } from "@/redux/slices/mindmapSlice";
+import Toolbar from "@/Components/ui/ToolBar";
 
 function Workflow() {
   const dispatch = useAppDispatch();
@@ -93,65 +94,70 @@ function Workflow() {
 
   return (
     <Grid container>
-      <Grid
-        sx={{
-          height: "94vh",
-          width: "75%",
-          position: "relative",
-          bgcolor: "var(--light-grey)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {isLoading ? (
-          <CircularProgress style={{ color: "var(--primary-black)" }} />
-        ) : (
-          <ReactFlow
-            nodes={filteredNodes}
-            edges={filteredEdges}
-            onNodesChange={handleNodesChange}
-            onEdgesChange={handleEdgesChange}
-            onConnect={onConnect}
-            connectionMode={ConnectionMode.Loose}
-            nodeTypes={nodeTypes}
-            fitView
-            edgeTypes={edgeTypes}
-            proOptions={{ hideAttribution: true }}
-            selectNodesOnDrag={false} // <-- Prevent selection on drag
-            elementsSelectable={false} // <-- Disable default selection
-            onNodeClick={(event, node) => {
-              if (event.ctrlKey || event.metaKey) {
-                dispatch(toggleNodeSelection(node.id));
-              }
-            }}
-            onPaneClick={() => {
-              dispatch(clearSelectedNodeIds());
-            }}
-          >
-            <Panel
-              position='bottom-left'
-              style={{
-                border: "1px solid #ccc",
-                padding: 12,
-                borderRadius: 12,
-                width: "150px",
-              }}
-            >
-              <PannelComponent />
-            </Panel>
-            <Background
-              variant={BackgroundVariant.Dots}
-              gap={100}
-              color='#AA4A44'
-              id='1'
-            />
-            <Controls position='bottom-right' />
-          </ReactFlow>
-        )}
-      </Grid>
       <Grid sx={{ width: "25%" }}>
         <Sidebar />
+      </Grid>
+      <Grid sx={{ width: "75%" }}>
+        <Grid>
+          <Toolbar />
+        </Grid>
+        <Grid
+          sx={{
+            height: "88vh",
+            position: "relative",
+            bgcolor: "var(--light-grey)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "4px",
+          }}
+        >
+          {isLoading ? (
+            <CircularProgress style={{ color: "var(--primary-black)" }} />
+          ) : (
+            <ReactFlow
+              nodes={filteredNodes}
+              edges={filteredEdges}
+              onNodesChange={handleNodesChange}
+              onEdgesChange={handleEdgesChange}
+              onConnect={onConnect}
+              connectionMode={ConnectionMode.Loose}
+              nodeTypes={nodeTypes}
+              fitView
+              edgeTypes={edgeTypes}
+              proOptions={{ hideAttribution: true }}
+              selectNodesOnDrag={false} // <-- Prevent selection on drag
+              elementsSelectable={false} // <-- Disable default selection
+              onNodeClick={(event, node) => {
+                if (event.ctrlKey || event.metaKey) {
+                  dispatch(toggleNodeSelection(node.id));
+                }
+              }}
+              onPaneClick={() => {
+                dispatch(clearSelectedNodeIds());
+              }}
+            >
+              <Panel
+                position='bottom-left'
+                style={{
+                  border: "1px solid #ccc",
+                  padding: 12,
+                  borderRadius: 12,
+                  width: "150px",
+                }}
+              >
+                <PannelComponent />
+              </Panel>
+              <Background
+                variant={BackgroundVariant.Dots}
+                gap={100}
+                color='#AA4A44'
+                id='1'
+              />
+              <Controls position='bottom-right' />
+            </ReactFlow>
+          )}
+        </Grid>
       </Grid>
     </Grid>
   );
