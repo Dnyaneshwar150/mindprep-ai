@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchGptData } from "../chatgpt";
-import mockData from "../../app/Workflow/mockData.json";
-const USE_MOCK_DATA = true;
+// import mockData from "../../app/Workflow/mockData.json";
+// const USE_MOCK_DATA = true;
 
 export const fetchMindmapFromGPT = createAsyncThunk(
   "mindmap/fetchFromGPT",
@@ -18,12 +18,12 @@ export const fetchMindmapFromGPT = createAsyncThunk(
     subject: string;
     instructions: string;
   }) => {
-    if (USE_MOCK_DATA) {
-      return {
-        question: mockData.question.label,
-        data: mockData,
-      };
-    }
+    // if (USE_MOCK_DATA) {
+    //   return {
+    //     question: mockData.question.label,
+    //     data: mockData,
+    //   };
+    // }
 
     const mindmapPrompt = `
 You are an assistant that returns a **raw JSON object only**. Do not wrap it in \`\`\`json or \`\`\`, do not include any explanation or extra text — return only valid, parsable JSON.
