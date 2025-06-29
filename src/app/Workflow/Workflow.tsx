@@ -40,6 +40,7 @@ import {
   toggleNodeSelection,
 } from "@/redux/slices/mindmapSlice";
 import Toolbar from "@/Components/ui/ToolBar";
+import Typewriter from "@/Components/ui/TypeWriter";
 
 function Workflow() {
   const dispatch = useAppDispatch();
@@ -113,7 +114,23 @@ function Workflow() {
           }}
         >
           {isLoading ? (
-            <CircularProgress style={{ color: "var(--primary-black)" }} />
+            <Grid
+              container
+              flexDirection={"column"}
+              alignItems={"center"}
+            >
+              <CircularProgress
+                size='30px'
+                style={{ color: "var(--primary-black)" }}
+              />
+              <Typewriter
+                texts={[
+                  "Analyzing your question...",
+                  "Generating mindmap...",
+                  "Plotting mindmap structure...",
+                ]}
+              />
+            </Grid>
           ) : (
             <ReactFlow
               nodes={filteredNodes}
