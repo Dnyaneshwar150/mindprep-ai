@@ -139,20 +139,22 @@ const Toolbar = () => {
       >
         <Grid>
           <CustomTooltip title='Upload Mind Map'>
-            <IconButton
-              disabled={loading}
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              onClick={() => {
-                inputRef.current?.click(); // open file selector
-              }}
-            >
-              <UploadFileRoundedIcon fontSize='small' />
-            </IconButton>
+            <span>
+              <IconButton
+                disabled={loading}
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                onClick={() => {
+                  inputRef.current?.click(); // open file selector
+                }}
+              >
+                <UploadFileRoundedIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
           <input
             ref={inputRef}
@@ -165,84 +167,100 @@ const Toolbar = () => {
 
         <Grid>
           <CustomTooltip title='FitToScreen'>
-            <IconButton
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              disabled={loading || !isPresent}
-              onClick={handleFitView}
-            >
-              <FitScreenOutlinedIcon fontSize='small' />
-            </IconButton>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={loading || !isPresent}
+                onClick={handleFitView}
+              >
+                <FitScreenOutlinedIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
         </Grid>
 
         <Grid>
           <CustomTooltip title='Undo'>
-            <IconButton
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              disabled={!canUndo || loading}
-              onClick={() => dispatch(UndoActionCreators.undo())}
-            >
-              <UndoRoundedIcon fontSize='small' />
-            </IconButton>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={!canUndo || loading}
+                onClick={() => dispatch(UndoActionCreators.undo())}
+              >
+                <UndoRoundedIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
         </Grid>
         <Grid>
           <CustomTooltip title='Redo'>
-            <IconButton
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              disabled={!canRedo || loading}
-              onClick={() => dispatch(UndoActionCreators.redo())}
-            >
-              <RedoRoundedIcon fontSize='small' />
-            </IconButton>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={!canRedo || loading}
+                onClick={() => dispatch(UndoActionCreators.redo())}
+              >
+                <RedoRoundedIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
         </Grid>
         <Grid>
           <CustomTooltip title='Relayout Elemenet'>
-            <IconButton
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              disabled={true}
-            >
-              <AutorenewOutlinedIcon fontSize='small' />
-            </IconButton>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={true}
+              >
+                <AutorenewOutlinedIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
         </Grid>
         <Grid>
-          <CustomTooltip title='Delete Selected Node'>
-            <IconButton
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              disabled={selectedNodeIds.length === 0}
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              <DeleteRoundedIcon fontSize='small' />
-            </IconButton>
+          <CustomTooltip
+            title={
+              selectedNodeIds.length === 0
+                ? "❗Selected Atleast One Node"
+                : "Delete Selected Node"
+            }
+          >
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={selectedNodeIds.length === 0}
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                <DeleteRoundedIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
 
           <CustomDialog
@@ -256,50 +274,56 @@ const Toolbar = () => {
         </Grid>
         <Grid>
           <CustomTooltip title='Download Cheat Sheet'>
-            <IconButton
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              disabled={!isPresent}
-              onClick={handleDownloadCheatSheet}
-            >
-              <DescriptionOutlinedIcon fontSize='small' />
-            </IconButton>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={!isPresent}
+                onClick={handleDownloadCheatSheet}
+              >
+                <DescriptionOutlinedIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
         </Grid>
         <Grid>
           <CustomTooltip title='Download Mind Map'>
-            <IconButton
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              disabled={!isPresent}
-              onClick={handleDownload}
-            >
-              <GetAppRoundedIcon fontSize='small' />
-            </IconButton>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={!isPresent}
+                onClick={handleDownload}
+              >
+                <GetAppRoundedIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
         </Grid>
         <Grid>
           <CustomTooltip title='Create New Node'>
-            <IconButton
-              onClick={handleClick}
-              sx={{
-                color: "var(--light-black)",
-                "&.Mui-disabled": {
-                  color: "var(--border-grey)",
-                },
-              }}
-              disabled={loading || !isPresent}
-            >
-              <AddIcon fontSize='small' />
-            </IconButton>
+            <span>
+              <IconButton
+                onClick={handleClick}
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={loading || !isPresent}
+              >
+                <AddIcon fontSize='small' />
+              </IconButton>
+            </span>
           </CustomTooltip>
 
           <Popover

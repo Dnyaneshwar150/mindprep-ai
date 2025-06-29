@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -77,6 +77,12 @@ const Sidebar = () => {
       }),
     );
   };
+
+  useEffect(() => {
+    if (!isPresent) {
+      setQuestion("");
+    }
+  }, [isPresent]);
 
   return (
     <Box
