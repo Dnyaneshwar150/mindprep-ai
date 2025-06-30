@@ -1,5 +1,5 @@
 "use client";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, IconButton, Grid } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 import CommonButton from "./ui/CummonButton";
@@ -16,46 +16,49 @@ export default function DocsBanner() {
 
   if (dismissed || pathname === "/about") return null;
   return (
-    <Box
+    <Grid
+      container
+      justifyContent='space-between'
+      alignItems='center'
       sx={{
         backgroundColor: "var(--background-grey)",
         border: "1px solid var(--border-grey)",
-        padding: "6px 8px",
-        fontSize: "12px",
+        padding: "0.375rem 0.5rem",
+        fontSize: "0.75rem",
         color: "var(--primary-grey)",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        borderRadius: "6px",
-        margin: "2px auto",
+        borderRadius: "0.375rem",
+        margin: "0.125rem auto",
         maxWidth: 960,
+        flexWrap: "wrap",
       }}
     >
-      <Typography
-        variant='body2'
-        sx={{ fontSize: "12px" }}
-      >
-        This is a prototype of <strong>MindPrep.AI</strong>. View version info &
-        upcoming features in the docs.
-      </Typography>
+      <Grid>
+        <Box fontSize='0.75rem'>
+          This is a prototype of <strong>MindPrep.AI</strong>. View version info
+          & upcoming features in the docs.
+        </Box>
+      </Grid>
 
-      <Box
-        display='flex'
-        alignItems='center'
-        gap={1}
-      >
-        <Link href='/about'>
-          <CommonButton>Go to Docs →</CommonButton>
-        </Link>
-
-        <IconButton
-          size='small'
-          onClick={() => dispatch(setDocsBannerDismissed(true))}
-          sx={{ color: "var(--primary-grey)" }}
+      <Grid>
+        <Box
+          display='flex'
+          justifyContent={{ xs: "flex-start", sm: "flex-end" }}
+          gap='0.5rem'
+          mt={{ xs: "0.5rem", sm: 0 }}
         >
-          <CloseIcon fontSize='small' />
-        </IconButton>
-      </Box>
-    </Box>
+          <Link href='/about'>
+            <CommonButton>Go to Docs</CommonButton>
+          </Link>
+
+          <IconButton
+            size='small'
+            onClick={() => dispatch(setDocsBannerDismissed(true))}
+            sx={{ color: "var(--primary-grey)" }}
+          >
+            <CloseIcon fontSize='small' />
+          </IconButton>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }

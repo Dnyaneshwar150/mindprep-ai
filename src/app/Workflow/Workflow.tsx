@@ -94,11 +94,23 @@ function Workflow() {
   );
 
   return (
-    <Grid container>
-      <Grid sx={{ width: "25%" }}>
+    <Grid
+      container
+      direction={{ xs: "column", md: "row" }}
+    >
+      <Grid
+        sx={{
+          width: { xs: "100%", md: "25%" },
+          borderBottom: { xs: "1px solid var(--border-grey)", md: "none" },
+        }}
+      >
         <Sidebar />
       </Grid>
-      <Grid sx={{ width: "75%" }}>
+      <Grid
+        sx={{
+          width: { xs: "100%", md: "75%" },
+        }}
+      >
         <Grid>
           <Toolbar />
         </Grid>
@@ -110,7 +122,7 @@ function Workflow() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: "4px",
+            borderRadius: "0.25rem",
           }}
         >
           {isLoading ? (
@@ -120,7 +132,7 @@ function Workflow() {
               alignItems={"center"}
             >
               <CircularProgress
-                size='30px'
+                size='1.875rem'
                 style={{ color: "var(--primary-black)" }}
               />
               <Typewriter
@@ -157,10 +169,10 @@ function Workflow() {
               <Panel
                 position='bottom-left'
                 style={{
-                  border: "1px solid #ccc",
-                  padding: 12,
-                  borderRadius: 12,
-                  width: "150px",
+                  border: "1px solid var(--border-grey)",
+                  padding: "0.75rem",
+                  borderRadius: "0.75rem",
+                  width: "9.375rem",
                 }}
               >
                 <PannelComponent />
@@ -168,7 +180,6 @@ function Workflow() {
               <Background
                 variant={BackgroundVariant.Dots}
                 gap={100}
-                color='#AA4A44'
                 id='1'
               />
               <Controls position='bottom-right' />

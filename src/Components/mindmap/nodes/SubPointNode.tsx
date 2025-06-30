@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Handle, NodeProps, Position, Node } from "@xyflow/react";
+import { Handle, NodeProps, Node } from "@xyflow/react";
 import { Box, IconButton, Typography, TextField } from "@mui/material";
 import NodeWrapper from "../NodeWrapper";
 import CustomTooltip from "../../ui/CustomTooltip";
@@ -13,6 +13,7 @@ import { SubPointNodeData } from "@/types/mindmap.types";
 import { updateNodeLabel } from "@/redux/slices/mindmapSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { selectMindmapSelectedNodeIds } from "@/redux/mindmapSelectors";
+import useHandlePosition from "@/hooks/useHandlePoistion";
 
 export default function SubPointNode({
   data,
@@ -22,6 +23,7 @@ export default function SubPointNode({
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(data.label);
   const dispatch = useAppDispatch();
+  const { sourcePosition, targetPosition } = useHandlePosition();
 
   const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
   const isSelected = selectedNodeIds.includes(id);
@@ -131,12 +133,12 @@ export default function SubPointNode({
 
       <Handle
         type='target'
-        position={Position.Left}
+        position={targetPosition}
         id='sub-point-from-main-point'
       />
       <Handle
         type='source'
-        position={Position.Right}
+        position={sourcePosition}
         id='sub-point-to-explanation'
       />
     </NodeWrapper>

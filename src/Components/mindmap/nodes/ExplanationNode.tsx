@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
-import { Handle, NodeProps, Position, Node } from '@xyflow/react';
-import { Typography, Box, TextField, IconButton } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import NodeWrapper from '../NodeWrapper';
-import CustomTooltip from '../../ui/CustomTooltip';
-import { ExplanationNodeData } from '@/types/mindmap.types';
-import { updateNodeLabel } from '@/redux/slices/mindmapSlice'; // <-- your reducer action
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { selectMindmapSelectedNodeIds } from '@/redux/mindmapSelectors';
+import React, { useState } from "react";
+import { Handle, NodeProps, Node } from "@xyflow/react";
+import { Typography, Box, TextField, IconButton } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import NodeWrapper from "../NodeWrapper";
+import CustomTooltip from "../../ui/CustomTooltip";
+import { ExplanationNodeData } from "@/types/mindmap.types";
+import { updateNodeLabel } from "@/redux/slices/mindmapSlice"; // <-- your reducer action
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { selectMindmapSelectedNodeIds } from "@/redux/mindmapSelectors";
+import useHandlePosition from "@/hooks/useHandlePoistion";
 
-export default function ExplanationNode({ data, id }: NodeProps<Node<ExplanationNodeData>>) {
+export default function ExplanationNode({
+  data,
+  id,
+}: NodeProps<Node<ExplanationNodeData>>) {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(data.label);
   const dispatch = useAppDispatch();
-
-
+  const { targetPosition } = useHandlePosition(); // only target needed
 
   const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
-  const isSelected = selectedNodeIds.includes(id); 
-  
+  const isSelected = selectedNodeIds.includes(id);
+
   if (!data.label) return null;
 
   const handleDoubleClick = () => {
@@ -37,52 +40,62 @@ export default function ExplanationNode({ data, id }: NodeProps<Node<Explanation
   return (
     <NodeWrapper
       sx={{
-        borderColor: isSelected ? 'var(--primary-black)' : 'var(--border-blue)', // ← red border if selected
-        backgroundColor: isSelected ? 'var(--border-red)' : 'var(--explantion-background)', 
-        width: '250px',
+        borderColor: isSelected ? "var(--primary-black)" : "var(--border-blue)", // ← red border if selected
+        backgroundColor: isSelected
+          ? "var(--border-red)"
+          : "var(--explantion-background)",
+        width: "250px",
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', padding: '8px' }}>
+      <Box sx={{ display: "flex", alignItems: "flex-start", padding: "8px" }}>
         {isEditing ? (
           <TextField
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onBlur={handleBlur}
             autoFocus
-            variant="standard"
+            variant='standard'
             fullWidth
-            inputProps={{ style: { fontSize: '18px' } }}
+            inputProps={{ style: { fontSize: "18px" } }}
           />
         ) : (
           <Typography
             sx={{
-              fontSize: '18px',
+              fontSize: "18px",
               flex: 1,
-              overflow: expanded ? 'visible' : 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: expanded ? 'unset' : 1,
-              WebkitBoxOrient: 'vertical',
-              whiteSpace: expanded ? 'normal' : 'nowrap',
-              wordBreak: 'break-word',
+              overflow: expanded ? "visible" : "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: expanded ? "unset" : 1,
+              WebkitBoxOrient: "vertical",
+              whiteSpace: expanded ? "normal" : "nowrap",
+              wordBreak: "break-word",
             }}
             onDoubleClick={handleDoubleClick}
           >
             {data.label}
           </Typography>
         )}
-        <CustomTooltip title={expanded ? 'Collapse' : 'Expand'}>
+        <CustomTooltip title={expanded ? "Collapse" : "Expand"}>
           <IconButton
-            size="small"
+            size='small'
             onClick={() => setExpanded(!expanded)}
-            sx={{ ml: 1, alignSelf: 'center', padding: '2px' }}
+            sx={{ ml: 1, alignSelf: "center", padding: "2px" }}
           >
-            {expanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+            {expanded ? (
+              <ExpandLessIcon fontSize='small' />
+            ) : (
+              <ExpandMoreIcon fontSize='small' />
+            )}
           </IconButton>
         </CustomTooltip>
       </Box>
 
-      <Handle type="target" position={Position.Left} id="explanation-from-sub-point" />
+      <Handle
+        type='target'
+        position={targetPosition}
+        id='explanation-from-sub-point'
+      />
     </NodeWrapper>
   );
 }

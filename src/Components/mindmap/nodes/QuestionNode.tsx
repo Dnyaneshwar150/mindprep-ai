@@ -1,15 +1,20 @@
 // src/components/nodes/QuestionNode.tsx
 import React from "react";
-import { Handle, NodeProps, Position, Node } from "@xyflow/react";
+import { Handle, NodeProps, Node } from "@xyflow/react";
 import { Grid, Typography } from "@mui/material";
 import NodeWrapper from "../NodeWrapper";
 import CustomTooltip from "../../ui/CustomTooltip";
 import { QuestionNodeData } from "@/types/mindmap.types";
+import useHandlePosition from "@/hooks/useHandlePoistion";
 
 export default function QuestionNode({
   data,
 }: NodeProps<Node<QuestionNodeData>>) {
-  if (!data.label) return null;
+  const { sourcePosition } = useHandlePosition();
+  console.log(sourcePosition);
+  if (!data.label) {
+    return null;
+  }
 
   return (
     <NodeWrapper
@@ -53,7 +58,7 @@ export default function QuestionNode({
             </Typography>
             <Handle
               type='source'
-              position={Position.Right}
+              position={sourcePosition}
               id='question-answer-handle'
             />
           </Grid>
@@ -81,7 +86,7 @@ export default function QuestionNode({
           </Typography>
           <Handle
             type='source'
-            position={Position.Right}
+            position={sourcePosition}
             id='question-answer-handle'
           />
         </Grid>

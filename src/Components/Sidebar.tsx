@@ -10,6 +10,7 @@ import {
   InputLabel,
   Divider,
   IconButton,
+  Grid,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -85,178 +86,187 @@ const Sidebar = () => {
   }, [isPresent]);
 
   return (
-    <Box
+    <Grid
       sx={{
-        height: "100vh",
-        bgcolor: "#fff",
-        px: 2,
-        py: 1,
+        bgcolor: "var(--white)",
+        px: "1rem",
+        py: "0.2rem",
         overflowY: "auto",
-        fontFamily: "Poppins, sans-serif",
       }}
     >
-      {/* Section: Question Details */}
       <Typography fontWeight={600}>Question Details</Typography>
+      <Typography fontSize={13}>Enter Question Below</Typography>
 
-      <Typography
-        fontSize={13}
-        mb={0.5}
+      <Grid
+        container
+        sx={{ flexDirection: "column", gap: "0.8rem" }}
       >
-        Enter Question Below
-      </Typography>
+        <Grid>
+          <TextField
+            fullWidth
+            placeholder='Enter the question here...'
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            size='small'
+            multiline
+            minRows={2}
+          />
+        </Grid>
 
-      <TextField
-        fullWidth
-        placeholder='Enter the question here...'
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-        size='small'
-        multiline
-        minRows={2}
-        sx={{ mb: 2 }}
-      />
-      <FormControl
-        fullWidth
-        size='small'
-        sx={{ mb: 2 }}
-      >
-        <InputLabel>Main Points</InputLabel>
-        <Select
-          value={mainPointCount}
-          label='Main Points'
-          onChange={(e) => setMainPointCount(Number(e.target.value))}
-        >
-          {[1, 2, 3, 4, 5].map((num) => (
-            <MenuItem
-              key={num}
-              value={num}
+        <Grid>
+          <FormControl
+            fullWidth
+            size='small'
+          >
+            <InputLabel>Main Points</InputLabel>
+            <Select
+              value={mainPointCount}
+              label='Main Points'
+              onChange={(e) => setMainPointCount(Number(e.target.value))}
             >
-              {num}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+              {[1, 2, 3, 4, 5].map((num) => (
+                <MenuItem
+                  key={num}
+                  value={num}
+                >
+                  {num}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
 
-      <FormControl
-        fullWidth
-        size='small'
-        sx={{ mb: 2 }}
-      >
-        <InputLabel>Subpoints</InputLabel>
-        <Select
-          value={subPointCount}
-          label='Subpoints'
-          onChange={(e) => setSubPointCount(Number(e.target.value))}
-        >
-          {[1, 2, 3, 4, 5].map((num) => (
-            <MenuItem
-              key={num}
-              value={num}
+        <Grid>
+          <FormControl
+            fullWidth
+            size='small'
+          >
+            <InputLabel>Subpoints</InputLabel>
+            <Select
+              value={subPointCount}
+              label='Subpoints'
+              onChange={(e) => setSubPointCount(Number(e.target.value))}
             >
-              {num}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+              {[1, 2, 3, 4, 5].map((num) => (
+                <MenuItem
+                  key={num}
+                  value={num}
+                >
+                  {num}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
 
-      <TextField
-        fullWidth
-        label='Subject'
-        placeholder='Enter Subject'
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
-        size='small'
-        multiline
-        minRows={1}
-        sx={{ mb: 1 }}
-      />
-      <TextField
-        fullWidth
-        label='Any additional instructions'
-        placeholder='e.g. Explain like I am 10'
-        value={instructions}
-        onChange={(e) => setInstructions(e.target.value)}
-        size='small'
-        multiline
-        minRows={1}
-        sx={{ mb: 1 }}
-      />
+        <Grid>
+          <TextField
+            fullWidth
+            label='Subject'
+            placeholder='Enter Subject'
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            size='small'
+            multiline
+            minRows={1}
+          />
+        </Grid>
 
-      <CommonButton
-        disabled={loading || !question || isPresent}
-        onClick={handleGenerate}
-        sx={{
-          mb: 1,
-          width: "100%",
-        }}
-      >
-        {loading ? "Generating..." : "🧠 Generate Mind Map"}
-      </CommonButton>
+        <Grid>
+          <TextField
+            fullWidth
+            label='Any additional instructions'
+            placeholder='e.g. Explain like I am 10'
+            value={instructions}
+            onChange={(e) => setInstructions(e.target.value)}
+            size='small'
+            multiline
+            minRows={1}
+          />
+        </Grid>
 
-      <Typography
-        fontWeight={600}
-        mb={1.5}
-      >
-        Explanation of Nodes
-      </Typography>
-      <Box sx={{ mb: 2 }}>
-        <TextField
-          fullWidth
-          label='Would you like to give extra instructions?'
-          placeholder='e.g. Explain with examples, be concise, use simple language'
-          value={explanationInstruction}
-          onChange={(e) => setExplanationInstruction(e.target.value)}
-          size='small'
-          multiline
-          minRows={2}
-          sx={{ mb: 2 }}
-        />
-
-        <CustomTooltip
-          title={
-            selectedNodeIds.length > 1
-              ? "❗ Only one node can be explained at a time."
-              : ""
-          }
-          disableHoverListener={selectedNodeIds.length <= 1}
-        >
-          <span>
-            <CommonButton
-              sx={{ width: "100%", mb: 2 }}
-              disabled={selectedNodeIds.length !== 1 || loading}
-              onClick={handleExplainSelectedNode}
-            >
-              {explaining ? "Explaining..." : "💬 Explain Selected Node"}
-            </CommonButton>
-          </span>
-        </CustomTooltip>
-
-        {explanation && (
-          <Box
+        <Grid>
+          <CommonButton
+            disabled={loading || !question || isPresent}
+            onClick={handleGenerate}
             sx={{
-              bgcolor: "#f1f1f1",
-              p: 2,
-              borderRadius: 1,
-              fontSize: 13,
-              whiteSpace: "pre-line",
-              mb: 2,
-              maxHeight: 150,
-              overflowY: "auto",
-              position: "relative",
+              width: "100%",
             }}
           >
-            <IconButton
-              size='small'
-              onClick={() => setExplanation("")}
-              sx={{ position: "absolute", top: 4, right: 4 }}
-            >
-              <CloseIcon fontSize='small' />
-            </IconButton>
+            {loading ? "Generating..." : "🧠 Generate Mind Map"}
+          </CommonButton>
+        </Grid>
 
-            {explanation}
-          </Box>
-        )}
-      </Box>
+        <Grid
+          container
+          flexDirection={"column"}
+          gap={"0.7rem"}
+        >
+          <Grid sx={{ fontWeight: "600", fontSize: "1rem" }}>
+            Explanation of Nodes
+          </Grid>
+          <Grid>
+            <TextField
+              fullWidth
+              label='Would you like to give extra instructions?'
+              placeholder='e.g. Explain with examples, be concise, use simple language'
+              value={explanationInstruction}
+              onChange={(e) => setExplanationInstruction(e.target.value)}
+              size='small'
+              multiline
+              minRows={2}
+            />
+          </Grid>
+
+          <Grid>
+            <CustomTooltip
+              title={
+                selectedNodeIds.length > 1
+                  ? "❗ Only one node can be explained at a time."
+                  : ""
+              }
+              disableHoverListener={selectedNodeIds.length <= 1}
+            >
+              <span>
+                <CommonButton
+                  sx={{ width: "100%" }}
+                  disabled={selectedNodeIds.length !== 1 || loading}
+                  onClick={handleExplainSelectedNode}
+                >
+                  {explaining ? "Explaining..." : "💬 Explain Selected Node"}
+                </CommonButton>
+              </span>
+            </CustomTooltip>
+          </Grid>
+        </Grid>
+
+        <Box>
+          {explanation && (
+            <Box
+              sx={{
+                bgcolor: "#f1f1f1",
+                p: 2,
+                borderRadius: 1,
+                fontSize: 13,
+                whiteSpace: "pre-line",
+                maxHeight: 150,
+                overflowY: "auto",
+                position: "relative",
+              }}
+            >
+              <IconButton
+                size='small'
+                onClick={() => setExplanation("")}
+                sx={{ position: "absolute", top: 4, right: 4 }}
+              >
+                <CloseIcon fontSize='small' />
+              </IconButton>
+
+              {explanation}
+            </Box>
+          )}
+        </Box>
+      </Grid>
 
       <Divider sx={{ my: 2 }} />
 
@@ -266,7 +276,7 @@ const Sidebar = () => {
       >
         Version 0.2.0
       </Typography>
-    </Box>
+    </Grid>
   );
 };
 
