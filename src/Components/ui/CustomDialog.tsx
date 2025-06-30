@@ -38,7 +38,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
       slotProps={{
         paper: {
           sx: {
-            borderRadius: "14px",
+            borderRadius: "0.875rem",
           },
         },
       }}
@@ -46,7 +46,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
       <DialogTitle
         sx={{
           fontWeight: 500,
-          fontSize: "16px",
+          fontSize: "1rem",
           pb: 0,
         }}
       >
@@ -84,8 +84,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
           sx={{
             px: 3,
             py: 1,
-            borderRadius: "8px",
-            minWidth: "100px",
+            borderRadius: "0.5rem",
             textTransform: "none",
           }}
         >
@@ -96,8 +95,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
           sx={{
             px: 3,
             py: 1,
-            borderRadius: "8px",
-            minWidth: "100px",
+            borderRadius: "0.5rem",
             textTransform: "none",
           }}
         >

@@ -23,12 +23,12 @@ const CommonButton: React.FC<CommonButtonProps> = ({
     <Button
       onClick={onClick}
       sx={{
-        borderRadius: "16px",
+        borderRadius: "1rem",
         textTransform: "none",
-        fontWeight: 500,
+        fontWeight: "var(--weight-medium)",
         backgroundColor: "var(--button-background)",
         color: "var(--primary-black)",
-        fontSize: "10px",
+        fontSize: "0.625rem",
         ...sx,
       }}
       startIcon={startIcon}

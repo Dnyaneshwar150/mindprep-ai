@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { AppBar, Box, Chip, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Chip, Grid, Toolbar, Typography } from "@mui/material";
 import CommonButton from "./ui/CummonButton";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,14 +30,15 @@ function Navbar() {
       position='static'
       color='transparent'
       elevation={0}
-      sx={{
-        height: 30,
-        justifyContent: "center",
-        borderBottom: "1px solid var(--light-black)",
-        paddingBottom: "4px",
-      }}
     >
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          padding: 0,
+          borderBottom: "1px solid var(--light-black)",
+          minHeight: "3rem !important",
+        }}
+      >
         <Box
           display='flex'
           alignItems='center'
@@ -48,7 +49,7 @@ function Navbar() {
             style={{ textDecoration: "none" }}
           >
             <Typography
-              fontSize='18px'
+              fontSize='1.125rem'
               fontWeight={600}
               color='black'
               sx={{ cursor: "pointer" }}
@@ -65,21 +66,24 @@ function Navbar() {
         </Box>
 
         {/* Right: Buttons */}
-        <Box
-          display='flex'
-          alignItems='center'
-          gap={1}
+        <Grid
+          container
+          gap={"1rem"}
         >
-          <Link href='/about'>
-            <CommonButton>Go to Docs →</CommonButton>
-          </Link>
-          <CommonButton
-            onClick={handleOpenDialog}
-            disabled={!isPresent}
-          >
-            Create New MindMap{" "}
-          </CommonButton>
-        </Box>
+          <Grid>
+            <Link href='/about'>
+              <CommonButton>Docs</CommonButton>
+            </Link>
+          </Grid>
+          <Grid>
+            <CommonButton
+              onClick={handleOpenDialog}
+              disabled={!isPresent}
+            >
+              Create New MindMap{" "}
+            </CommonButton>
+          </Grid>
+        </Grid>
 
         <CustomDialog
           open={open}

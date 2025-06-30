@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Handle, NodeProps, Position, Node } from "@xyflow/react";
+import { Handle, NodeProps, Node } from "@xyflow/react";
 import { Typography, IconButton, Box, TextField } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { updateNodeLabel } from "@/redux/slices/mindmapSlice";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { selectMindmapSelectedNodeIds } from "@/redux/mindmapSelectors";
+import useHandlePosition from "@/hooks/useHandlePoistion";
 
 export default function AnswerNode({
   id,
@@ -21,6 +22,7 @@ export default function AnswerNode({
   const [isEditing, setIsEditing] = useState(false);
   const [editedLabel, setEditedLabel] = useState(data.label);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { sourcePosition, targetPosition } = useHandlePosition();
 
   const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
   const isSelected = selectedNodeIds.includes(id);
@@ -114,12 +116,12 @@ export default function AnswerNode({
 
       <Handle
         type='target'
-        position={Position.Left}
+        position={targetPosition}
         id='answer-from-question'
       />
       <Handle
         type='source'
-        position={Position.Right}
+        position={sourcePosition}
         id='answer-to-main-point-heading'
       />
     </NodeWrapper>
