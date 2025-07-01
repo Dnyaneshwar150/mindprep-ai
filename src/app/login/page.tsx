@@ -98,6 +98,9 @@ export default function LoginPage() {
         >
           Dont have Account? Create one
         </Button>
+        <Button onClick={() => signIn("google", { callbackUrl: "/" })}>
+          Sign in with Google
+        </Button>
       </Box>
     </Container>
   );
