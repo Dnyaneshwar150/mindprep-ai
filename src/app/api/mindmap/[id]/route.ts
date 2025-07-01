@@ -1,5 +1,3 @@
-// /app/api/mindmap/[id]/route.ts
-
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { MindmapModel } from "@/app/models/Mindmap";
