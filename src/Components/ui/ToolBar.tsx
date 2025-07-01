@@ -9,6 +9,7 @@ import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
 import FitScreenOutlinedIcon from "@mui/icons-material/FitScreenOutlined";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 import AddIcon from "@mui/icons-material/Add";
+import SaveIcon from "@mui/icons-material/Save";
 import {
   downloadCheatSheet,
   downloadMindmapToJson,
@@ -122,6 +123,32 @@ const Toolbar = () => {
       e.target.value = ""; // reset input so re-uploading same file works
     }
   };
+
+  const handleSaveMindMap = async () => {
+    try {
+      const res = await fetch("/api/mindmap", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: mindmapQuestion,
+          nodes,
+          edges,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to save mind map");
+      }
+
+      alert("✅ Mind map saved successfully!");
+    } catch (err) {
+      alert("❌ " + (err as Error).message);
+    }
+  };
+
   return (
     <Grid
       container
@@ -358,7 +385,6 @@ const Toolbar = () => {
                     },
                   }}
                 >
-                  {/* pill */}
                   <Grid
                     sx={{
                       width: 20,
@@ -374,6 +400,24 @@ const Toolbar = () => {
               ))}
             </Grid>
           </Popover>
+        </Grid>
+
+        <Grid>
+          <CustomTooltip title='Save Mind Map'>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                onClick={handleSaveMindMap}
+              >
+                <SaveIcon fontSize='small' />
+              </IconButton>
+            </span>
+          </CustomTooltip>
         </Grid>
       </Grid>
     </Grid>

@@ -27,6 +27,7 @@ import { fetchExplanationFromGPT } from "@/api/prompts/buildExplanationPrompt";
 
 import CustomTooltip from "./ui/CustomTooltip";
 import { useSelector } from "react-redux";
+import MindMapList from "./MindMapList";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -96,7 +97,6 @@ const Sidebar = () => {
     >
       <Typography fontWeight={600}>Question Details</Typography>
       <Typography fontSize={13}>Enter Question Below</Typography>
-
       <Grid
         container
         sx={{ flexDirection: "column", gap: "0.8rem" }}
@@ -268,8 +268,10 @@ const Sidebar = () => {
         </Box>
       </Grid>
 
+      <Grid>
+        <MindMapList />
+      </Grid>
       <Divider sx={{ my: 2 }} />
-
       <Typography
         variant='caption'
         color='gray'

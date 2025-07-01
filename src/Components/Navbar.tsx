@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetMindmap } from "@/redux/slices/mindmapSlice";
 import CustomDialog from "./ui/CustomDialog";
 import { selectMindmapIsPresent } from "@/redux/mindmapSelectors";
+import { signOut } from "next-auth/react";
+import { persistor } from "@/redux/store";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -23,6 +25,13 @@ function Navbar() {
   const handleConfirm = () => {
     handleCreateNewMindmap();
     handleCloseDialog();
+  };
+
+  const handleLogout = () => {
+    // Step 2: Clear persisted store (localStorage)
+    persistor.purge();
+    dispatch(resetMindmap());
+    signOut({ callbackUrl: "/login" }); // Redirect to login after logout
   };
 
   return (
@@ -82,6 +91,7 @@ function Navbar() {
             >
               Create New MindMap{" "}
             </CommonButton>
+            <CommonButton onClick={handleLogout}>Logout</CommonButton>
           </Grid>
         </Grid>
 
