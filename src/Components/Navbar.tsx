@@ -1,19 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import { AppBar, Box, Chip, Grid, Toolbar, Typography } from "@mui/material";
-import CommonButton from "./ui/CummonButton";
+import CommonButton from "./ui/CommonButton";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { resetMindmap } from "@/redux/slices/mindmapSlice";
 import CustomDialog from "./ui/CustomDialog";
 import { selectMindmapIsPresent } from "@/redux/mindmapSelectors";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { persistor } from "@/redux/store";
 
 function Navbar() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const isPresent = useSelector(selectMindmapIsPresent);
+  const { status } = useSession();
 
   const handleOpenDialog = () => setOpen(true);
   const handleCloseDialog = () => setOpen(false);
@@ -28,10 +29,9 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    // Step 2: Clear persisted store (localStorage)
     persistor.purge();
     dispatch(resetMindmap());
-    signOut({ callbackUrl: "/login" }); // Redirect to login after logout
+    signOut({ callbackUrl: "/" });
   };
 
   return (
@@ -91,7 +91,9 @@ function Navbar() {
             >
               Create New MindMap{" "}
             </CommonButton>
-            <CommonButton onClick={handleLogout}>Logout</CommonButton>
+            {status === "authenticated" && (
+              <CommonButton onClick={handleLogout}>Logout</CommonButton>
+            )}
           </Grid>
         </Grid>
 

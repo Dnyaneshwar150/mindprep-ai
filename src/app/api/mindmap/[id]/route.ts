@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { MindmapModel } from "@/app/models/Mindmap";
-import { authOptions } from "@/app/register/lib/authOptions";
-import { connectDB } from "@/app/register/lib/mongodb";
+import { authOptions } from "@/app/lib/authOptions";
+import { connectDB } from "@/app/lib/mongodb";
 
 export async function GET(
   req: Request,

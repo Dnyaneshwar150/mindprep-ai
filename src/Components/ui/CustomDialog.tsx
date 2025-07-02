@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import CommonButton from "./CummonButton";
+import CommonButton from "./CommonButton";
 
 interface CustomDialogProps {
   open: boolean;

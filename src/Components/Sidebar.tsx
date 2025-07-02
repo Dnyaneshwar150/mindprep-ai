@@ -21,21 +21,27 @@ import {
   selectMindmapNodes,
   selectMindmapSelectedNodeIds,
 } from "@/redux/mindmapSelectors";
-import CommonButton from "./ui/CummonButton";
+import CommonButton from "./ui/CommonButton";
 import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
 import { fetchExplanationFromGPT } from "@/api/prompts/buildExplanationPrompt";
 
 import CustomTooltip from "./ui/CustomTooltip";
 import { useSelector } from "react-redux";
 import MindMapList from "./MindMapList";
+import { useSession } from "next-auth/react";
+import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
+  const { data: session, status } = useSession();
 
   const isPresent = useSelector(selectMindmapIsPresent);
   const loading = useAppSelector(selectMindmapLoading);
   const selectedNodeIds = useAppSelector(selectMindmapSelectedNodeIds);
   const nodes = useAppSelector(selectMindmapNodes);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
 
   const [question, setQuestion] = useState("");
   const [mainPointCount, setMainPointCount] = useState(1);
@@ -69,6 +75,10 @@ const Sidebar = () => {
   };
 
   const handleGenerate = () => {
+    if (!session?.user) {
+      setShowLoginModal(true); // custom modal popup
+      return;
+    }
     dispatch(
       fetchMindmapFromGPT({
         question,
@@ -197,6 +207,17 @@ const Sidebar = () => {
           </CommonButton>
         </Grid>
 
+        <LoginModal
+          open={showLoginModal}
+          onLogonModalCloseAction={() => setShowLoginModal(false)}
+          setShowLoginModalAction={setShowLoginModal}
+          setShowSignupModalAction={setShowSignupModal}
+        />
+        <SignupModal
+          open={showSignupModal}
+          onClose={() => setShowSignupModal(false)}
+        />
+
         <Grid
           container
           flexDirection={"column"}
@@ -268,9 +289,12 @@ const Sidebar = () => {
         </Box>
       </Grid>
 
-      <Grid>
-        <MindMapList />
-      </Grid>
+      {status === "authenticated" && (
+        <Grid>
+          <MindMapList />
+        </Grid>
+      )}
+
       <Divider sx={{ my: 2 }} />
       <Typography
         variant='caption'

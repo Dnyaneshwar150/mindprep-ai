@@ -1,7 +1,7 @@
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { connectDB } from "@/app/register/lib/mongodb";
+import { connectDB } from "@/app/lib/mongodb";
 import bcrypt from "bcrypt";
 import { User } from "@/app/models/User";
 
@@ -36,9 +36,6 @@ export const authOptions: AuthOptions = {
   ],
   session: {
     strategy: "jwt",
-  },
-  pages: {
-    signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/register/lib/authOptions";
-import { connectDB } from "@/app/register/lib/mongodb";
+import { authOptions } from "@/app/lib/authOptions";
+import { connectDB } from "@/app/lib/mongodb";
 import { MindmapModel } from "@/app/models/Mindmap";
-import { getUserMindmaps } from "@/app/register/lib/mindMapUtils";
+import { getUserMindmaps } from "@/app/lib/mindMapUtils";
 
 export async function GET() {
   const session = await getServerSession(authOptions);

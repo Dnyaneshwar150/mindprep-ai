@@ -2,7 +2,7 @@
 import { Box, IconButton, Grid } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
-import CommonButton from "./ui/CummonButton";
+import CommonButton from "./ui/CommonButton";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDocsBannerDismissed } from "@/redux/uiSelectors";
