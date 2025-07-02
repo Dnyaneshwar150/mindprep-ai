@@ -215,7 +215,7 @@ const Sidebar = () => {
         />
         <SignupModal
           open={showSignupModal}
-          onClose={() => setShowSignupModal(false)}
+          onCloseAction={() => setShowSignupModal(false)}
         />
 
         <Grid

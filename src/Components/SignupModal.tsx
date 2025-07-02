@@ -19,10 +19,10 @@ import CommonButton from "./ui/CommonButton";
 
 interface SignupModalProps {
   open: boolean;
-  onClose: () => void;
+  onCloseAction: () => void;
 }
 
-export default function SignupModal({ open, onClose }: SignupModalProps) {
+export default function SignupModal({ open, onCloseAction }: SignupModalProps) {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -52,7 +52,7 @@ export default function SignupModal({ open, onClose }: SignupModalProps) {
       });
 
       if (loginRes?.ok) {
-        onClose();
+        onCloseAction();
         router.refresh();
       } else {
         setError("Signup successful but login failed.");
@@ -67,7 +67,7 @@ export default function SignupModal({ open, onClose }: SignupModalProps) {
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={onCloseAction}
       maxWidth='xs'
       fullWidth
     >
@@ -78,7 +78,7 @@ export default function SignupModal({ open, onClose }: SignupModalProps) {
           alignItems='center'
         >
           <Typography variant='h6'>Sign Up</Typography>
-          <IconButton onClick={onClose}>
+          <IconButton onClick={onCloseAction}>
             <CloseIcon />
           </IconButton>
         </Stack>
