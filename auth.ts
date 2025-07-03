@@ -2,12 +2,13 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { connectDB } from "./lib/connectDB";
-import { User } from "./models/User"; // Your Mongoose User model
+import { User } from "./models/User";
 import bcrypt from "bcrypt";
+import { logger } from "./lib/logger";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
-    signIn: "/login", // Optional: specify your login page
+    signIn: "/login",
   },
   providers: [
     Google({
@@ -26,20 +27,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = credentials.email as string;
         const password = credentials.password as string;
 
-        // 1. Try to find an existing user
         const user = await User.findOne({ email });
 
         if (user) {
-          // User exists, try to log them in
           const isMatch = await bcrypt.compare(password, user.password);
           if (isMatch) {
-            console.log("Existing user logged in:", email);
+            logger.info(
+              `✅ Existing user logged in with credentials: ${email}`,
+            );
             return {
               id: user._id.toString(),
               email: user.email,
             };
           } else {
-            console.log("Invalid password for existing user:", email);
+            logger.warn(`🟠 Invalid password attempt for user: ${email}`);
             return null;
           }
         } else {
@@ -48,16 +49,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const newUser = await User.create({
               email,
               password: hashedPassword,
-              provider: "credentials", // Mark as a credential user
+              provider: "credentials",
             });
-            console.log("New user created and logged in:", email);
+            logger.info(`✅ New user registered and logged in: ${email}`);
             return {
               id: newUser._id.toString(),
               email: newUser.email,
             };
-          } catch {
-            console.error("Error creating new user:");
-            throw new Error("Failed to create account: ");
+          } catch (error) {
+            logger.error(`❌ Error creating new user (${email}): ${error}`);
+            throw new Error("Failed to create account");
           }
         }
       },
@@ -76,15 +77,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               name: user.name,
               image: user.image,
               provider: "google",
-              providerId: account.providerAccountId, // Use providerAccountId from account
+              providerId: account.providerAccountId,
             });
-            console.log("New Google user created:", user.email);
+            logger.info(`✅ New Google user created: ${user.email}`);
           } else {
-            console.log("Existing Google user logged in:", user.email);
+            logger.info(`🔁 Existing Google user logged in: ${user.email}`);
           }
           return true;
         } catch (err) {
-          console.error("Error during Google signIn callback:", err);
+          logger.error(
+            `❌ Error during Google sign-in for ${user.email}: ${err}`,
+          );
           return false;
         }
       }

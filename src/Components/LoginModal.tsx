@@ -14,9 +14,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createUserIfNotExist } from "@/app/actions/authActions";
 import { signIn } from "next-auth/react";
-// Import your new server actions
 
 interface LoginModalProps {
   open: boolean;
@@ -35,16 +33,6 @@ export default function LoginModal({
     setError("");
 
     const formData = new FormData(e.currentTarget);
-
-    // Step 1: Call server action to create user if not exist
-    const result = await createUserIfNotExist(formData);
-
-    if (result?.error) {
-      setError(result.error);
-      return;
-    }
-
-    // Step 2: Call signIn (must be done on the client)
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
@@ -58,7 +46,7 @@ export default function LoginModal({
       setError("Login failed. Please check your credentials.");
     } else {
       onLoginModalCloseAction();
-      router.push("/"); // redirect manually
+      router.push("/");
       router.refresh();
     }
   };
