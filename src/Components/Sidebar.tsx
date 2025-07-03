@@ -23,13 +23,13 @@ import {
 } from "@/redux/mindmapSelectors";
 import CommonButton from "./ui/CummonButton";
 import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
-import { fetchExplanationFromGPT } from "@/api/prompts/buildExplanationPrompt";
 
 import CustomTooltip from "./ui/CustomTooltip";
 import { useSelector } from "react-redux";
 import LoginModal from "./LoginModal";
 import { useSession } from "next-auth/react";
 import MindMapList from "./MindmapList";
+import { fetchExplanation } from "@/utils/mindmapUtils/mindmapFetchUtils";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -57,20 +57,23 @@ const Sidebar = () => {
     const selectedId = selectedNodeIds[0];
     const node = nodes.find((n) => n.id === selectedId);
     if (!node) return;
+
     const label = node.data.label;
 
-    if (label === "New Node") {
+    if (!label || label === "New Node") {
       setExplanation("⚠️ Selected node must have content");
       return;
     }
 
-    setExplaining(true);
-    const explanation = await fetchExplanationFromGPT(
-      label,
-      explanationInstruction,
-    );
-    setExplanation(explanation);
-    setExplaining(false);
+    try {
+      setExplaining(true);
+      const explanation = await fetchExplanation(label, explanationInstruction);
+      setExplanation(explanation);
+    } catch {
+      setExplanation("❌ Failed to fetch explanation.");
+    } finally {
+      setExplaining(false);
+    }
   };
 
   const handleGenerate = () => {
