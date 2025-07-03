@@ -27,6 +27,9 @@ import { fetchExplanationFromGPT } from "@/api/prompts/buildExplanationPrompt";
 
 import CustomTooltip from "./ui/CustomTooltip";
 import { useSelector } from "react-redux";
+import LoginModal from "./LoginModal";
+import { useSession } from "next-auth/react";
+import MindMapList from "./MindmapList";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -44,6 +47,9 @@ const Sidebar = () => {
   const [instructions, setInstructions] = useState("");
   const [subject, setSubject] = useState("");
   const [explanationInstruction, setExplanationInstruction] = useState("");
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const { data: session, status } = useSession();
 
   const handleExplainSelectedNode = async () => {
     if (selectedNodeIds.length !== 1) return;
@@ -68,6 +74,10 @@ const Sidebar = () => {
   };
 
   const handleGenerate = () => {
+    if (!session?.user) {
+      setShowLoginModal(true); // custom modal popup
+      return;
+    }
     dispatch(
       fetchMindmapFromGPT({
         question,
@@ -197,6 +207,11 @@ const Sidebar = () => {
           </CommonButton>
         </Grid>
 
+        <LoginModal
+          open={showLoginModal}
+          onLoginModalCloseAction={() => setShowLoginModal(false)}
+        />
+
         <Grid
           container
           flexDirection={"column"}
@@ -267,6 +282,12 @@ const Sidebar = () => {
           )}
         </Box>
       </Grid>
+
+      {status === "authenticated" && (
+        <Grid>
+          <MindMapList />
+        </Grid>
+      )}
 
       <Divider sx={{ my: 2 }} />
 

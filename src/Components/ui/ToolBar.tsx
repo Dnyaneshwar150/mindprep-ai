@@ -42,6 +42,7 @@ import { extractCheatSheetDataFromRaw } from "@/utils/pdfUtils/extractCheatSheet
 import { generateTypeBasedId } from "@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils";
 import { NODE_TYPES_LIST } from "@/types/mindmapData.types";
 import { useReactFlow } from "@xyflow/react";
+import SaveIcon from "@mui/icons-material/Save";
 
 const Toolbar = () => {
   const { fitView } = useReactFlow();
@@ -122,6 +123,32 @@ const Toolbar = () => {
       e.target.value = ""; // reset input so re-uploading same file works
     }
   };
+
+  const handleSaveMindMap = async () => {
+    try {
+      const res = await fetch("/api/mindmap", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: mindmapQuestion,
+          nodes,
+          edges,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to save mind map");
+      }
+
+      alert("✅ Mind map saved successfully!");
+    } catch (err) {
+      alert("❌ " + (err as Error).message);
+    }
+  };
+
   return (
     <Grid
       container
@@ -374,6 +401,24 @@ const Toolbar = () => {
               ))}
             </Grid>
           </Popover>
+        </Grid>
+
+        <Grid>
+          <CustomTooltip title='Save Mind Map'>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                onClick={handleSaveMindMap}
+              >
+                <SaveIcon fontSize='small' />
+              </IconButton>
+            </span>
+          </CustomTooltip>
         </Grid>
       </Grid>
     </Grid>
