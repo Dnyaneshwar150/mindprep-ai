@@ -298,7 +298,7 @@ const Sidebar = () => {
         variant='caption'
         color='gray'
       >
-        Version 0.2.0
+        Version 0.3.0
       </Typography>
     </Grid>
   );
