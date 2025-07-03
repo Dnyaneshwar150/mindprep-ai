@@ -15,6 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import GoogleIcon from "@mui/icons-material/Google";
 
 interface LoginModalProps {
   open: boolean;
@@ -77,7 +78,10 @@ export default function LoginModal({
 
       <DialogContent>
         <form onSubmit={handleCredentialLogin}>
-          <Stack spacing={2}>
+          <Stack
+            spacing={2}
+            sx={{ mt: "0.4rem" }}
+          >
             {error && <Alert severity='error'>{error}</Alert>}
 
             <TextField
@@ -98,17 +102,29 @@ export default function LoginModal({
 
             <Button
               type='submit'
-              variant='contained'
-              fullWidth
+              sx={{
+                borderRadius: "1rem",
+                textTransform: "none",
+                fontWeight: "var(--weight-medium)",
+                backgroundColor: "var(--button-background)",
+                color: "var(--primary-black)",
+                fontSize: "0.625rem",
+              }}
             >
               Login
             </Button>
 
             <Button
-              type='button'
               onClick={handleGoogleLogin}
-              variant='outlined'
-              fullWidth
+              sx={{
+                borderRadius: "1rem",
+                textTransform: "none",
+                fontWeight: "var(--weight-medium)",
+                backgroundColor: "var(--button-background)",
+                color: "var(--primary-black)",
+                fontSize: "0.625rem",
+              }}
+              startIcon={<GoogleIcon style={{ fontSize: "1rem" }} />}
             >
               Sign in with Google
             </Button>
