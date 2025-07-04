@@ -43,9 +43,11 @@ import { generateTypeBasedId } from "@/utils/mindmapUtils/mindmapCommonUtils.ts/
 import { NODE_TYPES_LIST } from "@/types/mindmapData.types";
 import { useReactFlow } from "@xyflow/react";
 import SaveIcon from "@mui/icons-material/Save";
+import { useToast } from "@/app/providers/ToastProvider";
 
 const Toolbar = () => {
   const { fitView } = useReactFlow();
+  const showToast = useToast();
 
   const dispatch = useAppDispatch();
   const canUndo = useSelector(selectCanUndo);
@@ -115,12 +117,11 @@ const Toolbar = () => {
       dispatch(setEdges(edges));
       dispatch(setMindmapQuestion(extractedquestion));
       dispatch(setMindmapPresent(true));
-
-      alert("Mindmap uploaded successfully ✅");
+      showToast("Mindmap uploaded successfully", "success");
     } catch (err) {
-      alert("❌ Upload failed: " + (err as Error).message); //Todo:add toast
+      showToast("❌ Upload failed: " + (err as Error).message, "error");
     } finally {
-      e.target.value = ""; // reset input so re-uploading same file works
+      e.target.value = "";
     }
   };
 
@@ -143,11 +144,9 @@ const Toolbar = () => {
         throw new Error(data.error || "Failed to save mind map");
       }
 
-      // alert("✅ Mind map saved successfully!");
-      // ADD toast
+      showToast("Mindmap uploaded successfully ✅", "success");
     } catch (err) {
-      //add toast
-      alert("❌ " + (err as Error).message); // add toast
+      showToast("❌ " + (err as Error).message, "error");
     }
   };
 

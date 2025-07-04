@@ -9,6 +9,7 @@ import {
   setMindmapQuestion,
   setNodes,
 } from "@/redux/slices/mindmapSlice";
+import { useToast } from "@/app/providers/ToastProvider";
 
 interface Mindmap {
   _id: string;
@@ -19,6 +20,7 @@ export default function MindMapList() {
   const [maps, setMaps] = useState<Mindmap[]>([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
+  const showToast = useToast();
 
   useEffect(() => {
     const fetchMindmaps = async () => {
@@ -41,8 +43,7 @@ export default function MindMapList() {
       dispatch(setMindmapQuestion(data.question));
       dispatch(setMindmapPresent(true));
     } else {
-      // add toast
-      // alert(data.error || "Failed to load mindmap");
+      showToast("Failed to load mindmap List", "error");
     }
   };
 

@@ -10,6 +10,7 @@ import { ReduxProvider } from "./providers/ReduxProvider";
 import Navbar from "@/Components/Navbar";
 import DocsBanner from "@/Components/DocsBanner";
 import { SessionProvider } from "next-auth/react";
+import { ToastProvider } from "./providers/ToastProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,9 +31,11 @@ export default function RootLayout(props: PropsWithChildren) {
           <ThemeProvider theme={theme}>
             <SessionProvider>
               <ReduxProvider>
-                <Navbar />
-                <DocsBanner />
-                {children}
+                <ToastProvider>
+                  <Navbar />
+                  <DocsBanner />
+                  {children}
+                </ToastProvider>
               </ReduxProvider>
             </SessionProvider>
           </ThemeProvider>

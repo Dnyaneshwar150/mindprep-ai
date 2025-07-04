@@ -9,9 +9,12 @@ import CustomDialog from "./ui/CustomDialog";
 import { selectMindmapIsPresent } from "@/redux/mindmapSelectors";
 import { persistor } from "@/redux/store";
 import { signOut, useSession } from "next-auth/react";
+import { useToast } from "@/app/providers/ToastProvider";
 
 function Navbar() {
   const dispatch = useDispatch();
+  const showToast = useToast();
+
   const { status } = useSession();
   const [open, setOpen] = useState(false);
   const isPresent = useSelector(selectMindmapIsPresent);
@@ -31,6 +34,7 @@ function Navbar() {
   const handleLogout = () => {
     persistor.purge();
     dispatch(resetMindmap());
+    showToast("LogOut Successfully", "success");
     signOut({ callbackUrl: "/" });
   };
 

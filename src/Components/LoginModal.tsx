@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import GoogleIcon from "@mui/icons-material/Google";
+import { useToast } from "@/app/providers/ToastProvider";
 
 interface LoginModalProps {
   open: boolean;
@@ -27,6 +28,7 @@ export default function LoginModal({
 }: LoginModalProps) {
   const [error, setError] = useState("");
   const router = useRouter();
+  const showToast = useToast();
 
   const handleCredentialLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,10 +45,11 @@ export default function LoginModal({
     });
 
     if (res?.error) {
-      setError("Login failed. Please check your credentials.");
+      showToast("Login failed. Please check your credentials.", "error");
     } else {
       onLoginModalCloseAction();
       router.push("/");
+      showToast("Login successfully", "success");
       router.refresh();
     }
   };

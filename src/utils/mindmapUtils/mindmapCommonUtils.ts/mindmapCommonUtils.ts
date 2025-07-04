@@ -1,14 +1,12 @@
 import { Data, typePrefixMap } from "@/types/mindmapData.types";
-import { Node } from '@xyflow/react';
-
+import { Node } from "@xyflow/react";
 
 export function cleanChatGptJson(input: string): Data | null {
-
   const cleaned = input
     .trim()
-    .replace(/^```json/, '')  // Remove starting ```json
-    .replace(/^```/, '')      // Remove starting ``` (if no json)
-    .replace(/```$/, '')      // Remove trailing ```
+    .replace(/^```json/, "") // Remove starting ```json
+    .replace(/^```/, "") // Remove starting ``` (if no json)
+    .replace(/```$/, "") // Remove trailing ```
     .trim();
 
   try {
@@ -22,7 +20,7 @@ export function cleanChatGptJson(input: string): Data | null {
 export function updateLabelInNodeArray(
   nodes: Node[],
   nodeId: string,
-  newLabel: string
+  newLabel: string,
 ): Node[] {
   return nodes.map((node) =>
     node.id === nodeId
@@ -33,7 +31,7 @@ export function updateLabelInNodeArray(
             label: newLabel,
           },
         }
-      : node
+      : node,
   );
 }
 
@@ -42,7 +40,7 @@ export function generateTypeBasedId(nodes: Node[], type: string): string {
 
   const maxNumber = nodes
     .filter((node) => node.type === type && node.id.startsWith(prefix))
-    .map((node) => parseInt(node.id.replace(prefix, ''), 10))
+    .map((node) => parseInt(node.id.replace(prefix, ""), 10))
     .filter((n) => !isNaN(n))
     .reduce((max, n) => Math.max(max, n), 0);
 

@@ -22,7 +22,7 @@ import {
   selectMindmapSelectedNodeIds,
 } from "@/redux/mindmapSelectors";
 import CommonButton from "./ui/CummonButton";
-import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
+import { fetchMindmapFromGPT } from "@/utils/mindmapUtils/buildMindmapPrompts";
 
 import CustomTooltip from "./ui/CustomTooltip";
 import { useSelector } from "react-redux";
