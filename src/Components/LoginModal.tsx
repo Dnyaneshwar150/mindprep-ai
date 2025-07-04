@@ -1,4 +1,3 @@
-// LoginModal.tsx
 "use client";
 import {
   Dialog,
@@ -53,7 +52,7 @@ export default function LoginModal({
   };
 
   const handleGoogleLogin = () => {
-    signIn("google", { callbackUrl: "/" }); // no await needed here
+    signIn("google", { callbackUrl: "/" });
   };
 
   return (
@@ -89,7 +88,7 @@ export default function LoginModal({
               type='email'
               fullWidth
               required
-              name='email' // IMPORTANT: Add name attribute for FormData
+              name='email'
             />
 
             <TextField
@@ -97,7 +96,7 @@ export default function LoginModal({
               type='password'
               fullWidth
               required
-              name='password' // IMPORTANT: Add name attribute for FormData
+              name='password'
             />
 
             <Button

@@ -1,6 +1,5 @@
-// app/api/explain/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { fetchGptDataBackend } from "../../../../lib/fetchGptData";
+import { fetchData } from "../../../../lib/fetchData";
 import { logger } from "../../../../lib/logger";
 
 export async function POST(req: NextRequest) {
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
       instructions ? ` Additional instructions: ${instructions}` : ""
     }`;
 
-    const explanation = await fetchGptDataBackend(prompt);
+    const explanation = await fetchData(prompt);
 
     logger.info(`✅ Explanation successfully generated for label: "${label}"`);
     return NextResponse.json({ explanation });

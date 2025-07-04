@@ -1,13 +1,13 @@
-// lib/openai.ts
+//This is generate file where multiple generate which get params add prompt and  fetch data
 
 import { PromptParams } from "./types";
-import { fetchGptDataBackend } from "./fetchGptData";
+import { fetchData } from "./fetchData";
 import { mindmapPrompt } from "./prompt";
 
-export async function generateFromOpenAI(params: PromptParams) {
+export async function generateMindMap(params: PromptParams) {
   const prompt = mindmapPrompt(params);
 
-  const raw = await fetchGptDataBackend(prompt, true); // ✅ using your custom DeepSeek API
+  const raw = await fetchData(prompt, true);
 
   try {
     const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;

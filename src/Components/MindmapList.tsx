@@ -41,12 +41,19 @@ export default function MindMapList() {
       dispatch(setMindmapQuestion(data.question));
       dispatch(setMindmapPresent(true));
     } else {
-      alert(data.error || "Failed to load mindmap");
+      // add toast
+      // alert(data.error || "Failed to load mindmap");
     }
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return;
+    <Grid
+      container
+      justifyContent={"center"}
+    >
+      <CircularProgress />
+    </Grid>;
   }
 
   return (

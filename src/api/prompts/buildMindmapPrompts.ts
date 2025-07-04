@@ -36,7 +36,7 @@ export const fetchMindmapFromGPT = createAsyncThunk(
       throw new Error("Failed to generate mindmap from backend");
     }
 
-    const data = await response.json(); // { question, data }
+    const data = await response.json();
     return data;
   },
 );

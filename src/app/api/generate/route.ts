@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { PromptParams } from "../../../../lib/types";
-import { generateFromOpenAI } from "../../../../lib/openai";
+import { generateMindMap } from "../../../../lib/generate";
 import { logger } from "../../../../lib/logger";
 
 export async function POST(req: NextRequest) {
@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
 
     logger.debug(`Received Prompt Params: ${JSON.stringify(body)}`);
 
-    const data = await generateFromOpenAI(body);
+    const data = await generateMindMap(body);
 
     logger.info(`✅ Mindmap generated for question: "${body.question}"`);
 

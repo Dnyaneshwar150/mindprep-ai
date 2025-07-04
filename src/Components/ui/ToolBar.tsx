@@ -118,7 +118,7 @@ const Toolbar = () => {
 
       alert("Mindmap uploaded successfully ✅");
     } catch (err) {
-      alert("❌ Upload failed: " + (err as Error).message);
+      alert("❌ Upload failed: " + (err as Error).message); //Todo:add toast
     } finally {
       e.target.value = ""; // reset input so re-uploading same file works
     }
@@ -143,9 +143,11 @@ const Toolbar = () => {
         throw new Error(data.error || "Failed to save mind map");
       }
 
-      alert("✅ Mind map saved successfully!");
+      // alert("✅ Mind map saved successfully!");
+      // ADD toast
     } catch (err) {
-      alert("❌ " + (err as Error).message);
+      //add toast
+      alert("❌ " + (err as Error).message); // add toast
     }
   };
 

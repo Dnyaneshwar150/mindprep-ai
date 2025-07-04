@@ -1,4 +1,4 @@
-// lib/prompt.ts
+//All function  prompts here
 
 import { PromptParams } from "./types";
 

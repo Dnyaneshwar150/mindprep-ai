@@ -7,9 +7,6 @@ import bcrypt from "bcrypt";
 import { logger } from "./lib/logger";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages: {
-    signIn: "/login",
-  },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,

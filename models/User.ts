@@ -1,4 +1,3 @@
-// models/User.ts
 import { Schema, models, model } from "mongoose";
 
 const userSchema = new Schema({
@@ -20,14 +19,14 @@ const userSchema = new Schema({
     type: String,
   },
   provider: {
-    type: String, // e.g., "google", "credentials"
+    type: String,
     required: true,
-    default: "credentials", // Default to credentials if not specified
+    default: "credentials",
   },
   providerId: {
     type: String,
     unique: true,
-    sparse: true, // Allows multiple nulls but unique for non-null values
+    sparse: true,
   },
   createdAt: {
     type: Date,

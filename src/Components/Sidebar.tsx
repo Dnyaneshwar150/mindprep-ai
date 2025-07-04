@@ -33,6 +33,7 @@ import { fetchExplanation } from "@/utils/mindmapUtils/mindmapFetchUtils";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
+  const { data: session, status } = useSession();
 
   const isPresent = useSelector(selectMindmapIsPresent);
   const loading = useAppSelector(selectMindmapLoading);
@@ -48,8 +49,6 @@ const Sidebar = () => {
   const [subject, setSubject] = useState("");
   const [explanationInstruction, setExplanationInstruction] = useState("");
   const [showLoginModal, setShowLoginModal] = useState(false);
-
-  const { data: session, status } = useSession();
 
   const handleExplainSelectedNode = async () => {
     if (selectedNodeIds.length !== 1) return;
@@ -70,7 +69,7 @@ const Sidebar = () => {
       const explanation = await fetchExplanation(label, explanationInstruction);
       setExplanation(explanation);
     } catch {
-      setExplanation("❌ Failed to fetch explanation.");
+      setExplanation("Failed to fetch explanation.");
     } finally {
       setExplaining(false);
     }
@@ -78,7 +77,7 @@ const Sidebar = () => {
 
   const handleGenerate = () => {
     if (!session?.user) {
-      setShowLoginModal(true); // custom modal popup
+      setShowLoginModal(true);
       return;
     }
     dispatch(
