@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import mockData from "../../app/Workflow/mockData.json";
+import mockData from "../../app/Workflow/mockData.json";
 import { PromptParams } from "../../../lib/types";
 
-// const USE_MOCK_DATA = false;
+const USE_MOCK_DATA = true;
 
 export const fetchMindmapFromGPT = createAsyncThunk(
   "mindmap/fetchFromGPT",
@@ -13,12 +13,12 @@ export const fetchMindmapFromGPT = createAsyncThunk(
     subject,
     instructions,
   }: PromptParams) => {
-    // if (USE_MOCK_DATA) {
-    //   return {
-    //     question: mockData.question.label,
-    //     data: mockData,
-    //   };
-    // }
+    if (USE_MOCK_DATA) {
+      return {
+        question: mockData.question.label,
+        data: mockData,
+      };
+    }
 
     const response = await fetch("/api/generate", {
       method: "POST",

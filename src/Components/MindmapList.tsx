@@ -51,9 +51,7 @@ export default function MindMapList() {
 
   return (
     <Grid>
-      <Grid sx={{ fontWeight: "600", fontSize: "1rem" }}>
-        Explanation of Nodes
-      </Grid>
+      <Grid sx={{ fontWeight: "600", fontSize: "1rem" }}>Saved Mindmaps</Grid>
       <Grid
         sx={{
           maxHeight: "200px",

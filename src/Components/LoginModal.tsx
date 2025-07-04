@@ -63,7 +63,7 @@ export default function LoginModal({
       maxWidth='xs'
       fullWidth
     >
-      <DialogTitle>
+      <DialogTitle sx={{ paddingBottom: "0.5rem" }}>
         <Stack
           direction='row'
           justifyContent='space-between'
