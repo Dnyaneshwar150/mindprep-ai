@@ -6,6 +6,8 @@ import { User } from "./models/User";
 import bcrypt from "bcrypt";
 import { logger } from "./lib/logger";
 
+const isProd = process.env.NODE_ENV === "production";
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
@@ -62,6 +64,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   session: { maxAge: 3600 },
+  secret: isProd ? process.env.NEXTAUTH_SECRET : undefined,
+
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
