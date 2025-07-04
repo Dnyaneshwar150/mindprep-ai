@@ -41,3 +41,41 @@ export async function GET(
     );
   }
 }
+
+export async function DELETE(
+  req: NextRequest,
+  context: { params: Promise<{ id: number }> },
+) {
+  logger.info("🟢 [DELETE] /api/mindmap/:id called");
+
+  const session = await auth();
+
+  if (!session || !session.user?.email) {
+    logger.warn("🟠 Unauthorized delete attempt");
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  await connectDB();
+  const mindmapId = (await context.params).id;
+
+  try {
+    const deletedMap = await MindmapModel.findOneAndDelete({
+      _id: mindmapId,
+      userId: session.user.email,
+    });
+
+    if (!deletedMap) {
+      logger.info(`🔍 Mindmap not found for deletion`);
+      return NextResponse.json({ error: "Not Found" }, { status: 404 });
+    }
+
+    logger.info(`🗑️ Mindmap deleted for user: ${session.user.email}`);
+    return NextResponse.json({ message: "Deleted successfully" });
+  } catch (error) {
+    logger.error(`❌ Failed to delete mindmap: ${error}`);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
+}

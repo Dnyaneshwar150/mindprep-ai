@@ -110,3 +110,9 @@ body {
 /* <Typography variant="h4" component="h2">
   Styled like h4, but rendered as <h2>
 </Typography> */
+
+.ellipse-text {
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Show "..." at the end */
+}

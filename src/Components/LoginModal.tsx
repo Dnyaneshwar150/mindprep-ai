@@ -9,6 +9,7 @@ import {
   Typography,
   Stack,
   IconButton,
+  Grid,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
@@ -101,6 +102,21 @@ export default function LoginModal({
               required
               name='password'
             />
+            <Grid
+              container
+              flexDirection={"column"}
+              alignItems={"center"}
+              sx={{
+                backgroundColor: "var(--background-blue)",
+                border: "1px solid var(--border-blue)",
+                borderRadius: "1rem",
+                padding: "0.5rem",
+              }}
+            >
+              <Grid>Demo Credentials:</Grid>
+              <Grid fontSize={"0.75rem"}>demo@gmail.com</Grid>
+              <Grid fontSize={"0.75rem"}>pass123</Grid>
+            </Grid>
 
             <Button
               type='submit'

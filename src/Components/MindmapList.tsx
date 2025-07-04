@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { List, ListItemButton, CircularProgress, Grid } from "@mui/material";
+import {
+  List,
+  CircularProgress,
+  Grid,
+  IconButton,
+  ListItem,
+} from "@mui/material";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import {
   setEdges,
@@ -10,6 +16,7 @@ import {
   setNodes,
 } from "@/redux/slices/mindmapSlice";
 import { useToast } from "@/app/providers/ToastProvider";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Mindmap {
   _id: string;
@@ -46,6 +53,22 @@ export default function MindMapList() {
       showToast("Failed to load mindmap List", "error");
     }
   };
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await fetch(`/api/mindmap/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        showToast("Mindmap deleted", "success");
+        setMaps((prevMaps) => prevMaps.filter((map) => map._id !== id));
+      } else {
+        showToast("Delete failed", "error");
+      }
+    } catch (err) {
+      console.error("Error deleting mindmap:", err);
+    }
+  };
 
   if (loading) {
     return;
@@ -70,7 +93,7 @@ export default function MindMapList() {
       >
         <List sx={{ padding: 0 }}>
           {maps.map((map) => (
-            <ListItemButton
+            <ListItem
               key={map._id}
               onClick={() => handleMindmapClick(map._id)}
               sx={{
@@ -80,11 +103,26 @@ export default function MindMapList() {
                   backgroundColor: "#f5f5f5",
                 },
               }}
+              secondaryAction={
+                <IconButton
+                  edge='end'
+                  aria-label='delete'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(map._id);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              }
             >
-              <Grid sx={{ fontSize: "0.95rem", color: "#333" }}>
+              <Grid
+                className='ellipse-text'
+                sx={{ fontSize: "0.95rem", color: "#333", width: "80%" }}
+              >
                 {map.question}
               </Grid>
-            </ListItemButton>
+            </ListItem>
           ))}
         </List>
       </Grid>
