@@ -1,31 +1,15 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchGptData } from "../chatgpt";
-// import mockData from "../../app/Workflow/mockData.json";
-// const USE_MOCK_DATA = true;
+//All function  prompts here
 
-export const fetchMindmapFromGPT = createAsyncThunk(
-  "mindmap/fetchFromGPT",
-  async ({
-    question,
-    mainPointCount,
-    subPointCount,
-    subject,
-    instructions,
-  }: {
-    question: string;
-    mainPointCount: number;
-    subPointCount: number;
-    subject: string;
-    instructions: string;
-  }) => {
-    // if (USE_MOCK_DATA) {
-    //   return {
-    //     question: mockData.question.label,
-    //     data: mockData,
-    //   };
-    // }
+import { PromptParams } from "./types";
 
-    const mindmapPrompt = `
+export function mindmapPrompt({
+  question,
+  subject,
+  mainPointCount,
+  subPointCount,
+  instructions,
+}: PromptParams): string {
+  return `
 You are an assistant that returns a **raw JSON object only**. Do not wrap it in \`\`\`json or \`\`\`, do not include any explanation or extra text — return only valid, parsable JSON.
 
 Return it in the following format:
@@ -50,7 +34,7 @@ Return it in the following format:
                   "label": "Subpoint",
                   "explanation": {
                     "id": "exp1",
-                    "label": "Explanation",
+                    "label": "Explanation"
                   }
                 }
               ]
@@ -66,9 +50,5 @@ Generate ${mainPointCount} mainPointHeadings, each with 1 mainPoint and ${subPoi
 Use this subject: "${subject}"
 Additional instructions (if any): "${instructions}"
 Use this question: "${question}"
-`;
-
-    const data = await fetchGptData(mindmapPrompt, true); // 🧼 JSON cleanup expected
-    return { question, data };
-  },
-);
+`.trim();
+}

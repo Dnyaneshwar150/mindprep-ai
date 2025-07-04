@@ -4,7 +4,7 @@ import { mindmapReducer, resetMindmap } from "../slices/mindmapSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import undoable, { excludeAction } from "redux-undo";
-import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
+import { fetchMindmapFromGPT } from "@/utils/mindmapUtils/buildMindmapPrompts";
 
 // SSR-safe storage
 const createNoopStorage = () => ({

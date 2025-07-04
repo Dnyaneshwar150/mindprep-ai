@@ -3,7 +3,7 @@ import { parseJsonToNodesEdges } from "@/utils/mindmapUtils/transformJsonToFlow"
 import { Node, Edge } from "@xyflow/react";
 import { Data } from "@/types/mindmapData.types";
 import { getLayoutedElements } from "@/utils/mindmapUtils/layoutDagre";
-import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
+import { fetchMindmapFromGPT } from "@/utils/mindmapUtils/buildMindmapPrompts";
 
 interface MindmapState {
   question: string;

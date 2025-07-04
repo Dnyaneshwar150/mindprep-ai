@@ -42,9 +42,12 @@ import { extractCheatSheetDataFromRaw } from "@/utils/pdfUtils/extractCheatSheet
 import { generateTypeBasedId } from "@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils";
 import { NODE_TYPES_LIST } from "@/types/mindmapData.types";
 import { useReactFlow } from "@xyflow/react";
+import SaveIcon from "@mui/icons-material/Save";
+import { useToast } from "@/app/providers/ToastProvider";
 
 const Toolbar = () => {
   const { fitView } = useReactFlow();
+  const showToast = useToast();
 
   const dispatch = useAppDispatch();
   const canUndo = useSelector(selectCanUndo);
@@ -114,14 +117,39 @@ const Toolbar = () => {
       dispatch(setEdges(edges));
       dispatch(setMindmapQuestion(extractedquestion));
       dispatch(setMindmapPresent(true));
-
-      alert("Mindmap uploaded successfully ✅");
+      showToast("Mindmap uploaded successfully", "success");
     } catch (err) {
-      alert("❌ Upload failed: " + (err as Error).message);
+      showToast("❌ Upload failed: " + (err as Error).message, "error");
     } finally {
-      e.target.value = ""; // reset input so re-uploading same file works
+      e.target.value = "";
     }
   };
+
+  const handleSaveMindMap = async () => {
+    try {
+      const res = await fetch("/api/mindmap", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: mindmapQuestion,
+          nodes,
+          edges,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to save mind map");
+      }
+
+      showToast("Mindmap uploaded successfully ✅", "success");
+    } catch (err) {
+      showToast("❌ " + (err as Error).message, "error");
+    }
+  };
+
   return (
     <Grid
       container
@@ -374,6 +402,24 @@ const Toolbar = () => {
               ))}
             </Grid>
           </Popover>
+        </Grid>
+
+        <Grid>
+          <CustomTooltip title='Save Mind Map'>
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                onClick={handleSaveMindMap}
+              >
+                <SaveIcon fontSize='small' />
+              </IconButton>
+            </span>
+          </CustomTooltip>
         </Grid>
       </Grid>
     </Grid>
