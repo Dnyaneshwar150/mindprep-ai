@@ -11,7 +11,6 @@ export default function QuestionNode({
   data,
 }: NodeProps<Node<QuestionNodeData>>) {
   const { sourcePosition } = useHandlePosition();
-  console.log(sourcePosition);
   if (!data.label) {
     return null;
   }

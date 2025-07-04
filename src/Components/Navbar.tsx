@@ -7,9 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetMindmap } from "@/redux/slices/mindmapSlice";
 import CustomDialog from "./ui/CustomDialog";
 import { selectMindmapIsPresent } from "@/redux/mindmapSelectors";
+import { persistor } from "@/redux/store";
+import { signOut, useSession } from "next-auth/react";
 
 function Navbar() {
   const dispatch = useDispatch();
+  const { status } = useSession();
   const [open, setOpen] = useState(false);
   const isPresent = useSelector(selectMindmapIsPresent);
 
@@ -23,6 +26,12 @@ function Navbar() {
   const handleConfirm = () => {
     handleCreateNewMindmap();
     handleCloseDialog();
+  };
+
+  const handleLogout = () => {
+    persistor.purge();
+    dispatch(resetMindmap());
+    signOut({ callbackUrl: "/" });
   };
 
   return (
@@ -83,6 +92,10 @@ function Navbar() {
               Create New MindMap{" "}
             </CommonButton>
           </Grid>
+
+          {status === "authenticated" && (
+            <CommonButton onClick={handleLogout}>Logout</CommonButton>
+          )}
         </Grid>
 
         <CustomDialog

@@ -23,13 +23,17 @@ import {
 } from "@/redux/mindmapSelectors";
 import CommonButton from "./ui/CummonButton";
 import { fetchMindmapFromGPT } from "@/api/prompts/buildMindmapPrompts";
-import { fetchExplanationFromGPT } from "@/api/prompts/buildExplanationPrompt";
 
 import CustomTooltip from "./ui/CustomTooltip";
 import { useSelector } from "react-redux";
+import LoginModal from "./LoginModal";
+import { useSession } from "next-auth/react";
+import MindMapList from "./MindmapList";
+import { fetchExplanation } from "@/utils/mindmapUtils/mindmapFetchUtils";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
+  const { data: session, status } = useSession();
 
   const isPresent = useSelector(selectMindmapIsPresent);
   const loading = useAppSelector(selectMindmapLoading);
@@ -44,6 +48,7 @@ const Sidebar = () => {
   const [instructions, setInstructions] = useState("");
   const [subject, setSubject] = useState("");
   const [explanationInstruction, setExplanationInstruction] = useState("");
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleExplainSelectedNode = async () => {
     if (selectedNodeIds.length !== 1) return;
@@ -51,23 +56,30 @@ const Sidebar = () => {
     const selectedId = selectedNodeIds[0];
     const node = nodes.find((n) => n.id === selectedId);
     if (!node) return;
+
     const label = node.data.label;
 
-    if (label === "New Node") {
+    if (!label || label === "New Node") {
       setExplanation("⚠️ Selected node must have content");
       return;
     }
 
-    setExplaining(true);
-    const explanation = await fetchExplanationFromGPT(
-      label,
-      explanationInstruction,
-    );
-    setExplanation(explanation);
-    setExplaining(false);
+    try {
+      setExplaining(true);
+      const explanation = await fetchExplanation(label, explanationInstruction);
+      setExplanation(explanation);
+    } catch {
+      setExplanation("Failed to fetch explanation.");
+    } finally {
+      setExplaining(false);
+    }
   };
 
   const handleGenerate = () => {
+    if (!session?.user) {
+      setShowLoginModal(true);
+      return;
+    }
     dispatch(
       fetchMindmapFromGPT({
         question,
@@ -197,6 +209,11 @@ const Sidebar = () => {
           </CommonButton>
         </Grid>
 
+        <LoginModal
+          open={showLoginModal}
+          onLoginModalCloseAction={() => setShowLoginModal(false)}
+        />
+
         <Grid
           container
           flexDirection={"column"}
@@ -268,13 +285,19 @@ const Sidebar = () => {
         </Box>
       </Grid>
 
+      {status === "authenticated" && (
+        <Grid>
+          <MindMapList />
+        </Grid>
+      )}
+
       <Divider sx={{ my: 2 }} />
 
       <Typography
         variant='caption'
         color='gray'
       >
-        Version 0.2.0
+        Version 0.3.0
       </Typography>
     </Grid>
   );
