@@ -10,31 +10,40 @@ export function mindmapPrompt({
   instructions,
 }: PromptParams): string {
   return `
-You are an assistant that returns a **raw JSON object only**. Do not wrap it in \`\`\`json or \`\`\`, do not include any explanation or extra text — return only valid, parsable JSON.
+You are an AI assistant. Your task is to return a strictly valid JSON object (no markdown, no triple backticks, no explanation). Only return valid JSON that can be parsed.
 
-Return it in the following format:
+⚠️ STRICT RULES:
+- Return ONLY the JSON object (no extra text).
+- Do NOT wrap the output in \`\`\` or any formatting.
+- The JSON must start with '{' and end with '}'.
+-DO NOT include:
+  - Any sources, citations, URLs, book references, or phrases like "according to".
+  - Any fields or keys named "source", "citation", "ref", or similar — even if they are null, empty, or "undefined".
+
+
+📦 JSON STRUCTURE AND RULES:
 {
   "question": {
     "id": "q1",
-    "label": "QUESTION_TEXT",
+    "label": "The original question text.",
     "answer": {
       "id": "a1",
-      "label": "Short answer in 25 words",
+      "label": "A clear and simple explanation or definition of the question.",
       "mainPointHeadings": [
         {
           "id": "mph1",
-          "label": "Main point heading",
+          "label": "A specific topic or angle of the subject (one sentence).",
           "mainPoints": [
             {
               "id": "mp1",
-              "label": "Main point",
+              "label": "The main idea or explanation related to this heading.",
               "subPoints": [
                 {
                   "id": "sp1",
-                  "label": "Subpoint",
+                  "label": "A supporting detail or fact (1 sentence).",
                   "explanation": {
                     "id": "exp1",
-                    "label": "Explanation"
+                    "label": "A detailed explanation of the sub-point. and dont add sources Here"
                   }
                 }
               ]
@@ -46,9 +55,20 @@ Return it in the following format:
   }
 }
 
-Generate ${mainPointCount} mainPointHeadings, each with 1 mainPoint and ${subPointCount} subPoints.
-Use this subject: "${subject}"
-Additional instructions (if any): "${instructions}"
-Use this question: "${question}"
+Use the following input:
+- Subject: "${subject}"
+- Question: "${question}"
+- Include exactly ${mainPointCount} mainPointHeadings
+- Each mainPointHeading must have 1 mainPoint
+- Each mainPoint must contain ${subPointCount} subPoints
+- Each SubPoint must include an explanation
+
+${
+  instructions?.trim()
+    ? `Also, follow this additional instruction: "${instructions}"`
+    : "Make the explanation beginner-friendly and avoid technical jargon. Focus on exam-level theory clarity. Keep explanations concise but complete. Use simple sentences and clear examples where applicable. Format the structure like academic notes that help quick revision."
+}
+
+Return ONLY valid JSON (no extra text, no formatting).
 `.trim();
 }
