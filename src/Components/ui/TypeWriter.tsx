@@ -10,9 +10,9 @@ interface TypewriterProps {
 
 const Typewriter: React.FC<TypewriterProps> = ({
   texts,
-  typingSpeed = 120,
-  deletingSpeed = 100,
-  delayBetweenTexts = 2000,
+  typingSpeed = 140,
+  deletingSpeed = 80,
+  delayBetweenTexts = 1000,
 }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
