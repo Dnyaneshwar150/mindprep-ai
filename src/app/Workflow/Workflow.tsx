@@ -138,7 +138,6 @@ function Workflow() {
               <Typewriter
                 texts={[
                   "Analyzing your question...",
-                  "Generating mindmap...",
                   "Plotting mindmap structure...",
                 ]}
               />
