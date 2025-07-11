@@ -7,16 +7,11 @@ export async function POST(req: NextRequest) {
     const { label, instructions } = await req.json();
 
     logger.info("🟢 [POST] /api/explain called");
-    logger.debug(
-      `🧠 Prompt input: label="${label}", instructions="${instructions}"`,
-    );
+    logger.debug(`🧠 Prompt input: label="${label}", instructions="${instructions}"`);
 
     if (!label || typeof label !== "string") {
       logger.warn("⚠️ Missing or invalid label in request");
-      return NextResponse.json(
-        { error: "Missing or invalid label" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Missing or invalid label" }, { status: 400 });
     }
 
     const prompt = `Explain this concept in simple terms (3–4 sentences): "${label}".${
@@ -29,9 +24,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ explanation });
   } catch (error: unknown) {
     logger.error("❌ GPT Explain Error:", error);
-    return NextResponse.json(
-      { error: "Failed to generate explanation." },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Failed to generate explanation." }, { status: 500 });
   }
 }

@@ -92,9 +92,7 @@ const mindmapSlice = createSlice({
 
       // Step 3: Optionally delete edges pointing to deleted nodes
       state.edges = state.edges.filter(
-        (edge) =>
-          !nodeIdsToDelete.has(edge.source) &&
-          !nodeIdsToDelete.has(edge.target),
+        (edge) => !nodeIdsToDelete.has(edge.source) && !nodeIdsToDelete.has(edge.target)
       );
 
       // Step 4: Clear selection
@@ -105,7 +103,7 @@ const mindmapSlice = createSlice({
       action: {
         payload: { nodeId: string; newLabel: string };
         type: string;
-      },
+      }
     ) => {
       const { nodeId, newLabel } = action.payload;
       const node = state.nodes.find((n) => n.id === nodeId);
@@ -137,9 +135,7 @@ const mindmapSlice = createSlice({
         state.error = undefined;
       })
       .addCase(fetchMindmapFromGPT.fulfilled, (state, action) => {
-        const { nodes: rawnodes, edges: rawedges } = parseJsonToNodesEdges(
-          action.payload.data,
-        );
+        const { nodes: rawnodes, edges: rawedges } = parseJsonToNodesEdges(action.payload.data);
         const { nodes, edges } = getLayoutedElements(rawnodes, rawedges);
         return {
           ...state,

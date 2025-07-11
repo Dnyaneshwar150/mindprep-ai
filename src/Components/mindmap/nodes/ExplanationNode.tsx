@@ -11,10 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { selectMindmapSelectedNodeIds } from "@/redux/mindmapSelectors";
 import useHandlePosition from "@/hooks/useHandlePoistion";
 
-export default function ExplanationNode({
-  data,
-  id,
-}: NodeProps<Node<ExplanationNodeData>>) {
+export default function ExplanationNode({ data, id }: NodeProps<Node<ExplanationNodeData>>) {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(data.label);
@@ -41,9 +38,7 @@ export default function ExplanationNode({
     <NodeWrapper
       sx={{
         borderColor: isSelected ? "var(--primary-black)" : "var(--border-blue)", // ← red border if selected
-        backgroundColor: isSelected
-          ? "var(--border-red)"
-          : "var(--explantion-background)",
+        backgroundColor: isSelected ? "var(--border-red)" : "var(--explantion-background)",
         width: "250px",
       }}
     >
@@ -54,7 +49,7 @@ export default function ExplanationNode({
             onChange={(e) => setInputValue(e.target.value)}
             onBlur={handleBlur}
             autoFocus
-            variant='standard'
+            variant="standard"
             fullWidth
             inputProps={{ style: { fontSize: "18px" } }}
           />
@@ -78,24 +73,16 @@ export default function ExplanationNode({
         )}
         <CustomTooltip title={expanded ? "Collapse" : "Expand"}>
           <IconButton
-            size='small'
+            size="small"
             onClick={() => setExpanded(!expanded)}
             sx={{ ml: 1, alignSelf: "center", padding: "2px" }}
           >
-            {expanded ? (
-              <ExpandLessIcon fontSize='small' />
-            ) : (
-              <ExpandMoreIcon fontSize='small' />
-            )}
+            {expanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
           </IconButton>
         </CustomTooltip>
       </Box>
 
-      <Handle
-        type='target'
-        position={targetPosition}
-        id='explanation-from-sub-point'
-      />
+      <Handle type="target" position={targetPosition} id="explanation-from-sub-point" />
     </NodeWrapper>
   );
 }

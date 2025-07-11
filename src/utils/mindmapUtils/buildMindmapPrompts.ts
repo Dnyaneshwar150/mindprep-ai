@@ -6,13 +6,7 @@ import { PromptParams } from "../../../lib/types";
 
 export const fetchMindmapFromGPT = createAsyncThunk(
   "mindmap/fetchFromGPT",
-  async ({
-    question,
-    mainPointCount,
-    subPointCount,
-    subject,
-    instructions,
-  }: PromptParams) => {
+  async ({ question, mainPointCount, subPointCount, subject, instructions }: PromptParams) => {
     // if (USE_MOCK_DATA) {
     //   return {
     //     question: mockData.question.label,
@@ -38,5 +32,5 @@ export const fetchMindmapFromGPT = createAsyncThunk(
 
     const data = await response.json();
     return data;
-  },
+  }
 );

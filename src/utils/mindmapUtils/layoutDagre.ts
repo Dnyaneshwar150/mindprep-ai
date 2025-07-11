@@ -11,11 +11,10 @@ const nodeHeight = 80;
 export function getLayoutedElements(
   nodes: Node[],
   edges: Edge[],
-  direction?: "TB" | "LR",
+  direction?: "TB" | "LR"
 ): { nodes: Node[]; edges: Edge[] } {
   const computedDirection =
-    direction ??
-    (typeof window !== "undefined" && window.innerWidth < 768 ? "TB" : "LR");
+    direction ?? (typeof window !== "undefined" && window.innerWidth < 768 ? "TB" : "LR");
 
   dagreGraph.setGraph({ rankdir: computedDirection });
 

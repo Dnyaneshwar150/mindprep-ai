@@ -3,22 +3,14 @@ import { Handle, NodeProps, Node } from "@xyflow/react";
 import { Box, IconButton, Typography, TextField } from "@mui/material";
 import NodeWrapper from "../NodeWrapper";
 import CustomTooltip from "../../ui/CustomTooltip";
-import {
-  ExpandLess,
-  ExpandMore,
-  Visibility,
-  VisibilityOff,
-} from "@mui/icons-material";
+import { ExpandLess, ExpandMore, Visibility, VisibilityOff } from "@mui/icons-material";
 import { SubPointNodeData } from "@/types/mindmap.types";
 import { updateNodeLabel } from "@/redux/slices/mindmapSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { selectMindmapSelectedNodeIds } from "@/redux/mindmapSelectors";
 import useHandlePosition from "@/hooks/useHandlePoistion";
 
-export default function SubPointNode({
-  data,
-  id,
-}: NodeProps<Node<SubPointNodeData>>) {
+export default function SubPointNode({ data, id }: NodeProps<Node<SubPointNodeData>>) {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(data.label);
@@ -55,17 +47,15 @@ export default function SubPointNode({
     <NodeWrapper
       sx={{
         borderColor: isSelected ? "var(--primary-black)" : "var(--border-grey)",
-        backgroundColor: isSelected
-          ? "var(--border-red)"
-          : "var(--background-grey)",
+        backgroundColor: isSelected ? "var(--border-red)" : "var(--background-grey)",
         width: "220px",
       }}
     >
       <Box
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        width='100%'
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        width="100%"
         padding={"4px"}
       >
         {isEditing ? (
@@ -75,7 +65,7 @@ export default function SubPointNode({
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoFocus
-            variant='standard'
+            variant="standard"
             fullWidth
           />
         ) : (
@@ -98,49 +88,27 @@ export default function SubPointNode({
           </Typography>
         )}
 
-        <Box
-          display='flex'
-          alignItems='center'
-          gap={0.5}
-        >
+        <Box display="flex" alignItems="center" gap={0.5}>
           <CustomTooltip title={expanded ? "Collapse" : "Expand"}>
-            <IconButton
-              size='large'
-              onClick={() => setExpanded(!expanded)}
-            >
-              {expanded ? (
-                <ExpandLess fontSize='small' />
-              ) : (
-                <ExpandMore fontSize='small' />
-              )}
+            <IconButton size="large" onClick={() => setExpanded(!expanded)}>
+              {expanded ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
             </IconButton>
           </CustomTooltip>
 
           <CustomTooltip title={`${data.areChildrenVisible ? "Hide" : "Show"}`}>
-            <IconButton
-              size='large'
-              onClick={handleToggleChildren}
-            >
+            <IconButton size="large" onClick={handleToggleChildren}>
               {data.areChildrenVisible ? (
-                <VisibilityOff fontSize='small' />
+                <VisibilityOff fontSize="small" />
               ) : (
-                <Visibility fontSize='small' />
+                <Visibility fontSize="small" />
               )}
             </IconButton>
           </CustomTooltip>
         </Box>
       </Box>
 
-      <Handle
-        type='target'
-        position={targetPosition}
-        id='sub-point-from-main-point'
-      />
-      <Handle
-        type='source'
-        position={sourcePosition}
-        id='sub-point-to-explanation'
-      />
+      <Handle type="target" position={targetPosition} id="sub-point-from-main-point" />
+      <Handle type="source" position={sourcePosition} id="sub-point-to-explanation" />
     </NodeWrapper>
   );
 }

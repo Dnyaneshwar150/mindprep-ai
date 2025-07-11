@@ -22,10 +22,7 @@ const poppins = Poppins({
 export default function RootLayout(props: PropsWithChildren) {
   const { children } = props;
   return (
-    <html
-      lang='en'
-      className={poppins.variable}
-    >
+    <html lang="en" className={poppins.variable}>
       <body>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>

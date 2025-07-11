@@ -13,10 +13,7 @@ const createNoopStorage = () => ({
   removeItem: async () => {},
 });
 
-const storage =
-  typeof window !== "undefined"
-    ? createWebStorage("local")
-    : createNoopStorage();
+const storage = typeof window !== "undefined" ? createWebStorage("local") : createNoopStorage();
 
 const mindmapUndoable = undoable(mindmapReducer, {
   filter: excludeAction([
@@ -42,8 +39,7 @@ const rootReducer = combineReducers({
 // configure store
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export const persistor = persistStore(store);

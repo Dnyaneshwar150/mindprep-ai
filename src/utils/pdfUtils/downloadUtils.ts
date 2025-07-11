@@ -15,11 +15,7 @@ interface CheatSheetData {
   explanations: ExplanationBlock[];
 }
 
-export function downloadCheatSheet({
-  question,
-  answer,
-  explanations,
-}: CheatSheetData) {
+export function downloadCheatSheet({ question, answer, explanations }: CheatSheetData) {
   const doc = new jsPDF();
 
   doc.setFontSize(16);

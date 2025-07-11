@@ -1,11 +1,4 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  IconButton,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import CommonButton from "./CummonButton";
@@ -33,7 +26,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth='xs'
+      maxWidth="xs"
       fullWidth
       slotProps={{
         paper: {
@@ -50,26 +43,17 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
           pb: 0,
         }}
       >
-        <Grid
-          container
-          sx={{ justifyContent: "space-between" }}
-        >
+        <Grid container sx={{ justifyContent: "space-between" }}>
           <Grid width={"90%"}> {title} </Grid>
           <Grid>
-            <IconButton
-              aria-label='close'
-              onClick={onClose}
-              sx={{ p: 0.5 }}
-            >
-              <CloseIcon fontSize='small' />
+            <IconButton aria-label="close" onClick={onClose} sx={{ p: 0.5 }}>
+              <CloseIcon fontSize="small" />
             </IconButton>
           </Grid>
         </Grid>
       </DialogTitle>
 
-      {children && (
-        <DialogContent sx={{ pt: 1, pb: 0 }}>{children}</DialogContent>
-      )}
+      {children && <DialogContent sx={{ pt: 1, pb: 0 }}>{children}</DialogContent>}
 
       <DialogActions
         sx={{

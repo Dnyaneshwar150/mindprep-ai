@@ -12,10 +12,7 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import { selectMindmapSelectedNodeIds } from "@/redux/mindmapSelectors";
 import useHandlePosition from "@/hooks/useHandlePoistion";
 
-export default function AnswerNode({
-  id,
-  data,
-}: NodeProps<Node<AnswerNodeData>>) {
+export default function AnswerNode({ id, data }: NodeProps<Node<AnswerNodeData>>) {
   const dispatch = useDispatch();
 
   const [expanded, setExpanded] = useState(false);
@@ -57,12 +54,8 @@ export default function AnswerNode({
   return (
     <NodeWrapper
       sx={{
-        borderColor: isSelected
-          ? "var(--primary-black)"
-          : "var(--border-green)",
-        backgroundColor: isSelected
-          ? "var(--border-red)"
-          : "var(--background-green)",
+        borderColor: isSelected ? "var(--primary-black)" : "var(--border-green)",
+        backgroundColor: isSelected ? "var(--border-red)" : "var(--background-green)",
         width: "280px",
       }}
     >
@@ -74,9 +67,9 @@ export default function AnswerNode({
             onChange={(e) => setEditedLabel(e.target.value)}
             onBlur={handleSave}
             onKeyDown={handleKeyDown}
-            size='small'
+            size="small"
             fullWidth
-            variant='standard'
+            variant="standard"
             autoFocus
           />
         ) : (
@@ -101,29 +94,17 @@ export default function AnswerNode({
 
         <CustomTooltip title={expanded ? "Collapse" : "Expand"}>
           <IconButton
-            size='small'
+            size="small"
             onClick={() => setExpanded(!expanded)}
             sx={{ ml: 1, alignSelf: "center", padding: "2px" }}
           >
-            {expanded ? (
-              <ExpandLessIcon fontSize='small' />
-            ) : (
-              <ExpandMoreIcon fontSize='small' />
-            )}
+            {expanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
           </IconButton>
         </CustomTooltip>
       </Box>
 
-      <Handle
-        type='target'
-        position={targetPosition}
-        id='answer-from-question'
-      />
-      <Handle
-        type='source'
-        position={sourcePosition}
-        id='answer-to-main-point-heading'
-      />
+      <Handle type="target" position={targetPosition} id="answer-from-question" />
+      <Handle type="source" position={sourcePosition} id="answer-to-main-point-heading" />
     </NodeWrapper>
   );
 }

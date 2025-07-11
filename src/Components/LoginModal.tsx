@@ -23,10 +23,7 @@ interface LoginModalProps {
   onLoginModalCloseAction: () => void;
 }
 
-export default function LoginModal({
-  open,
-  onLoginModalCloseAction,
-}: LoginModalProps) {
+export default function LoginModal({ open, onLoginModalCloseAction }: LoginModalProps) {
   const [error, setError] = useState("");
   const router = useRouter();
   const showToast = useToast();
@@ -60,19 +57,10 @@ export default function LoginModal({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onLoginModalCloseAction}
-      maxWidth='xs'
-      fullWidth
-    >
+    <Dialog open={open} onClose={onLoginModalCloseAction} maxWidth="xs" fullWidth>
       <DialogTitle sx={{ paddingBottom: "0.5rem" }}>
-        <Stack
-          direction='row'
-          justifyContent='space-between'
-          alignItems='center'
-        >
-          <Typography variant='h6'>Login</Typography>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Typography variant="h6">Login</Typography>
           <IconButton onClick={onLoginModalCloseAction}>
             <CloseIcon />
           </IconButton>
@@ -81,27 +69,12 @@ export default function LoginModal({
 
       <DialogContent>
         <form onSubmit={handleCredentialLogin}>
-          <Stack
-            spacing={2}
-            sx={{ mt: "0.4rem" }}
-          >
-            {error && <Alert severity='error'>{error}</Alert>}
+          <Stack spacing={2} sx={{ mt: "0.4rem" }}>
+            {error && <Alert severity="error">{error}</Alert>}
 
-            <TextField
-              label='Email'
-              type='email'
-              fullWidth
-              required
-              name='email'
-            />
+            <TextField label="Email" type="email" fullWidth required name="email" />
 
-            <TextField
-              label='Password'
-              type='password'
-              fullWidth
-              required
-              name='password'
-            />
+            <TextField label="Password" type="password" fullWidth required name="password" />
             <Grid
               container
               flexDirection={"column"}
@@ -119,7 +92,7 @@ export default function LoginModal({
             </Grid>
 
             <Button
-              type='submit'
+              type="submit"
               sx={{
                 borderRadius: "1rem",
                 textTransform: "none",

@@ -31,9 +31,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (user) {
           const isMatch = await bcrypt.compare(password, user.password);
           if (isMatch) {
-            logger.info(
-              `✅ Existing user logged in with credentials: ${email}`,
-            );
+            logger.info(`✅ Existing user logged in with credentials: ${email}`);
             return {
               id: user._id.toString(),
               email: user.email,
@@ -86,9 +84,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
           return true;
         } catch (err) {
-          logger.error(
-            `❌ Error during Google sign-in for ${user.email}: ${err}`,
-          );
+          logger.error(`❌ Error during Google sign-in for ${user.email}: ${err}`);
           return false;
         }
       }

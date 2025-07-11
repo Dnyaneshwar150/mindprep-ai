@@ -17,11 +17,7 @@ export function cleanChatGptJson(input: string): Data | null {
   }
 }
 
-export function updateLabelInNodeArray(
-  nodes: Node[],
-  nodeId: string,
-  newLabel: string,
-): Node[] {
+export function updateLabelInNodeArray(nodes: Node[], nodeId: string, newLabel: string): Node[] {
   return nodes.map((node) =>
     node.id === nodeId
       ? {
@@ -31,7 +27,7 @@ export function updateLabelInNodeArray(
             label: newLabel,
           },
         }
-      : node,
+      : node
   );
 }
 

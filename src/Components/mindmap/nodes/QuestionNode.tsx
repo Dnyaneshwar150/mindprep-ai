@@ -7,9 +7,7 @@ import CustomTooltip from "../../ui/CustomTooltip";
 import { QuestionNodeData } from "@/types/mindmap.types";
 import useHandlePosition from "@/hooks/useHandlePoistion";
 
-export default function QuestionNode({
-  data,
-}: NodeProps<Node<QuestionNodeData>>) {
+export default function QuestionNode({ data }: NodeProps<Node<QuestionNodeData>>) {
   const { sourcePosition } = useHandlePosition();
   if (!data.label) {
     return null;
@@ -28,7 +26,7 @@ export default function QuestionNode({
         <CustomTooltip
           title={data.label}
           arrow
-          placement='top'
+          placement="top"
           sx={{
             backgroundColor: "var(--black)",
             color: "#ffffff",
@@ -45,7 +43,7 @@ export default function QuestionNode({
             }}
           >
             <Typography
-              variant='h6'
+              variant="h6"
               sx={{
                 fontWeight: "medium",
                 overflow: "hidden",
@@ -55,11 +53,7 @@ export default function QuestionNode({
             >
               {data.label}
             </Typography>
-            <Handle
-              type='source'
-              position={sourcePosition}
-              id='question-answer-handle'
-            />
+            <Handle type="source" position={sourcePosition} id="question-answer-handle" />
           </Grid>
         </CustomTooltip>
       ) : (
@@ -73,7 +67,7 @@ export default function QuestionNode({
           }}
         >
           <Typography
-            variant='h6'
+            variant="h6"
             sx={{
               fontWeight: "medium",
               overflow: "hidden",
@@ -83,11 +77,7 @@ export default function QuestionNode({
           >
             {data.label}
           </Typography>
-          <Handle
-            type='source'
-            position={sourcePosition}
-            id='question-answer-handle'
-          />
+          <Handle type="source" position={sourcePosition} id="question-answer-handle" />
         </Grid>
       )}
     </NodeWrapper>

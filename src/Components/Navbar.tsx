@@ -39,11 +39,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar
-      position='static'
-      color='transparent'
-      elevation={0}
-    >
+    <AppBar position="static" color="transparent" elevation={0}>
       <Toolbar
         sx={{
           justifyContent: "space-between",
@@ -52,61 +48,46 @@ function Navbar() {
           minHeight: "3rem !important",
         }}
       >
-        <Box
-          display='flex'
-          alignItems='center'
-          gap={1}
-        >
-          <Link
-            href='/'
-            style={{ textDecoration: "none" }}
-          >
+        <Box display="flex" alignItems="center" gap={1}>
+          <Link href="/" style={{ textDecoration: "none" }}>
             <Typography
-              fontSize='1.125rem'
+              fontSize="1.125rem"
               fontWeight={600}
-              color='black'
+              color="black"
               sx={{ cursor: "pointer" }}
             >
               MindPrep.Ai
             </Typography>
           </Link>
           <Chip
-            label='Beta'
-            size='small'
-            color='warning'
+            label="Beta"
+            size="small"
+            color="warning"
             sx={{ fontWeight: "bold", height: 20, ml: 0.2 }}
           />
         </Box>
 
         {/* Right: Buttons */}
-        <Grid
-          container
-          gap={"1rem"}
-        >
+        <Grid container gap={"1rem"}>
           <Grid>
-            <Link href='/about'>
+            <Link href="/about">
               <CommonButton>Docs</CommonButton>
             </Link>
           </Grid>
           <Grid>
-            <CommonButton
-              onClick={handleOpenDialog}
-              disabled={!isPresent}
-            >
+            <CommonButton onClick={handleOpenDialog} disabled={!isPresent}>
               Create New MindMap{" "}
             </CommonButton>
           </Grid>
 
-          {status === "authenticated" && (
-            <CommonButton onClick={handleLogout}>Logout</CommonButton>
-          )}
+          {status === "authenticated" && <CommonButton onClick={handleLogout}>Logout</CommonButton>}
         </Grid>
 
         <CustomDialog
           open={open}
           onClose={handleCloseDialog}
           onConfirm={handleConfirm}
-          title='Are You Sure? Current MindMap Will Be Discarded.'
+          title="Are You Sure? Current MindMap Will Be Discarded."
         ></CustomDialog>
       </Toolbar>
     </AppBar>

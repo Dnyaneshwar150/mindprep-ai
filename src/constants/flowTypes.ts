@@ -18,4 +18,4 @@ export const nodeTypes: NodeTypes = {
 
 export const edgeTypes = {
   wire: Wire,
-}
+};

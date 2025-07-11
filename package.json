@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:staged": "lint-staged",
+    "prepare": "husky"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -19,6 +24,7 @@
     "@xyflow/react": "^12.7.0",
     "bcrypt": "^6.0.0",
     "dagre": "^0.8.5",
+    "husky": "^9.1.7",
     "jspdf": "^3.0.1",
     "mongoose": "^8.16.1",
     "next": "15.3.3",
@@ -40,6 +46,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
+    "eslint-config-prettier": "^10.1.5",
+    "lint-staged": "^15.5.2",
+    "prettier": "3.6.2",
     "react-redux": "^9.2.0",
     "typescript": "^5"
   }

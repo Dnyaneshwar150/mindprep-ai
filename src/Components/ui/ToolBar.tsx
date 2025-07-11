@@ -82,8 +82,7 @@ const Toolbar = () => {
   };
 
   const handleDownloadCheatSheet = () => {
-    const { question, answer, explanations } =
-      extractCheatSheetDataFromRaw(rawJson);
+    const { question, answer, explanations } = extractCheatSheetDataFromRaw(rawJson);
     downloadCheatSheet({ question, answer, explanations });
   };
 
@@ -107,11 +106,7 @@ const Toolbar = () => {
     if (!file) return;
 
     try {
-      const {
-        question: extractedquestion,
-        nodes,
-        edges,
-      } = await uploadMindmapFromFile(file);
+      const { question: extractedquestion, nodes, edges } = await uploadMindmapFromFile(file);
 
       dispatch(setNodes(nodes));
       dispatch(setEdges(edges));
@@ -151,11 +146,7 @@ const Toolbar = () => {
   };
 
   return (
-    <Grid
-      container
-      justifyContent={"center"}
-      alignItems='center'
-    >
+    <Grid container justifyContent={"center"} alignItems="center">
       <Grid
         sx={{
           backgroundColor: "var(--light-grey)",
@@ -166,7 +157,7 @@ const Toolbar = () => {
         }}
       >
         <Grid>
-          <CustomTooltip title='Upload Mind Map'>
+          <CustomTooltip title="Upload Mind Map">
             <span>
               <IconButton
                 disabled={loading}
@@ -180,21 +171,21 @@ const Toolbar = () => {
                   inputRef.current?.click(); // open file selector
                 }}
               >
-                <UploadFileRoundedIcon fontSize='small' />
+                <UploadFileRoundedIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
           <input
             ref={inputRef}
-            type='file'
-            accept='.json'
+            type="file"
+            accept=".json"
             style={{ display: "none" }}
             onChange={handleFileChange}
           />
         </Grid>
 
         <Grid>
-          <CustomTooltip title='FitToScreen'>
+          <CustomTooltip title="FitToScreen">
             <span>
               <IconButton
                 sx={{
@@ -206,14 +197,14 @@ const Toolbar = () => {
                 disabled={loading || !isPresent}
                 onClick={handleFitView}
               >
-                <FitScreenOutlinedIcon fontSize='small' />
+                <FitScreenOutlinedIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
         </Grid>
 
         <Grid>
-          <CustomTooltip title='Undo'>
+          <CustomTooltip title="Undo">
             <span>
               <IconButton
                 sx={{
@@ -225,13 +216,13 @@ const Toolbar = () => {
                 disabled={!canUndo || loading}
                 onClick={() => dispatch(UndoActionCreators.undo())}
               >
-                <UndoRoundedIcon fontSize='small' />
+                <UndoRoundedIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
         </Grid>
         <Grid>
-          <CustomTooltip title='Redo'>
+          <CustomTooltip title="Redo">
             <span>
               <IconButton
                 sx={{
@@ -243,13 +234,13 @@ const Toolbar = () => {
                 disabled={!canRedo || loading}
                 onClick={() => dispatch(UndoActionCreators.redo())}
               >
-                <RedoRoundedIcon fontSize='small' />
+                <RedoRoundedIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
         </Grid>
         <Grid>
-          <CustomTooltip title='Relayout Elemenet'>
+          <CustomTooltip title="Relayout Elemenet">
             <span>
               <IconButton
                 sx={{
@@ -260,7 +251,7 @@ const Toolbar = () => {
                 }}
                 disabled={true}
               >
-                <AutorenewOutlinedIcon fontSize='small' />
+                <AutorenewOutlinedIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
@@ -268,9 +259,7 @@ const Toolbar = () => {
         <Grid>
           <CustomTooltip
             title={
-              selectedNodeIds.length === 0
-                ? "❗Selected Atleast One Node"
-                : "Delete Selected Node"
+              selectedNodeIds.length === 0 ? "❗Selected Atleast One Node" : "Delete Selected Node"
             }
           >
             <span>
@@ -286,7 +275,7 @@ const Toolbar = () => {
                   setOpen(true);
                 }}
               >
-                <DeleteRoundedIcon fontSize='small' />
+                <DeleteRoundedIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
@@ -297,11 +286,11 @@ const Toolbar = () => {
               setOpen(false);
             }}
             onConfirm={handleConfirm}
-            title='Are you sure? Deleting a parent node will also remove all of its child nodes.'
+            title="Are you sure? Deleting a parent node will also remove all of its child nodes."
           ></CustomDialog>
         </Grid>
         <Grid>
-          <CustomTooltip title='Download Cheat Sheet'>
+          <CustomTooltip title="Download Cheat Sheet">
             <span>
               <IconButton
                 sx={{
@@ -313,13 +302,13 @@ const Toolbar = () => {
                 disabled={!isPresent}
                 onClick={handleDownloadCheatSheet}
               >
-                <DescriptionOutlinedIcon fontSize='small' />
+                <DescriptionOutlinedIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
         </Grid>
         <Grid>
-          <CustomTooltip title='Download Mind Map'>
+          <CustomTooltip title="Download Mind Map">
             <span>
               <IconButton
                 sx={{
@@ -331,13 +320,13 @@ const Toolbar = () => {
                 disabled={!isPresent}
                 onClick={handleDownload}
               >
-                <GetAppRoundedIcon fontSize='small' />
+                <GetAppRoundedIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
         </Grid>
         <Grid>
-          <CustomTooltip title='Create New Node'>
+          <CustomTooltip title="Create New Node">
             <span>
               <IconButton
                 onClick={handleClick}
@@ -349,7 +338,7 @@ const Toolbar = () => {
                 }}
                 disabled={loading || !isPresent}
               >
-                <AddIcon fontSize='small' />
+                <AddIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
@@ -362,16 +351,12 @@ const Toolbar = () => {
             transformOrigin={{ vertical: "top", horizontal: "left" }}
             sx={{ mt: 1 }}
           >
-            <Grid
-              container
-              direction='column'
-              sx={{ p: 2, minWidth: 220 }}
-            >
+            <Grid container direction="column" sx={{ p: 2, minWidth: 220 }}>
               {NODE_TYPES_LIST.map((type) => (
                 <Grid
                   key={type.type}
                   container
-                  alignItems='center'
+                  alignItems="center"
                   onClick={() => {
                     handleCreateNode(type.type);
                     handleClose();
@@ -397,7 +382,7 @@ const Toolbar = () => {
                       border: `1px solid ${type.borderColor}`,
                     }}
                   />
-                  <Typography variant='subtitle2'>{type.title}</Typography>
+                  <Typography variant="subtitle2">{type.title}</Typography>
                 </Grid>
               ))}
             </Grid>
@@ -405,7 +390,7 @@ const Toolbar = () => {
         </Grid>
 
         <Grid>
-          <CustomTooltip title='Save Mind Map'>
+          <CustomTooltip title="Save Mind Map">
             <span>
               <IconButton
                 sx={{
@@ -416,7 +401,7 @@ const Toolbar = () => {
                 }}
                 onClick={handleSaveMindMap}
               >
-                <SaveIcon fontSize='small' />
+                <SaveIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>

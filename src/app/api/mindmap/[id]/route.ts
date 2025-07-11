@@ -4,10 +4,7 @@ import { MindmapModel } from "../../../../../models/Mindmap";
 import { auth } from "../../../../../auth";
 import { logger } from "../../../../../lib/logger";
 
-export async function GET(
-  req: NextRequest,
-  context: { params: Promise<{ id: number }> },
-) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: number }> }) {
   logger.info("🟢 [GET] /api/mindmap/:id called");
 
   const session = await auth();
@@ -35,17 +32,11 @@ export async function GET(
     return NextResponse.json(map);
   } catch (error) {
     logger.error(`❌ Failed to fetch mindmap: ${error}`);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  context: { params: Promise<{ id: number }> },
-) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: number }> }) {
   logger.info("🟢 [DELETE] /api/mindmap/:id called");
 
   const session = await auth();
@@ -73,9 +64,6 @@ export async function DELETE(
     return NextResponse.json({ message: "Deleted successfully" });
   } catch (error) {
     logger.error(`❌ Failed to delete mindmap: ${error}`);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
