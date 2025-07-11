@@ -1,0 +1,9 @@
+echo "🔍 Running lint-staged on staged files..."
+npm run lint:staged
+
+echo "✅ Linting complete. "
+
+echo "🧠 Checking types..."
+tsc --noEmit
+
+echo "✅ Proceeding with commit."

@@ -90,14 +90,11 @@ function Workflow() {
       };
       dispatch(addEdge(edge));
     },
-    [dispatch],
+    [dispatch]
   );
 
   return (
-    <Grid
-      container
-      direction={{ xs: "column", md: "row" }}
-    >
+    <Grid container direction={{ xs: "column", md: "row" }}>
       <Grid
         sx={{
           width: { xs: "100%", md: "25%" },
@@ -126,21 +123,9 @@ function Workflow() {
           }}
         >
           {isLoading ? (
-            <Grid
-              container
-              flexDirection={"column"}
-              alignItems={"center"}
-            >
-              <CircularProgress
-                size='1.875rem'
-                style={{ color: "var(--primary-black)" }}
-              />
-              <Typewriter
-                texts={[
-                  "Analyzing your question...",
-                  "Plotting mindmap structure...",
-                ]}
-              />
+            <Grid container flexDirection={"column"} alignItems={"center"}>
+              <CircularProgress size="1.875rem" style={{ color: "var(--primary-black)" }} />
+              <Typewriter texts={["Analyzing your question...", "Plotting mindmap structure..."]} />
             </Grid>
           ) : (
             <ReactFlow
@@ -166,7 +151,7 @@ function Workflow() {
               }}
             >
               <Panel
-                position='bottom-left'
+                position="bottom-left"
                 style={{
                   border: "1px solid var(--border-grey)",
                   padding: "0.75rem",
@@ -176,12 +161,8 @@ function Workflow() {
               >
                 <PannelComponent />
               </Panel>
-              <Background
-                variant={BackgroundVariant.Dots}
-                gap={100}
-                id='1'
-              />
-              <Controls position='bottom-right' />
+              <Background variant={BackgroundVariant.Dots} gap={100} id="1" />
+              <Controls position="bottom-right" />
             </ReactFlow>
           )}
         </Grid>

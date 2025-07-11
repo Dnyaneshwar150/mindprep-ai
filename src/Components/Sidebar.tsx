@@ -87,7 +87,7 @@ const Sidebar = () => {
         subPointCount,
         subject,
         instructions,
-      }),
+      })
     );
   };
 
@@ -109,38 +109,29 @@ const Sidebar = () => {
       <Typography fontWeight={600}>Question Details</Typography>
       <Typography fontSize={13}>Enter Question Below</Typography>
 
-      <Grid
-        container
-        sx={{ flexDirection: "column", gap: "0.8rem" }}
-      >
+      <Grid container sx={{ flexDirection: "column", gap: "0.8rem" }}>
         <Grid>
           <TextField
             fullWidth
-            placeholder='Enter the question here...'
+            placeholder="Enter the question here..."
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            size='small'
+            size="small"
             multiline
             minRows={2}
           />
         </Grid>
 
         <Grid>
-          <FormControl
-            fullWidth
-            size='small'
-          >
+          <FormControl fullWidth size="small">
             <InputLabel>Main Points</InputLabel>
             <Select
               value={mainPointCount}
-              label='Main Points'
+              label="Main Points"
               onChange={(e) => setMainPointCount(Number(e.target.value))}
             >
               {[1, 2, 3, 4, 5].map((num) => (
-                <MenuItem
-                  key={num}
-                  value={num}
-                >
+                <MenuItem key={num} value={num}>
                   {num}
                 </MenuItem>
               ))}
@@ -149,21 +140,15 @@ const Sidebar = () => {
         </Grid>
 
         <Grid>
-          <FormControl
-            fullWidth
-            size='small'
-          >
+          <FormControl fullWidth size="small">
             <InputLabel>Subpoints</InputLabel>
             <Select
               value={subPointCount}
-              label='Subpoints'
+              label="Subpoints"
               onChange={(e) => setSubPointCount(Number(e.target.value))}
             >
               {[1, 2, 3, 4, 5].map((num) => (
-                <MenuItem
-                  key={num}
-                  value={num}
-                >
+                <MenuItem key={num} value={num}>
                   {num}
                 </MenuItem>
               ))}
@@ -174,11 +159,11 @@ const Sidebar = () => {
         <Grid>
           <TextField
             fullWidth
-            label='Subject'
-            placeholder='Enter Subject'
+            label="Subject"
+            placeholder="Enter Subject"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            size='small'
+            size="small"
             multiline
             minRows={1}
           />
@@ -187,11 +172,11 @@ const Sidebar = () => {
         <Grid>
           <TextField
             fullWidth
-            label='Any additional instructions'
-            placeholder='e.g. Explain like I am 10'
+            label="Any additional instructions"
+            placeholder="e.g. Explain like I am 10"
             value={instructions}
             onChange={(e) => setInstructions(e.target.value)}
-            size='small'
+            size="small"
             multiline
             minRows={1}
           />
@@ -214,22 +199,16 @@ const Sidebar = () => {
           onLoginModalCloseAction={() => setShowLoginModal(false)}
         />
 
-        <Grid
-          container
-          flexDirection={"column"}
-          gap={"0.7rem"}
-        >
-          <Grid sx={{ fontWeight: "600", fontSize: "1rem" }}>
-            Explanation of Nodes
-          </Grid>
+        <Grid container flexDirection={"column"} gap={"0.7rem"}>
+          <Grid sx={{ fontWeight: "600", fontSize: "1rem" }}>Explanation of Nodes</Grid>
           <Grid>
             <TextField
               fullWidth
-              label='Would you like to give extra instructions?'
-              placeholder='e.g. Explain with examples, be concise, use simple language'
+              label="Would you like to give extra instructions?"
+              placeholder="e.g. Explain with examples, be concise, use simple language"
               value={explanationInstruction}
               onChange={(e) => setExplanationInstruction(e.target.value)}
-              size='small'
+              size="small"
               multiline
               minRows={2}
             />
@@ -238,9 +217,7 @@ const Sidebar = () => {
           <Grid>
             <CustomTooltip
               title={
-                selectedNodeIds.length > 1
-                  ? "❗ Only one node can be explained at a time."
-                  : ""
+                selectedNodeIds.length > 1 ? "❗ Only one node can be explained at a time." : ""
               }
               disableHoverListener={selectedNodeIds.length <= 1}
             >
@@ -272,11 +249,11 @@ const Sidebar = () => {
               }}
             >
               <IconButton
-                size='small'
+                size="small"
                 onClick={() => setExplanation("")}
                 sx={{ position: "absolute", top: 4, right: 4 }}
               >
-                <CloseIcon fontSize='small' />
+                <CloseIcon fontSize="small" />
               </IconButton>
 
               {explanation}
@@ -293,10 +270,7 @@ const Sidebar = () => {
 
       <Divider sx={{ my: 2 }} />
 
-      <Typography
-        variant='caption'
-        color='gray'
-      >
+      <Typography variant="caption" color="gray">
         Version 0.3.0
       </Typography>
     </Grid>

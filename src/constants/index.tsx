@@ -8,7 +8,10 @@ export const initialNodes: Node[] = [
     id: "q1",
     position: { x: 50, y: 350 }, // Starting point
     type: "questionNode",
-    data: { type: ComponentType.Question, label: "What are the key principles of effective time management?" }
+    data: {
+      type: ComponentType.Question,
+      label: "What are the key principles of effective time management?",
+    },
   },
 
   // Answer (To the right of the question)
@@ -16,7 +19,11 @@ export const initialNodes: Node[] = [
     id: "a1",
     position: { x: 350, y: 350 }, // Further right
     type: "answerNode",
-    data: { type: ComponentType.Answer, label: "Effective time management involves prioritizing tasks, setting clear goals, and avoiding distractions." }
+    data: {
+      type: ComponentType.Answer,
+      label:
+        "Effective time management involves prioritizing tasks, setting clear goals, and avoiding distractions.",
+    },
   },
 
   // Main Point Headings (To the right of the Answer, spread vertically)
@@ -24,25 +31,25 @@ export const initialNodes: Node[] = [
     id: "mph1_1",
     position: { x: 650, y: 100 }, // Top-most heading
     type: "mainPointHeadingNode",
-    data: { type: ComponentType.MainPointHeading, label: "I. Prioritization Techniques" }
+    data: { type: ComponentType.MainPointHeading, label: "I. Prioritization Techniques" },
   },
   {
     id: "mph1_2",
     position: { x: 650, y: 300 }, // Second heading
     type: "mainPointHeadingNode",
-    data: { type: ComponentType.MainPointHeading, label: "II. Goal Setting & Planning" }
+    data: { type: ComponentType.MainPointHeading, label: "II. Goal Setting & Planning" },
   },
   {
     id: "mph1_3",
     position: { x: 650, y: 500 }, // Third heading
     type: "mainPointHeadingNode",
-    data: { type: ComponentType.MainPointHeading, label: "III. Minimizing Distractions" }
+    data: { type: ComponentType.MainPointHeading, label: "III. Minimizing Distractions" },
   },
   {
     id: "mph1_4",
     position: { x: 650, y: 700 }, // Bottom-most heading
     type: "mainPointHeadingNode",
-    data: { type: ComponentType.MainPointHeading, label: "IV. Tools & Strategies" }
+    data: { type: ComponentType.MainPointHeading, label: "IV. Tools & Strategies" },
   },
 
   // --- Branch 1: Prioritization Techniques ---
@@ -51,27 +58,31 @@ export const initialNodes: Node[] = [
     id: "mp1_1_1",
     position: { x: 950, y: 50 }, // Right of MPH1
     type: "mainPointNode",
-    data: { type: ComponentType.MainPoint, label: "Use the Eisenhower Matrix" }
+    data: { type: ComponentType.MainPoint, label: "Use the Eisenhower Matrix" },
   },
   {
     id: "mp1_1_2",
     position: { x: 950, y: 150 }, // Right of MPH1, below first point
     type: "mainPointNode",
-    data: { type: ComponentType.MainPoint, label: "Apply the Pareto Principle (80/20 Rule)" }
+    data: { type: ComponentType.MainPoint, label: "Apply the Pareto Principle (80/20 Rule)" },
   },
   // Sub-Point under mp1_1_1
   {
     id: "sp1_1_1_1",
     position: { x: 1250, y: 50 }, // Right of mp1_1_1
     type: "subPointNode",
-    data: { type: ComponentType.SubPoint, label: "Categorize tasks by urgency and importance" }
+    data: { type: ComponentType.SubPoint, label: "Categorize tasks by urgency and importance" },
   },
   // Explanation for sp1_1_1_1
   {
     id: "exp1_1_1_1",
     position: { x: 1500, y: 50 }, // Right of sp1_1_1_1
     type: "explanationNode",
-    data: { type: ComponentType.Explanation, label: "Focuses on high-impact activities first.", source: "https://example.com/eisenhower" }
+    data: {
+      type: ComponentType.Explanation,
+      label: "Focuses on high-impact activities first.",
+      source: "https://example.com/eisenhower",
+    },
   },
 
   // --- Branch 2: Goal Setting & Planning ---
@@ -80,27 +91,34 @@ export const initialNodes: Node[] = [
     id: "mp1_2_1",
     position: { x: 950, y: 250 },
     type: "mainPointNode",
-    data: { type: ComponentType.MainPoint, label: "Set SMART Goals" }
+    data: { type: ComponentType.MainPoint, label: "Set SMART Goals" },
   },
   {
     id: "mp1_2_2",
     position: { x: 950, y: 350 },
     type: "mainPointNode",
-    data: { type: ComponentType.MainPoint, label: "Create a Daily Schedule" }
+    data: { type: ComponentType.MainPoint, label: "Create a Daily Schedule" },
   },
   // Sub-Point under mp1_2_1
   {
     id: "sp1_2_1_1",
     position: { x: 1250, y: 250 },
     type: "subPointNode",
-    data: { type: ComponentType.SubPoint, label: "Specific, Measurable, Achievable, Relevant, Time-bound" }
+    data: {
+      type: ComponentType.SubPoint,
+      label: "Specific, Measurable, Achievable, Relevant, Time-bound",
+    },
   },
   // Explanation for sp1_2_1_1
   {
     id: "exp1_2_1_1",
     position: { x: 1500, y: 250 },
     type: "explanationNode",
-    data: { type: ComponentType.Explanation, label: "Clarity and focus, increasing success rates.", source: "https://example.com/smart-goals" }
+    data: {
+      type: ComponentType.Explanation,
+      label: "Clarity and focus, increasing success rates.",
+      source: "https://example.com/smart-goals",
+    },
   },
 
   // --- Branch 3: Minimizing Distractions ---
@@ -109,27 +127,31 @@ export const initialNodes: Node[] = [
     id: "mp1_3_1",
     position: { x: 950, y: 450 },
     type: "mainPointNode",
-    data: { type: ComponentType.MainPoint, label: "Implement the Pomodoro Technique" }
+    data: { type: ComponentType.MainPoint, label: "Implement the Pomodoro Technique" },
   },
   {
     id: "mp1_3_2",
     position: { x: 950, y: 550 },
     type: "mainPointNode",
-    data: { type: ComponentType.MainPoint, label: "Batch Similar Tasks" }
+    data: { type: ComponentType.MainPoint, label: "Batch Similar Tasks" },
   },
   // Sub-Point under mp1_3_1
   {
     id: "sp1_3_1_1",
     position: { x: 1250, y: 450 },
     type: "subPointNode",
-    data: { type: ComponentType.SubPoint, label: "Work in focused 25-minute intervals" }
+    data: { type: ComponentType.SubPoint, label: "Work in focused 25-minute intervals" },
   },
   // Explanation for sp1_3_1_1
   {
     id: "exp1_3_1_1",
     position: { x: 1500, y: 450 },
     type: "explanationNode",
-    data: { type: ComponentType.Explanation, label: "Improves concentration and prevents burnout.", source: "https://example.com/pomodoro" }
+    data: {
+      type: ComponentType.Explanation,
+      label: "Improves concentration and prevents burnout.",
+      source: "https://example.com/pomodoro",
+    },
   },
 
   // --- Branch 4: Tools & Strategies ---
@@ -138,27 +160,31 @@ export const initialNodes: Node[] = [
     id: "mp1_4_1",
     position: { x: 950, y: 650 },
     type: "mainPointNode",
-    data: { type: ComponentType.MainPoint, label: "Utilize Task Management Apps" }
+    data: { type: ComponentType.MainPoint, label: "Utilize Task Management Apps" },
   },
   {
     id: "mp1_4_2",
     position: { x: 950, y: 750 },
     type: "mainPointNode",
-    data: { type: ComponentType.MainPoint, label: "Review and Adapt Regularly" }
+    data: { type: ComponentType.MainPoint, label: "Review and Adapt Regularly" },
   },
   // Sub-Point under mp1_4_1
   {
     id: "sp1_4_1_1",
     position: { x: 1250, y: 650 },
     type: "subPointNode",
-    data: { type: ComponentType.SubPoint, label: "Trello, Asana, Notion, Todoist" }
+    data: { type: ComponentType.SubPoint, label: "Trello, Asana, Notion, Todoist" },
   },
   // Explanation for sp1_4_1_1
   {
     id: "exp1_4_1_1",
     position: { x: 1500, y: 650 },
     type: "explanationNode",
-    data: { type: ComponentType.Explanation, label: "Digital tools help organize, track progress, and collaborate.", source: "https://example.com/apps" }
+    data: {
+      type: ComponentType.Explanation,
+      label: "Digital tools help organize, track progress, and collaborate.",
+      source: "https://example.com/apps",
+    },
   },
 ];
 
@@ -169,7 +195,7 @@ export const initialEdges: Edge[] = [
     source: "q1",
     target: "a1",
     sourceHandle: "question-answer-handle", // Assuming QuestionNode handle on Right
-    targetHandle: "answer-from-question",    // Assuming AnswerNode handle on Left
+    targetHandle: "answer-from-question", // Assuming AnswerNode handle on Left
     type: "smoothstep",
     animated: true,
   },

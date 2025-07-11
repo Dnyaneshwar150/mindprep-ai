@@ -18,8 +18,8 @@ export default function DocsBanner() {
   return (
     <Grid
       container
-      justifyContent='space-between'
-      alignItems='center'
+      justifyContent="space-between"
+      alignItems="center"
       sx={{
         backgroundColor: "var(--background-grey)",
         border: "1px solid var(--border-grey)",
@@ -33,29 +33,29 @@ export default function DocsBanner() {
       }}
     >
       <Grid>
-        <Box fontSize='0.75rem'>
-          This is a prototype of <strong>MindPrep.AI</strong>. View version info
-          & upcoming features in the docs.
+        <Box fontSize="0.75rem">
+          This is a prototype of <strong>MindPrep.AI</strong>. View version info & upcoming features
+          in the docs.
         </Box>
       </Grid>
 
       <Grid>
         <Box
-          display='flex'
+          display="flex"
           justifyContent={{ xs: "flex-start", sm: "flex-end" }}
-          gap='0.5rem'
+          gap="0.5rem"
           mt={{ xs: "0.5rem", sm: 0 }}
         >
-          <Link href='/about'>
+          <Link href="/about">
             <CommonButton>Go to Docs</CommonButton>
           </Link>
 
           <IconButton
-            size='small'
+            size="small"
             onClick={() => dispatch(setDocsBannerDismissed(true))}
             sx={{ color: "var(--primary-grey)" }}
           >
-            <CloseIcon fontSize='small' />
+            <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
       </Grid>

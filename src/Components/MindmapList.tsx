@@ -1,13 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  List,
-  CircularProgress,
-  Grid,
-  IconButton,
-  ListItem,
-} from "@mui/material";
+import { List, CircularProgress, Grid, IconButton, ListItem } from "@mui/material";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import {
   setEdges,
@@ -72,10 +66,7 @@ export default function MindMapList() {
 
   if (loading) {
     return;
-    <Grid
-      container
-      justifyContent={"center"}
-    >
+    <Grid container justifyContent={"center"}>
       <CircularProgress />
     </Grid>;
   }
@@ -105,8 +96,8 @@ export default function MindMapList() {
               }}
               secondaryAction={
                 <IconButton
-                  edge='end'
-                  aria-label='delete'
+                  edge="end"
+                  aria-label="delete"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDelete(map._id);
@@ -117,7 +108,7 @@ export default function MindMapList() {
               }
             >
               <Grid
-                className='ellipse-text'
+                className="ellipse-text"
                 sx={{ fontSize: "0.95rem", color: "#333", width: "80%" }}
               >
                 {map.question}

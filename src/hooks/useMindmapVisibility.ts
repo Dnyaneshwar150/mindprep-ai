@@ -1,14 +1,14 @@
 // hooks/useMindmapVisibility.ts
-import { useState, useCallback, useMemo } from 'react';
-import { Node, Edge } from '@xyflow/react';
+import { useState, useCallback, useMemo } from "react";
+import { Node, Edge } from "@xyflow/react";
 
 export function useMindmapVisibility(nodes: Node[], edges: Edge[]) {
   const [visibleChildrenMap, setVisibleChildrenMap] = useState<Record<string, boolean>>({});
 
   const handleToggleChildrenVisibility = useCallback((nodeId: string) => {
-    setVisibleChildrenMap(prev => ({
+    setVisibleChildrenMap((prev) => ({
       ...prev,
-      [nodeId]: !prev[nodeId]
+      [nodeId]: !prev[nodeId],
     }));
   }, []);
 
@@ -22,11 +22,11 @@ export function useMindmapVisibility(nodes: Node[], edges: Edge[]) {
         onToggleChildrenVisibility: handleToggleChildrenVisibility,
       },
     }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, visibleChildrenMap]);
 
   const filteredEdges = useMemo(() => {
-    return edges.filter(edge => {
+    return edges.filter((edge) => {
       const parentHiddenChildren = visibleChildrenMap[edge.source] === false;
       return !parentHiddenChildren;
     });
@@ -34,7 +34,7 @@ export function useMindmapVisibility(nodes: Node[], edges: Edge[]) {
 
   const filteredNodes = useMemo(() => {
     const parentMap = new Map<string, string>();
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       parentMap.set(edge.target, edge.source);
     });
 
@@ -48,7 +48,7 @@ export function useMindmapVisibility(nodes: Node[], edges: Edge[]) {
       return true;
     };
 
-    return enhancedNodes.filter(node => isVisible(node.id));
+    return enhancedNodes.filter((node) => isVisible(node.id));
   }, [enhancedNodes, visibleChildrenMap, edges]);
 
   return {

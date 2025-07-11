@@ -21,10 +21,7 @@ export async function GET() {
     return NextResponse.json(mindmaps);
   } catch (error) {
     logger.error(`❌ Error in GET /api/mindmap: ${error}`);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 

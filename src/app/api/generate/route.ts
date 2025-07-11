@@ -18,9 +18,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ question: body.question, data });
   } catch (error) {
     logger.error(`❌ Error in /api/generate: ${error}`);
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

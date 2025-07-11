@@ -8,7 +8,7 @@ const mindmapSchema = new Schema(
     nodes: Array,
     edges: Array,
   },
-  { timestamps: true }, // ⬅️ Adds createdAt and updatedAt automatically
+  { timestamps: true } // ⬅️ Adds createdAt and updatedAt automatically
 );
 
 export const MindmapModel = models.Mindmap || model("Mindmap", mindmapSchema);

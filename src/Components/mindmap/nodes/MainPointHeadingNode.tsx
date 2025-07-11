@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { Handle, NodeProps, Node } from "@xyflow/react";
 import { Typography, IconButton, Box, TextField } from "@mui/material";
-import {
-  ExpandMore,
-  ExpandLess,
-  Visibility,
-  VisibilityOff,
-} from "@mui/icons-material";
+import { ExpandMore, ExpandLess, Visibility, VisibilityOff } from "@mui/icons-material";
 import NodeWrapper from "../NodeWrapper";
 import CustomTooltip from "../../ui/CustomTooltip";
 import { MainPointHeadingNodeData } from "@/types/mindmap.types";
@@ -52,20 +47,16 @@ export default function MainPointHeadingNode({
   return (
     <NodeWrapper
       sx={{
-        borderColor: isSelected
-          ? "var(--primary-black)"
-          : "var(--border-orange)",
-        backgroundColor: isSelected
-          ? "var(--border-red)"
-          : "var(--background-orange)",
+        borderColor: isSelected ? "var(--primary-black)" : "var(--border-orange)",
+        backgroundColor: isSelected ? "var(--border-red)" : "var(--background-orange)",
         width: "300px",
       }}
     >
       <Box
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        width='100%'
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        width="100%"
         padding={"4px"}
       >
         {isEditing ? (
@@ -74,7 +65,7 @@ export default function MainPointHeadingNode({
             onChange={(e) => setInputValue(e.target.value)}
             onBlur={handleBlur}
             autoFocus
-            variant='standard'
+            variant="standard"
             fullWidth
             inputProps={{ style: { fontSize: "18px", fontWeight: "bold" } }}
           />
@@ -98,49 +89,27 @@ export default function MainPointHeadingNode({
           </Typography>
         )}
 
-        <Box
-          display='flex'
-          alignItems='center'
-          gap={0.5}
-        >
+        <Box display="flex" alignItems="center" gap={0.5}>
           <CustomTooltip title={expanded ? "Collapse" : "Expand"}>
-            <IconButton
-              size='large'
-              onClick={handleToggleExpand}
-            >
-              {expanded ? (
-                <ExpandLess fontSize='small' />
-              ) : (
-                <ExpandMore fontSize='small' />
-              )}
+            <IconButton size="large" onClick={handleToggleExpand}>
+              {expanded ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
             </IconButton>
           </CustomTooltip>
 
           <CustomTooltip title={`${data.areChildrenVisible ? "Hide" : "Show"}`}>
-            <IconButton
-              size='large'
-              onClick={handleToggleChildren}
-            >
+            <IconButton size="large" onClick={handleToggleChildren}>
               {data.areChildrenVisible ? (
-                <VisibilityOff fontSize='small' />
+                <VisibilityOff fontSize="small" />
               ) : (
-                <Visibility fontSize='small' />
+                <Visibility fontSize="small" />
               )}
             </IconButton>
           </CustomTooltip>
         </Box>
       </Box>
 
-      <Handle
-        type='target'
-        position={targetPosition}
-        id='heading-from-answer'
-      />
-      <Handle
-        type='source'
-        position={sourcePosition}
-        id='heading-to-main-point'
-      />
+      <Handle type="target" position={targetPosition} id="heading-from-answer" />
+      <Handle type="source" position={sourcePosition} id="heading-to-main-point" />
     </NodeWrapper>
   );
 }
