@@ -139,8 +139,8 @@ function Workflow() {
               fitView
               edgeTypes={edgeTypes}
               proOptions={{ hideAttribution: true }}
-              selectNodesOnDrag={false} // <-- Prevent selection on drag
-              elementsSelectable={false} // <-- Disable default selection
+              selectNodesOnDrag={false}
+              elementsSelectable={false}
               onNodeClick={(event, node) => {
                 if (event.ctrlKey || event.metaKey) {
                   dispatch(toggleNodeSelection(node.id));
@@ -149,6 +149,7 @@ function Workflow() {
               onPaneClick={() => {
                 dispatch(clearSelectedNodeIds());
               }}
+              minZoom={0.1}
             >
               <Panel
                 position="bottom-left"

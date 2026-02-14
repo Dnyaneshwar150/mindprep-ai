@@ -11,6 +11,7 @@ import {
 } from "@/redux/slices/mindmapSlice";
 import { useToast } from "@/app/providers/ToastProvider";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CustomDialog from "./ui/CustomDialog";
 
 interface Mindmap {
   _id: string;
@@ -18,10 +19,13 @@ interface Mindmap {
 }
 
 export default function MindMapList() {
-  const [maps, setMaps] = useState<Mindmap[]>([]);
-  const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   const showToast = useToast();
+
+  const [maps, setMaps] = useState<Mindmap[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchMindmaps = async () => {
@@ -47,21 +51,36 @@ export default function MindMapList() {
       showToast("Failed to load mindmap List", "error");
     }
   };
-  const handleDelete = async (id: string) => {
+
+  const handleConfirm = async () => {
+    if (!deleteId) return;
+
     try {
-      const res = await fetch(`/api/mindmap/${id}`, {
+      const res = await fetch(`/api/mindmap/${deleteId}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
         showToast("Mindmap deleted", "success");
-        setMaps((prevMaps) => prevMaps.filter((map) => map._id !== id));
+        setMaps((prevMaps) => prevMaps.filter((map) => map._id !== deleteId));
       } else {
         showToast("Delete failed", "error");
       }
-    } catch (err) {
-      console.error("Error deleting mindmap:", err);
+    } catch {
+      showToast("Error deleting mindmap:", "error");
+    } finally {
+      handleCloseDialog();
     }
+  };
+
+  const openDeleteDialog = (id: string) => {
+    setDeleteId(id);
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    setDeleteId(null);
   };
 
   if (loading) {
@@ -92,6 +111,7 @@ export default function MindMapList() {
                 padding: "0.75rem 1rem",
                 "&:hover": {
                   backgroundColor: "#f5f5f5",
+                  cursor: "pointer",
                 },
               }}
               secondaryAction={
@@ -100,7 +120,7 @@ export default function MindMapList() {
                   aria-label="delete"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDelete(map._id);
+                    openDeleteDialog(map._id);
                   }}
                 >
                   <DeleteIcon />
@@ -117,6 +137,12 @@ export default function MindMapList() {
           ))}
         </List>
       </Grid>
+      <CustomDialog
+        open={open}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirm}
+        title="Are You Sure? MindMap Will Be Deleted."
+      />
     </Grid>
   );
 }

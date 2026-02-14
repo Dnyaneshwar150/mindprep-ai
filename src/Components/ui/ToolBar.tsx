@@ -1,4 +1,4 @@
-import { Grid, IconButton, Popover, Typography } from "@mui/material";
+import { Grid, IconButton } from "@mui/material";
 import CustomTooltip from "./CustomTooltip";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import RedoRoundedIcon from "@mui/icons-material/RedoRounded";
@@ -15,6 +15,7 @@ import {
   uploadMindmapFromFile,
 } from "@/utils/pdfUtils/downloadUtils";
 import {
+  addEdge,
   addNode,
   deleteSelectedNodes,
   setEdges,
@@ -40,10 +41,15 @@ import {
 import CustomDialog from "./CustomDialog";
 import { extractCheatSheetDataFromRaw } from "@/utils/pdfUtils/extractCheatSheetData";
 import { generateTypeBasedId } from "@/utils/mindmapUtils/mindmapCommonUtils.ts/mindmapCommonUtils";
-import { NODE_TYPES_LIST } from "@/types/mindmapData.types";
 import { useReactFlow } from "@xyflow/react";
 import SaveIcon from "@mui/icons-material/Save";
 import { useToast } from "@/app/providers/ToastProvider";
+
+const parentChildTypeMap: Record<string, string> = {
+  mainPointHeadingNode: "mainPointNode",
+  mainPointNode: "subPointNode",
+  subPointNode: "explanationNode",
+};
 
 const Toolbar = () => {
   const { fitView } = useReactFlow();
@@ -62,18 +68,9 @@ const Toolbar = () => {
   const [open, setOpen] = useState(false);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleFitView = () => {
-    fitView({ padding: 0.2 }); // optional: add padding around edges
-  };
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
+    fitView({ padding: 0.2 });
   };
 
   const handleConfirm = () => {
@@ -88,17 +85,6 @@ const Toolbar = () => {
 
   const handleDownload = () => {
     downloadMindmapToJson({ question: mindmapQuestion, nodes, edges });
-  };
-
-  const handleCreateNode = (type: string) => {
-    const id = generateTypeBasedId(nodes, type);
-    const newNode = {
-      id,
-      type,
-      data: { label: "New Node", type },
-      position: { x: 500, y: 50 },
-    };
-    dispatch(addNode(newNode));
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,6 +106,53 @@ const Toolbar = () => {
     }
   };
 
+  const handleCreateChildNode = () => {
+    if (selectedNodeIds.length === 0) {
+      showToast("Please select a node to attach a child", "warning");
+      return;
+    }
+
+    selectedNodeIds.forEach((parentId) => {
+      const parentNode = nodes.find((n) => n.id === parentId);
+      if (!parentNode) return;
+
+      const parentType = parentNode.type;
+      if (!parentType) return;
+
+      const childType = parentChildTypeMap[parentType];
+      if (!childType) {
+        showToast(`No child type defined for ${parentType}`, "error");
+        return;
+      }
+
+      const newId = generateTypeBasedId(nodes, childType);
+
+      const childCount = edges.filter((e) => e.source === parentId).length;
+      console.log(childCount);
+
+      const newNode = {
+        id: newId,
+        type: childType,
+        data: { label: "New Node", type: childType },
+        position: {
+          x: parentNode.position.x + 350,
+          y: parentNode.position.y + 120 * childCount,
+        },
+      };
+
+      dispatch(addNode(newNode));
+
+      dispatch(
+        addEdge({
+          id: `e-${parentId}-${newId}`,
+          source: parentId,
+          target: newId,
+          type: "wire",
+        })
+      );
+    });
+  };
+
   const handleSaveMindMap = async () => {
     try {
       const res = await fetch("/api/mindmap", {
@@ -139,7 +172,7 @@ const Toolbar = () => {
         throw new Error(data.error || "Failed to save mind map");
       }
 
-      showToast("Mindmap uploaded successfully ✅", "success");
+      showToast("Mindmap uploaded successfully", "success");
     } catch (err) {
       showToast("❌ " + (err as Error).message, "error");
     }
@@ -168,7 +201,7 @@ const Toolbar = () => {
                   },
                 }}
                 onClick={() => {
-                  inputRef.current?.click(); // open file selector
+                  inputRef.current?.click();
                 }}
               >
                 <UploadFileRoundedIcon fontSize="small" />
@@ -325,69 +358,6 @@ const Toolbar = () => {
             </span>
           </CustomTooltip>
         </Grid>
-        <Grid>
-          <CustomTooltip title="Create New Node">
-            <span>
-              <IconButton
-                onClick={handleClick}
-                sx={{
-                  color: "var(--light-black)",
-                  "&.Mui-disabled": {
-                    color: "var(--border-grey)",
-                  },
-                }}
-                disabled={loading || !isPresent}
-              >
-                <AddIcon fontSize="small" />
-              </IconButton>
-            </span>
-          </CustomTooltip>
-
-          <Popover
-            open={Boolean(anchorEl)} // ✅ this is the fix
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "left" }}
-            sx={{ mt: 1 }}
-          >
-            <Grid container direction="column" sx={{ p: 2, minWidth: 220 }}>
-              {NODE_TYPES_LIST.map((type) => (
-                <Grid
-                  key={type.type}
-                  container
-                  alignItems="center"
-                  onClick={() => {
-                    handleCreateNode(type.type);
-                    handleClose();
-                  }}
-                  sx={{
-                    px: 1.5,
-                    py: 1,
-                    borderRadius: 1,
-                    cursor: "pointer",
-                    "&:hover": {
-                      backgroundColor: "var(--light-grey)",
-                    },
-                  }}
-                >
-                  {/* pill */}
-                  <Grid
-                    sx={{
-                      width: 20,
-                      height: 10,
-                      borderRadius: "30%",
-                      backgroundColor: type.backgroundColor,
-                      marginRight: 1.5,
-                      border: `1px solid ${type.borderColor}`,
-                    }}
-                  />
-                  <Typography variant="subtitle2">{type.title}</Typography>
-                </Grid>
-              ))}
-            </Grid>
-          </Popover>
-        </Grid>
 
         <Grid>
           <CustomTooltip title="Save Mind Map">
@@ -402,6 +372,25 @@ const Toolbar = () => {
                 onClick={handleSaveMindMap}
               >
                 <SaveIcon fontSize="small" />
+              </IconButton>
+            </span>
+          </CustomTooltip>
+        </Grid>
+
+        <Grid>
+          <CustomTooltip title="Create New Child Node">
+            <span>
+              <IconButton
+                sx={{
+                  color: "var(--light-black)",
+                  "&.Mui-disabled": {
+                    color: "var(--border-grey)",
+                  },
+                }}
+                disabled={!isPresent}
+                onClick={handleCreateChildNode}
+              >
+                <AddIcon fontSize="small" />
               </IconButton>
             </span>
           </CustomTooltip>
