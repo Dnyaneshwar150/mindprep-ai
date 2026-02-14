@@ -32,7 +32,7 @@ export async function fetchData(prompt: string, shouldCleanJson = false) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "llama3-70b-8192",
+        model: "openai/gpt-oss-120b",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.5, // Lower temp for consistent formatting
       }),
